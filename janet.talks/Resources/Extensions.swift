@@ -123,6 +123,12 @@ extension UIView {
 }
 
 extension DateFormatter {
+    static let formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        return formatter
+    }()
     static let defaultFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.timeZone = .current
@@ -134,6 +140,15 @@ extension DateFormatter {
 }
 
 extension String {
+    /// Convert string from Date
+    /// - Parameter date: Source date
+    /// - Returns: String representation
+    static func date(from date: Date) -> String? {
+        let formatter = DateFormatter.formatter
+        let string = formatter.string(from: date)
+        return string
+    }
+    
     static func date(with date: Date) -> String {
         DateFormatter.defaultFormatter.string(from: date)
     }

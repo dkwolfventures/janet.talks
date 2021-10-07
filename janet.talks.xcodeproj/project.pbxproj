@@ -9,27 +9,67 @@
 /* Begin PBXBuildFile section */
 		17604052270A494300826315 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17604051270A494300826315 /* AppDelegate.swift */; };
 		17604054270A494300826315 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17604053270A494300826315 /* SceneDelegate.swift */; };
-		17604056270A494300826315 /* HomeFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17604055270A494300826315 /* HomeFeedViewController.swift */; };
+		17604056270A494300826315 /* NotificationFeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17604055270A494300826315 /* NotificationFeedTableViewController.swift */; };
 		1760405B270A494700826315 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1760405A270A494700826315 /* Assets.xcassets */; };
 		1760405E270A494700826315 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1760405C270A494700826315 /* LaunchScreen.storyboard */; };
 		17604067270A591A00826315 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17604066270A591A00826315 /* Extensions.swift */; };
 		1760406E270A8FD600826315 /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1760406D270A8FD600826315 /* Const.swift */; };
+		176756AE270DCC6D000BF8A6 /* PrivateChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176756AD270DCC6D000BF8A6 /* PrivateChatTableViewCell.swift */; };
+		176756B1270DDE58000BF8A6 /* PublicQuestionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176756B0270DDE58000BF8A6 /* PublicQuestionTableViewController.swift */; };
 		176868B6270B2FE900532476 /* AskAQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868B5270B2FE900532476 /* AskAQuestionViewController.swift */; };
 		176868B9270B444600532476 /* SystemIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868B8270B444600532476 /* SystemIconButton.swift */; };
+		176868BB270B51B500532476 /* TextInputWithTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868BA270B51B500532476 /* TextInputWithTitle.swift */; };
+		176868BD270B594900532476 /* PublicQuestionOrPrivateChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868BC270B594900532476 /* PublicQuestionOrPrivateChat.swift */; };
+		176868C1270B8D3300532476 /* ExploreFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868C0270B8D3300532476 /* ExploreFeedViewController.swift */; };
+		176868C3270B8D7900532476 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868C2270B8D7900532476 /* ProfileViewController.swift */; };
+		176868CB270C695700532476 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868CA270C695700532476 /* TabBarController.swift */; };
+		176868D0270C763D00532476 /* ExploreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868CF270C763D00532476 /* ExploreManager.swift */; };
+		176868D2270C765400532476 /* HomeFeedManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868D1270C765400532476 /* HomeFeedManager.swift */; };
+		176868D4270C766C00532476 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868D3270C766C00532476 /* StorageManager.swift */; };
+		176868D6270C767A00532476 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868D5270C767A00532476 /* HapticsManager.swift */; };
+		176868D8270C768E00532476 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868D7270C768E00532476 /* AuthenticationManager.swift */; };
+		176868DA270C769C00532476 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868D9270C769C00532476 /* DatabaseManager.swift */; };
+		176868E2270C915900532476 /* HomeFeedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868E1270C915900532476 /* HomeFeedType.swift */; };
+		176868E4270C91EB00532476 /* HomeFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868E3270C91EB00532476 /* HomeFeedCell.swift */; };
+		176868E8270C92B400532476 /* PublicQuestionHomeFeedCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868E7270C92B400532476 /* PublicQuestionHomeFeedCellViewModel.swift */; };
+		176868EA270C92CD00532476 /* PrivateChatHomeFeedCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868E9270C92CD00532476 /* PrivateChatHomeFeedCellViewModel.swift */; };
+		176868EE270CCECE00532476 /* MyQuestionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868ED270CCECE00532476 /* MyQuestionsTableViewCell.swift */; };
+		176868F0270D0C7E00532476 /* PrivateChatQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868EF270D0C7E00532476 /* PrivateChatQuestion.swift */; };
+		176868F2270D0C8C00532476 /* PublicQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868F1270D0C8C00532476 /* PublicQuestion.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1760404E270A494300826315 /* janet.talks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = janet.talks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17604051270A494300826315 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		17604053270A494300826315 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		17604055270A494300826315 /* HomeFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedViewController.swift; sourceTree = "<group>"; };
+		17604055270A494300826315 /* NotificationFeedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationFeedTableViewController.swift; sourceTree = "<group>"; };
 		1760405A270A494700826315 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1760405D270A494700826315 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1760405F270A494700826315 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17604066270A591A00826315 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1760406D270A8FD600826315 /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
+		176756AD270DCC6D000BF8A6 /* PrivateChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateChatTableViewCell.swift; sourceTree = "<group>"; };
+		176756B0270DDE58000BF8A6 /* PublicQuestionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicQuestionTableViewController.swift; sourceTree = "<group>"; };
 		176868B5270B2FE900532476 /* AskAQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskAQuestionViewController.swift; sourceTree = "<group>"; };
 		176868B8270B444600532476 /* SystemIconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemIconButton.swift; sourceTree = "<group>"; };
+		176868BA270B51B500532476 /* TextInputWithTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputWithTitle.swift; sourceTree = "<group>"; };
+		176868BC270B594900532476 /* PublicQuestionOrPrivateChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicQuestionOrPrivateChat.swift; sourceTree = "<group>"; };
+		176868C0270B8D3300532476 /* ExploreFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreFeedViewController.swift; sourceTree = "<group>"; };
+		176868C2270B8D7900532476 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		176868CA270C695700532476 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		176868CF270C763D00532476 /* ExploreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreManager.swift; sourceTree = "<group>"; };
+		176868D1270C765400532476 /* HomeFeedManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedManager.swift; sourceTree = "<group>"; };
+		176868D3270C766C00532476 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		176868D5270C767A00532476 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
+		176868D7270C768E00532476 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
+		176868D9270C769C00532476 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		176868E1270C915900532476 /* HomeFeedType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedType.swift; sourceTree = "<group>"; };
+		176868E3270C91EB00532476 /* HomeFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedCell.swift; sourceTree = "<group>"; };
+		176868E7270C92B400532476 /* PublicQuestionHomeFeedCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicQuestionHomeFeedCellViewModel.swift; sourceTree = "<group>"; };
+		176868E9270C92CD00532476 /* PrivateChatHomeFeedCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateChatHomeFeedCellViewModel.swift; sourceTree = "<group>"; };
+		176868ED270CCECE00532476 /* MyQuestionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyQuestionsTableViewCell.swift; sourceTree = "<group>"; };
+		176868EF270D0C7E00532476 /* PrivateChatQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateChatQuestion.swift; sourceTree = "<group>"; };
+		176868F1270D0C8C00532476 /* PublicQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicQuestion.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,10 +108,6 @@
 				17604068270A80DD00826315 /* Controllers */,
 				1760406C270A812F00826315 /* Managers */,
 				17604065270A58FA00826315 /* Resources */,
-				17604051270A494300826315 /* AppDelegate.swift */,
-				17604053270A494300826315 /* SceneDelegate.swift */,
-				1760405A270A494700826315 /* Assets.xcassets */,
-				1760405C270A494700826315 /* LaunchScreen.storyboard */,
 				1760405F270A494700826315 /* Info.plist */,
 			);
 			path = janet.talks;
@@ -81,6 +117,9 @@
 			isa = PBXGroup;
 			children = (
 				17604066270A591A00826315 /* Extensions.swift */,
+				17604051270A494300826315 /* AppDelegate.swift */,
+				17604053270A494300826315 /* SceneDelegate.swift */,
+				1760405A270A494700826315 /* Assets.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -88,8 +127,10 @@
 		17604068270A80DD00826315 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				17604055270A494300826315 /* HomeFeedViewController.swift */,
-				176868B5270B2FE900532476 /* AskAQuestionViewController.swift */,
+				176868DB270C7A4100532476 /* Authentication */,
+				176868CD270C75B500532476 /* Tab Bar Controllers */,
+				176756AF270DDCB8000BF8A6 /* HomeFeedTableViewControllers */,
+				176868CE270C75F900532476 /* Popup View Contollers */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -97,6 +138,7 @@
 		17604069270A80EA00826315 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				176868E5270C926500532476 /* HomeFeedViewModels */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -104,6 +146,9 @@
 		1760406A270A80FC00826315 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				176868DC270C8F2E00532476 /* Home */,
+				176756B2270E3C67000BF8A6 /* My Questions */,
+				176868CC270C758700532476 /* Storyboards */,
 				176868B7270B442C00532476 /* Custom Objects */,
 			);
 			path = Views;
@@ -112,7 +157,10 @@
 		1760406B270A810300826315 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				176868F1270D0C8C00532476 /* PublicQuestion.swift */,
+				176868EF270D0C7E00532476 /* PrivateChatQuestion.swift */,
 				1760406D270A8FD600826315 /* Const.swift */,
+				176868E0270C913600532476 /* HomeFeedModels */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -120,16 +168,124 @@
 		1760406C270A812F00826315 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				176868D7270C768E00532476 /* AuthenticationManager.swift */,
+				176868D9270C769C00532476 /* DatabaseManager.swift */,
+				176868D3270C766C00532476 /* StorageManager.swift */,
+				176868D1270C765400532476 /* HomeFeedManager.swift */,
+				176868CF270C763D00532476 /* ExploreManager.swift */,
+				176868D5270C767A00532476 /* HapticsManager.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		176756AF270DDCB8000BF8A6 /* HomeFeedTableViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				176756B0270DDE58000BF8A6 /* PublicQuestionTableViewController.swift */,
+			);
+			path = HomeFeedTableViewControllers;
+			sourceTree = "<group>";
+		};
+		176756B2270E3C67000BF8A6 /* My Questions */ = {
+			isa = PBXGroup;
+			children = (
+				176756B3270E3C92000BF8A6 /* Cells */,
+			);
+			path = "My Questions";
+			sourceTree = "<group>";
+		};
+		176756B3270E3C92000BF8A6 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				176868ED270CCECE00532476 /* MyQuestionsTableViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		176868B7270B442C00532476 /* Custom Objects */ = {
 			isa = PBXGroup;
 			children = (
 				176868B8270B444600532476 /* SystemIconButton.swift */,
+				176868BA270B51B500532476 /* TextInputWithTitle.swift */,
+				176868BC270B594900532476 /* PublicQuestionOrPrivateChat.swift */,
 			);
 			path = "Custom Objects";
+			sourceTree = "<group>";
+		};
+		176868CC270C758700532476 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				1760405C270A494700826315 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		176868CD270C75B500532476 /* Tab Bar Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				176868CA270C695700532476 /* TabBarController.swift */,
+				17604055270A494300826315 /* NotificationFeedTableViewController.swift */,
+				176868C0270B8D3300532476 /* ExploreFeedViewController.swift */,
+				176868C2270B8D7900532476 /* ProfileViewController.swift */,
+			);
+			path = "Tab Bar Controllers";
+			sourceTree = "<group>";
+		};
+		176868CE270C75F900532476 /* Popup View Contollers */ = {
+			isa = PBXGroup;
+			children = (
+				176868B5270B2FE900532476 /* AskAQuestionViewController.swift */,
+			);
+			path = "Popup View Contollers";
+			sourceTree = "<group>";
+		};
+		176868DB270C7A4100532476 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		176868DC270C8F2E00532476 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				176868DD270C8F3700532476 /* Cells */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		176868DD270C8F3700532476 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				176756AD270DCC6D000BF8A6 /* PrivateChatTableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		176868E0270C913600532476 /* HomeFeedModels */ = {
+			isa = PBXGroup;
+			children = (
+				176868E1270C915900532476 /* HomeFeedType.swift */,
+				176868E3270C91EB00532476 /* HomeFeedCell.swift */,
+			);
+			path = HomeFeedModels;
+			sourceTree = "<group>";
+		};
+		176868E5270C926500532476 /* HomeFeedViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				176868E6270C927D00532476 /* HomeFeedCellViewModels */,
+			);
+			path = HomeFeedViewModels;
+			sourceTree = "<group>";
+		};
+		176868E6270C927D00532476 /* HomeFeedCellViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				176868E7270C92B400532476 /* PublicQuestionHomeFeedCellViewModel.swift */,
+				176868E9270C92CD00532476 /* PrivateChatHomeFeedCellViewModel.swift */,
+			);
+			path = HomeFeedCellViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -202,13 +358,33 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				176868E8270C92B400532476 /* PublicQuestionHomeFeedCellViewModel.swift in Sources */,
+				176868E2270C915900532476 /* HomeFeedType.swift in Sources */,
 				176868B6270B2FE900532476 /* AskAQuestionViewController.swift in Sources */,
-				17604056270A494300826315 /* HomeFeedViewController.swift in Sources */,
+				17604056270A494300826315 /* NotificationFeedTableViewController.swift in Sources */,
+				176868D2270C765400532476 /* HomeFeedManager.swift in Sources */,
+				176868C1270B8D3300532476 /* ExploreFeedViewController.swift in Sources */,
 				17604052270A494300826315 /* AppDelegate.swift in Sources */,
+				176756AE270DCC6D000BF8A6 /* PrivateChatTableViewCell.swift in Sources */,
+				176868F0270D0C7E00532476 /* PrivateChatQuestion.swift in Sources */,
 				17604054270A494300826315 /* SceneDelegate.swift in Sources */,
+				176868D6270C767A00532476 /* HapticsManager.swift in Sources */,
 				17604067270A591A00826315 /* Extensions.swift in Sources */,
+				176868DA270C769C00532476 /* DatabaseManager.swift in Sources */,
+				176868BD270B594900532476 /* PublicQuestionOrPrivateChat.swift in Sources */,
 				1760406E270A8FD600826315 /* Const.swift in Sources */,
+				176868D8270C768E00532476 /* AuthenticationManager.swift in Sources */,
+				176868BB270B51B500532476 /* TextInputWithTitle.swift in Sources */,
+				176868CB270C695700532476 /* TabBarController.swift in Sources */,
+				176868E4270C91EB00532476 /* HomeFeedCell.swift in Sources */,
 				176868B9270B444600532476 /* SystemIconButton.swift in Sources */,
+				176868D4270C766C00532476 /* StorageManager.swift in Sources */,
+				176868EE270CCECE00532476 /* MyQuestionsTableViewCell.swift in Sources */,
+				176756B1270DDE58000BF8A6 /* PublicQuestionTableViewController.swift in Sources */,
+				176868C3270B8D7900532476 /* ProfileViewController.swift in Sources */,
+				176868EA270C92CD00532476 /* PrivateChatHomeFeedCellViewModel.swift in Sources */,
+				176868F2270D0C8C00532476 /* PublicQuestion.swift in Sources */,
+				176868D0270C763D00532476 /* ExploreManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

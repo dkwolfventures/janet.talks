@@ -7,9 +7,11 @@
 
 import UIKit
 
-class HomeFeedViewController: UITableViewController {
+class NotificationFeedTableViewController: UITableViewController {
     
     //MARK: - properties
+    
+    private var feedItems = [HomeFeedCell]()
     
     private let askQuestionButton: UIImageView = {
         let iv = UIImageView()
@@ -23,7 +25,6 @@ class HomeFeedViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureNav()
         tableView.backgroundColor = .systemBackground
         configure()
@@ -32,6 +33,10 @@ class HomeFeedViewController: UITableViewController {
     //MARK: - actions
     
     @objc private func askQuestionTapped(){
+        
+        let topRow = IndexPath(row: 0, section: 0)
+        
+        self.tableView.scrollToRow(at: topRow, at: .top, animated: true)
         
         let vc = AskAQuestionViewController()
         addChild(vc)
@@ -105,7 +110,7 @@ class HomeFeedViewController: UITableViewController {
     }
     
     func configure(){
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(MyQuestionsTableViewCell.self, forCellReuseIdentifier: MyQuestionsTableViewCell.identifier)
     }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -114,8 +119,8 @@ class HomeFeedViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell")!
-        cell.backgroundColor = .systemBackground
+        let cell = tableView.dequeueReusableCell(withIdentifier: MyQuestionsTableViewCell.identifier) as! MyQuestionsTableViewCell
+        cell.configureForPrivateChat()
         return cell
     }
     
@@ -132,26 +137,29 @@ class HomeFeedViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 25
     }
 
 }
 
 //MARK: - AskAQuestionDelegate
 
-extension HomeFeedViewController: AskAQuestionDelegate {
+extension NotificationFeedTableViewController: AskAQuestionDelegate {
     
     func closeAskAQuestion(_ vc: AskAQuestionViewController) {
-        print("debug: being tapped")
         let frame: CGRect = vc.view.frame
         vc.view.frame = frame
         UIView.animate(withDuration: 0.5) {
             vc.view.frame = CGRect(x: 0, y: 0 + self.tableView.height, width: self.tableView.width, height: self.tableView.height)
+                self.askQuestionButton.alpha = 1
         } completion: { [weak self] done in
             if done {
-                self?.askQuestionButton.alpha = 1
+                vc.view.removeFromSuperview()
+                vc.removeFromParent()
+                
                 self?.askQuestionButton.isUserInteractionEnabled = true
                 self?.tableView.isScrollEnabled = true
+
             }
         }
     }

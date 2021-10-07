@@ -18,10 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: scene)
         
-        let vc = HomeFeedViewController()
+        let vc = TabBarController()
         let nav = UINavigationController(rootViewController: vc)
-        vc.title = "janet. talks"
-        nav.navigationBar.prefersLargeTitles = true
         window.rootViewController = nav
         
         self.window = window
