@@ -13,6 +13,14 @@ class NotificationFeedTableViewController: UITableViewController {
     
     private var feedItems = [HomeFeedCell]()
     
+    private var activitySpinner: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView()
+        spinner.hidesWhenStopped = true
+        spinner.color = .systemYellow
+        spinner.style = .large
+        return spinner
+    }()
+    
     private let askQuestionButton: UIImageView = {
         let iv = UIImageView()
         iv.image = UIImage(systemName: "plus.circle")
@@ -27,7 +35,16 @@ class NotificationFeedTableViewController: UITableViewController {
         super.viewDidLoad()
         configureNav()
         tableView.backgroundColor = .systemBackground
+        view.addSubview(activitySpinner)
+        activitySpinner.startAnimating()
         configure()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        activitySpinner.center(inView:  view)
+        
     }
     
     //MARK: - actions
@@ -110,6 +127,9 @@ class NotificationFeedTableViewController: UITableViewController {
     }
     
     func configure(){
+        
+        activitySpinner.stopAnimating()
+        
         tableView.register(MyQuestionsTableViewCell.self, forCellReuseIdentifier: MyQuestionsTableViewCell.identifier)
     }
     
