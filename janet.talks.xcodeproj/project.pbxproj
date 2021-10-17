@@ -15,6 +15,11 @@
 		175EE347271CC3D200C0AD02 /* ActionsCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EE346271CC3D200C0AD02 /* ActionsCollectionViewCellViewModel.swift */; };
 		175EE349271CC5E200C0AD02 /* PublicQuestionHomeFeedCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EE348271CC5E200C0AD02 /* PublicQuestionHomeFeedCellType.swift */; };
 		175EE34B271CC69300C0AD02 /* TitleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EE34A271CC69300C0AD02 /* TitleCollectionViewCell.swift */; };
+		175EE34D271CD79F00C0AD02 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 175EE34C271CD79F00C0AD02 /* GoogleService-Info.plist */; };
+		175EE34F271CDB5400C0AD02 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EE34E271CDB5400C0AD02 /* SignInViewController.swift */; };
+		175EE351271CDC0000C0AD02 /* AuthField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EE350271CDC0000C0AD02 /* AuthField.swift */; };
+		175EE353271CDC0C00C0AD02 /* AuthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EE352271CDC0C00C0AD02 /* AuthButton.swift */; };
+		175EE355271CDD2A00C0AD02 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EE354271CDD2A00C0AD02 /* SignUpViewController.swift */; };
 		17604052270A494300826315 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17604051270A494300826315 /* AppDelegate.swift */; };
 		17604054270A494300826315 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17604053270A494300826315 /* SceneDelegate.swift */; };
 		17604056270A494300826315 /* NotificationFeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17604055270A494300826315 /* NotificationFeedTableViewController.swift */; };
@@ -57,6 +62,11 @@
 		175EE346271CC3D200C0AD02 /* ActionsCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
 		175EE348271CC5E200C0AD02 /* PublicQuestionHomeFeedCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicQuestionHomeFeedCellType.swift; sourceTree = "<group>"; };
 		175EE34A271CC69300C0AD02 /* TitleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleCollectionViewCell.swift; sourceTree = "<group>"; };
+		175EE34C271CD79F00C0AD02 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		175EE34E271CDB5400C0AD02 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		175EE350271CDC0000C0AD02 /* AuthField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthField.swift; sourceTree = "<group>"; };
+		175EE352271CDC0C00C0AD02 /* AuthButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthButton.swift; sourceTree = "<group>"; };
+		175EE354271CDD2A00C0AD02 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		1760404E270A494300826315 /* janet.talks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = janet.talks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17604051270A494300826315 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		17604053270A494300826315 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -149,6 +159,7 @@
 				1760406C270A812F00826315 /* Managers */,
 				17604065270A58FA00826315 /* Resources */,
 				1760405F270A494700826315 /* Info.plist */,
+				175EE34C271CD79F00C0AD02 /* GoogleService-Info.plist */,
 			);
 			path = janet.talks;
 			sourceTree = "<group>";
@@ -249,6 +260,8 @@
 		176868B7270B442C00532476 /* Custom Objects */ = {
 			isa = PBXGroup;
 			children = (
+				175EE350271CDC0000C0AD02 /* AuthField.swift */,
+				175EE352271CDC0C00C0AD02 /* AuthButton.swift */,
 				176868B8270B444600532476 /* SystemIconButton.swift */,
 				176868BA270B51B500532476 /* TextInputWithTitle.swift */,
 				176868BC270B594900532476 /* PublicQuestionOrPrivateChat.swift */,
@@ -287,6 +300,8 @@
 		176868DB270C7A4100532476 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
+				175EE34E271CDB5400C0AD02 /* SignInViewController.swift */,
+				175EE354271CDD2A00C0AD02 /* SignUpViewController.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -341,7 +356,6 @@
 				C4FF010DB11929A0BC1F04C8 /* Pods-janet.talks.debug.xcconfig */,
 				0F97FE106B177C490622B9F8 /* Pods-janet.talks.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -415,6 +429,7 @@
 			files = (
 				1760405E270A494700826315 /* LaunchScreen.storyboard in Resources */,
 				1760405B270A494700826315 /* Assets.xcassets in Resources */,
+				175EE34D271CD79F00C0AD02 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,6 +489,7 @@
 				175EE343271CC31E00C0AD02 /* MetaCollectionViewCellViewModel.swift in Sources */,
 				176868D2270C765400532476 /* HomeFeedManager.swift in Sources */,
 				176868C1270B8D3300532476 /* ExploreFeedViewController.swift in Sources */,
+				175EE353271CDC0C00C0AD02 /* AuthButton.swift in Sources */,
 				175EE34B271CC69300C0AD02 /* TitleCollectionViewCell.swift in Sources */,
 				17604052270A494300826315 /* AppDelegate.swift in Sources */,
 				176756AE270DCC6D000BF8A6 /* PrivateChatTableViewCell.swift in Sources */,
@@ -482,6 +498,7 @@
 				175EE349271CC5E200C0AD02 /* PublicQuestionHomeFeedCellType.swift in Sources */,
 				175EE341271CC27800C0AD02 /* TitleCollectionViewCellViewModel.swift in Sources */,
 				176868D6270C767A00532476 /* HapticsManager.swift in Sources */,
+				175EE351271CDC0000C0AD02 /* AuthField.swift in Sources */,
 				17604067270A591A00826315 /* Extensions.swift in Sources */,
 				176868DA270C769C00532476 /* DatabaseManager.swift in Sources */,
 				176868BD270B594900532476 /* PublicQuestionOrPrivateChat.swift in Sources */,
@@ -489,6 +506,7 @@
 				176868D8270C768E00532476 /* AuthenticationManager.swift in Sources */,
 				176868BB270B51B500532476 /* TextInputWithTitle.swift in Sources */,
 				176868CB270C695700532476 /* TabBarController.swift in Sources */,
+				175EE355271CDD2A00C0AD02 /* SignUpViewController.swift in Sources */,
 				176868E4270C91EB00532476 /* HomeFeedCell.swift in Sources */,
 				175EE33B271CA46900C0AD02 /* HomeViewController.swift in Sources */,
 				175EE33E271CB15400C0AD02 /* SearchResultsViewController.swift in Sources */,
@@ -499,6 +517,7 @@
 				176868EE270CCECE00532476 /* MyQuestionsTableViewCell.swift in Sources */,
 				176756B1270DDE58000BF8A6 /* PublicQuestionTableViewController.swift in Sources */,
 				176868C3270B8D7900532476 /* ProfileViewController.swift in Sources */,
+				175EE34F271CDB5400C0AD02 /* SignInViewController.swift in Sources */,
 				176868EA270C92CD00532476 /* PrivateChatHomeFeedCellViewModel.swift in Sources */,
 				176868F2270D0C8C00532476 /* PublicQuestion.swift in Sources */,
 				176868D0270C763D00532476 /* ExploreManager.swift in Sources */,
@@ -646,6 +665,7 @@
 				DEVELOPMENT_TEAM = 8SZJ9T656N;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = janet.talks/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = relationship.talks;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -675,6 +695,7 @@
 				DEVELOPMENT_TEAM = 8SZJ9T656N;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = janet.talks/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = relationship.talks;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

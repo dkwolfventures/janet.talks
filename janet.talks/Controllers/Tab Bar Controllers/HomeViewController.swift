@@ -30,7 +30,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-//        (searchVC.searchResultsController as? SearchResultsViewController)?.delegate = self
+        (searchVC.searchResultsController as? SearchResultsViewController)?.delegate = self
         searchVC.searchBar.placeholder = "Search..."
 //        searchVC.searchResultsUpdater = self
         navigationItem.searchController = searchVC
