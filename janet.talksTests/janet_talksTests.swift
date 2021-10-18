@@ -6,7 +6,8 @@
 //
 
 import XCTest
-
+//import Firebase
+//
 //@testable import janet_talks
 
 class janet_talksTests: XCTestCase {

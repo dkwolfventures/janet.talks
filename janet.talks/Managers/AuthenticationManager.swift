@@ -16,6 +16,8 @@ final class AuthenticationManager {
     
     private let auth = Auth.auth()
     
+    public var completion: (() -> Void)?
+    
     public var isSignedIn: Bool {
         auth.currentUser != nil
     }
@@ -25,18 +27,29 @@ final class AuthenticationManager {
     
     //MARK: - helpers public
     
-    public func signUpWithUsernameAndEmail(email: String, password: String, completion: @escaping(Result<String, Error>) -> Void){
+    public func signUpWithUsernameAndEmail(authCredentials: AuthCredentials, completion: @escaping(Result<User, Error>) -> Void){
         
-        auth.createUser(withEmail: email, password: password) { result, error in
-            guard let email = result?.user.email, error == nil else {
+        auth.createUser(withEmail: authCredentials.email, password: authCredentials.password) { result, error in
+            
+            guard error == nil else {
                 if let error = error {
                     completion(.failure(error))
                 }
                 return
             }
             
-//            DatabaseManager.shared.createUser(newUser: <#T##User#>, completion: <#T##(Result<Bool, Error>) -> Void#>)
-            completion(.success(email))
+            let user = User(username: authCredentials.username, email: authCredentials.email)
+            
+            DatabaseManager.shared.createUser(newUser: user) { result in
+                switch result {
+                case .success(let user):
+                    
+                    completion(.success(user))
+                    
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
             
         }
         

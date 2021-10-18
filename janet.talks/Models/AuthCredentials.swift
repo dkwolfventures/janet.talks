@@ -49,6 +49,10 @@ enum UsernameSafetyError: Error {
     case containsPeriod
     case containsSpace
     case invalidCharacter
+    case isEmpty
+    case tooLong
+    case startingWithSpecialCharacter
+    case illegalCharacter
     
     var description: String {
         switch self {
@@ -57,7 +61,18 @@ enum UsernameSafetyError: Error {
         case .containsSpace:
             return "Usernames may not contain spaces."
         case .invalidCharacter:
-            return "It seems like you have a spcial character that isn't allowed in usernames. Please only use letters from the alphabet, numbers, dashes and underscores."
+            return "It seems like you have a special character that isn't allowed in usernames. Please only use letters from the alphabet, numbers, dashes and underscores."
+        case .isEmpty:
+            return "Username cannot be empty, try again!"
+            
+        case .tooLong:
+            return "Username cannot be longer than 30 characters."
+            
+        case .startingWithSpecialCharacter:
+            return "Username cannot start with a dash or underscore!"
+            
+        case .illegalCharacter:
+            return "You have an illegal character in your usename. Please only use dashes and underscores."
         }
     }
 }
@@ -114,19 +129,48 @@ struct AuthCredentials {
         
         let username = username
         
+        var letterCount: Int = 0
+        var numberCount: Int = 0
+        var dashOrUnderscoreCount: Int = 0
+        var illegalCharCount: Int = 0
+        
+        if username.isEmpty {
+            return (false, .isEmpty)
+        }
+        
         if username.contains(" "){
             return (false, .containsSpace)
         }
         
+        if username.contains("."){
+            return (false, .containsPeriod)
+        }
+        
+        if username.count > 30 {
+            return (false, .tooLong)
+        }
+        
+        if username.first == "-" || username.first == "_" {
+            return (false, .startingWithSpecialCharacter)
+        }
+        
         for char in username {
             
-            if !char.isNumber || !char.isLetter || "\(char)" == "-" || "\(char)" == "_"{
-                return (false, .invalidCharacter)
+            if char.isLetter {
+                letterCount += 1
+            } else if char.isNumber {
+                numberCount += 1
+            } else if "\(char)" == "-" || "\(char)" == "_" {
+                dashOrUnderscoreCount += 1
+            } else {
+                illegalCharCount += 1
             }
             
         }
+        
+        
             
-            return (true, nil)
+        return illegalCharCount == 0 ? (true, nil) : (false, .illegalCharacter)
     }
     
     public func passwordIsSafe() -> (Bool, PasswordStrengthError?){

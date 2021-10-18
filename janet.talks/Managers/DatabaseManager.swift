@@ -8,6 +8,14 @@
 import Foundation
 import Firebase
 
+enum DatabaseErrors: Error {
+    case usernameTaken
+    
+    var localizedDescription: String {
+        return "This username is already taken, please try a different one."
+    }
+}
+
 final class DatabaseManager {
     
     //MARK: - properties
@@ -20,11 +28,7 @@ final class DatabaseManager {
     
     //MARK: - public helpers
     
-    public enum DatabaseErrors: Error {
-        case usernameTaken
-    }
-    
-    public func createUser(newUser: User, completion: @escaping(Result<Bool,Error>) -> Void){
+    public func createUser(newUser: User, completion: @escaping(Result<User,Error>) -> Void){
         
         self.checkIfUsernameIsTaken(newUser.username) { result in
             switch result {
@@ -38,14 +42,29 @@ final class DatabaseManager {
                 }
                 
                 reference.setData(data) { error in
-                    completion(.success(error == nil))
+                    completion(.success(newUser))
                 }
             case .failure(let error):
                 
-                completion(.failure(error))
+                if error.localizedDescription == DatabaseErrors.usernameTaken.localizedDescription {
+                    
+                    let usernameTakenReference = self.db.collection("users").document()
+                    
+                    
+                    
+                    completion(.failure(error))
+                } else {
+                    completion(.failure(error))
+                }
                 
             }
         }
+        
+    }
+    
+    public func changeUsernameBecuaseItWasTaken(username: String, completion: @escaping(Result<User, Error>) -> Void){
+        
+        
         
     }
     
@@ -65,8 +84,11 @@ final class DatabaseManager {
             
             if !document.exists {
                 completion(.success(document.exists))
+            } else {
+                completion(.failure(DatabaseErrors.usernameTaken))
             }
             
         }
     }
+    
 }

@@ -53,7 +53,6 @@
 		176868EE270CCECE00532476 /* MyQuestionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868ED270CCECE00532476 /* MyQuestionsTableViewCell.swift */; };
 		176868F0270D0C7E00532476 /* PrivateChatQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868EF270D0C7E00532476 /* PrivateChatQuestion.swift */; };
 		176868F2270D0C8C00532476 /* PublicQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868F1270D0C8C00532476 /* PublicQuestion.swift */; };
-		4E64DA4D8F4AE022FAF33F78 /* Pods_janet_talksTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D85012AD2E39C82F9582672B /* Pods_janet_talksTests.framework */; };
 		DE2C79F5CD7538DBF90FD13C /* libPods-janet.talks.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75B937D5313715664D1C79BE /* libPods-janet.talks.a */; };
 /* End PBXBuildFile section */
 
@@ -118,11 +117,8 @@
 		176868ED270CCECE00532476 /* MyQuestionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyQuestionsTableViewCell.swift; sourceTree = "<group>"; };
 		176868EF270D0C7E00532476 /* PrivateChatQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateChatQuestion.swift; sourceTree = "<group>"; };
 		176868F1270D0C8C00532476 /* PublicQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicQuestion.swift; sourceTree = "<group>"; };
-		5D32C348ECF146500211EE3B /* Pods-janet.talksTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-janet.talksTests.release.xcconfig"; path = "Target Support Files/Pods-janet.talksTests/Pods-janet.talksTests.release.xcconfig"; sourceTree = "<group>"; };
 		75B937D5313715664D1C79BE /* libPods-janet.talks.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-janet.talks.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9CB3B5BA8E9471ABD3C3990E /* Pods-janet.talksTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-janet.talksTests.debug.xcconfig"; path = "Target Support Files/Pods-janet.talksTests/Pods-janet.talksTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C4FF010DB11929A0BC1F04C8 /* Pods-janet.talks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-janet.talks.debug.xcconfig"; path = "Target Support Files/Pods-janet.talks/Pods-janet.talks.debug.xcconfig"; sourceTree = "<group>"; };
-		D85012AD2E39C82F9582672B /* Pods_janet_talksTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_janet_talksTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,7 +126,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4E64DA4D8F4AE022FAF33F78 /* Pods_janet_talksTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,8 +394,6 @@
 			children = (
 				C4FF010DB11929A0BC1F04C8 /* Pods-janet.talks.debug.xcconfig */,
 				0F97FE106B177C490622B9F8 /* Pods-janet.talks.release.xcconfig */,
-				9CB3B5BA8E9471ABD3C3990E /* Pods-janet.talksTests.debug.xcconfig */,
-				5D32C348ECF146500211EE3B /* Pods-janet.talksTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -409,7 +402,6 @@
 			isa = PBXGroup;
 			children = (
 				75B937D5313715664D1C79BE /* libPods-janet.talks.a */,
-				D85012AD2E39C82F9582672B /* Pods_janet_talksTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -421,7 +413,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 175EE366271D0CEC00C0AD02 /* Build configuration list for PBXNativeTarget "janet.talksTests" */;
 			buildPhases = (
-				F2F61DCC23928621590A1A7B /* [CP] Check Pods Manifest.lock */,
 				175EE35C271D0CEC00C0AD02 /* Sources */,
 				175EE35D271D0CEC00C0AD02 /* Frameworks */,
 				175EE35E271D0CEC00C0AD02 /* Resources */,
@@ -553,28 +544,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-janet.talks/Pods-janet.talks-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F2F61DCC23928621590A1A7B /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-janet.talksTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -659,7 +628,6 @@
 /* Begin XCBuildConfiguration section */
 		175EE367271D0CEC00C0AD02 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9CB3B5BA8E9471ABD3C3990E /* Pods-janet.talksTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -683,7 +651,6 @@
 		};
 		175EE368271D0CEC00C0AD02 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D32C348ECF146500211EE3B /* Pods-janet.talksTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;

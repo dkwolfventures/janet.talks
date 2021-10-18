@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ProgressHUD
 
 class SignUpViewController: UIViewController {
     
@@ -83,40 +84,63 @@ class SignUpViewController: UIViewController {
     
     @objc private func didTapSignUp(){
         hideKeyboard()
-        
+        ProgressHUD.show("Creating User...")
         guard let username = usernameTextField.text, let email = emailTextField.text, let password = passwordTextField.text else {
             return
         }
         
         let authCreds = AuthCredentials(username: username, email: email, password: password)
         
-        if authCreds.usernameIsSafe().0 {
+        if authCreds.usernameIsSafe().0 && authCreds.isValidEmail().0 && authCreds.passwordIsSafe().0 {
+            
+            AuthenticationManager.shared.signUpWithUsernameAndEmail(authCredentials: authCreds) { [weak self] result in
+                
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success( let user):
+                        ProgressHUD.dismiss()
+                        UserDefaults.standard.setValue(user.email, forKey: "email")
+                        UserDefaults.standard.setValue(user.username, forKey: "username")
+                        
+                        self?.navigationController?.popToRootViewController(animated: true)
+                        self?.completion?()
+                        
+                    case .failure(let error):
+                        ProgressHUD.dismiss()
+                        
+                        if error.localizedDescription == DatabaseErrors.usernameTaken.localizedDescription {
+                            
+                        } else {
+                            let alert = UIAlertController(title: "Ooops", message: error.localizedDescription, preferredStyle: .alert)
+                            
+                            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+                            
+                            self?.present(alert, animated: true)
+                            
+                        }
+                        
+                    }
+                }
+                
+            }
             
         } else {
+            ProgressHUD.dismiss()
+            if !authCreds.usernameIsSafe().0 {
+                if let error = authCreds.usernameIsSafe().1 {
+                    self.showAlert(error, nil, nil)
+                }
+            } else if !authCreds.isValidEmail().0 {
+                if let error = authCreds.isValidEmail().1 {
+                    self.showAlert(nil, error, nil)
+                }
+            } else if !authCreds.passwordIsSafe().0 {
+                if let error = authCreds.passwordIsSafe().1 {
+                    self.showAlert(nil, nil, error)
+                }
+            }
             
         }
-        
-//        guard let username = usernameTextField.text,
-//              let email = emailTextField.text,
-//              let password = passwordTextField.text,
-//              !username.trimmingCharacters(in: .whitespaces).isEmpty,
-//              !email.trimmingCharacters(in: .whitespaces).isEmpty,
-//              !password.trimmingCharacters(in: .whitespaces).isEmpty else {
-//                  let alert = UIAlertController(title: "Blank Spaces", message: "That should only be a Taylor Swift song. Please make sure all the .\nThank you\n- Management", preferredStyle: .alert)
-//                  alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
-//                  present(alert, animated: true)
-//
-//                  return
-//              }
-        
-//        AuthenticationManager.shared.signIn(email: email, password: password) { [weak self] success in
-//            switch success {
-//            case true:
-//                self?.dismiss(animated: true)
-//            case false:
-//                break
-//            }
-//        }
         
     }
     
@@ -127,7 +151,37 @@ class SignUpViewController: UIViewController {
     
     //MARK: - helpers
     
-    private func showAlert(){
+    private func showAlert(_ usernameError: UsernameSafetyError?,_ emailError: EmailSafetyError?,_ passwordError: PasswordStrengthError?){
+        
+        if let usernameError = usernameError {
+            
+            let alert = UIAlertController(title: "Ooops", message: usernameError.description, preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+            
+            present(alert, animated: true)
+            
+        }
+        
+        if let emailError = emailError {
+            
+            let alert = UIAlertController(title: "Ooops", message: emailError.description, preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+            
+            present(alert, animated: true)
+            
+        }
+        
+        if let passwordError = passwordError {
+            
+            let alert = UIAlertController(title: "Ooops", message: passwordError.description, preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+            
+            present(alert, animated: true)
+            
+        }
         
     }
     

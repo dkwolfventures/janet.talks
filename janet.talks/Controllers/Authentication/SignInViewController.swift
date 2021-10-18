@@ -102,6 +102,13 @@ class SignInViewController: UIViewController {
         hideKeyboard()
         let vc = SignUpViewController()
         vc.title = "Create Account"
+        vc.completion = { [weak self] in
+            DispatchQueue.main.async {
+                let tabVc = TabBarController()
+                tabVc.modalPresentationStyle = .fullScreen
+                self?.present(tabVc, animated: true)
+            }
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
     
