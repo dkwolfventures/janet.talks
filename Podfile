@@ -16,3 +16,17 @@ pod 'ProgressHUD'
   # Pods for janet.talks
 
 end
+target 'janet.talksTests' do
+  use_frameworks!
+
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Firestore'
+  pod 'Firebase/Messaging'
+  pod 'Firebase/Crashlytics'
+  pod 'Firebase/DynamicLinks'
+  pod 'Firebase/InAppMessaging'
+  pod 'Firebase/RemoteConfig'
+  pod 'Firebase/Auth'
+  pod 'ProgressHUD'
+
+end

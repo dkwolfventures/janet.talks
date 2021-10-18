@@ -14,7 +14,7 @@ class SignInViewController: UIViewController {
     
     private let logoView: UIImageView = {
         let iv = UIImageView()
-        iv.image = UIImage(systemName: "person")
+        iv.image = UIImage(named: "logo")
         iv.contentMode = .scaleAspectFit
         iv.layer.cornerCurve = .continuous
         iv.layer.cornerRadius = 8

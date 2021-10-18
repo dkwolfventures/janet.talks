@@ -20,6 +20,10 @@
 		175EE351271CDC0000C0AD02 /* AuthField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EE350271CDC0000C0AD02 /* AuthField.swift */; };
 		175EE353271CDC0C00C0AD02 /* AuthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EE352271CDC0C00C0AD02 /* AuthButton.swift */; };
 		175EE355271CDD2A00C0AD02 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EE354271CDD2A00C0AD02 /* SignUpViewController.swift */; };
+		175EE357271CF02F00C0AD02 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EE356271CF02F00C0AD02 /* User.swift */; };
+		175EE359271CF3F400C0AD02 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EE358271CF3F400C0AD02 /* AnalyticsManager.swift */; };
+		175EE35B271CFCEE00C0AD02 /* AuthCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EE35A271CFCEE00C0AD02 /* AuthCredentials.swift */; };
+		175EE363271D0CEC00C0AD02 /* janet_talksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EE362271D0CEC00C0AD02 /* janet_talksTests.swift */; };
 		17604052270A494300826315 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17604051270A494300826315 /* AppDelegate.swift */; };
 		17604054270A494300826315 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17604053270A494300826315 /* SceneDelegate.swift */; };
 		17604056270A494300826315 /* NotificationFeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17604055270A494300826315 /* NotificationFeedTableViewController.swift */; };
@@ -52,6 +56,16 @@
 		DE2C79F5CD7538DBF90FD13C /* libPods-janet.talks.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75B937D5313715664D1C79BE /* libPods-janet.talks.a */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		175EE364271D0CEC00C0AD02 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 17604046270A494300826315 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1760404D270A494300826315;
+			remoteInfo = janet.talks;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		0F97FE106B177C490622B9F8 /* Pods-janet.talks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-janet.talks.release.xcconfig"; path = "Target Support Files/Pods-janet.talks/Pods-janet.talks.release.xcconfig"; sourceTree = "<group>"; };
 		175EE33A271CA46900C0AD02 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -67,6 +81,11 @@
 		175EE350271CDC0000C0AD02 /* AuthField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthField.swift; sourceTree = "<group>"; };
 		175EE352271CDC0C00C0AD02 /* AuthButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthButton.swift; sourceTree = "<group>"; };
 		175EE354271CDD2A00C0AD02 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		175EE356271CF02F00C0AD02 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		175EE358271CF3F400C0AD02 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
+		175EE35A271CFCEE00C0AD02 /* AuthCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentials.swift; sourceTree = "<group>"; };
+		175EE360271D0CEC00C0AD02 /* janet.talksTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = janet.talksTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		175EE362271D0CEC00C0AD02 /* janet_talksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = janet_talksTests.swift; sourceTree = "<group>"; };
 		1760404E270A494300826315 /* janet.talks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = janet.talks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17604051270A494300826315 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		17604053270A494300826315 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -103,6 +122,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		175EE35D271D0CEC00C0AD02 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1760404B270A494300826315 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -131,10 +157,19 @@
 			path = QuestionsAndChatsViewModels;
 			sourceTree = "<group>";
 		};
+		175EE361271D0CEC00C0AD02 /* janet.talksTests */ = {
+			isa = PBXGroup;
+			children = (
+				175EE362271D0CEC00C0AD02 /* janet_talksTests.swift */,
+			);
+			path = janet.talksTests;
+			sourceTree = "<group>";
+		};
 		17604045270A494300826315 = {
 			isa = PBXGroup;
 			children = (
 				17604050270A494300826315 /* janet.talks */,
+				175EE361271D0CEC00C0AD02 /* janet.talksTests */,
 				1760404F270A494300826315 /* Products */,
 				C683440787C5203BD486CA13 /* Pods */,
 				D6D25FBD2008C2A8697AB05D /* Frameworks */,
@@ -145,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				1760404E270A494300826315 /* janet.talks.app */,
+				175EE360271D0CEC00C0AD02 /* janet.talksTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -210,6 +246,8 @@
 		1760406B270A810300826315 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				175EE356271CF02F00C0AD02 /* User.swift */,
+				175EE35A271CFCEE00C0AD02 /* AuthCredentials.swift */,
 				176868F1270D0C8C00532476 /* PublicQuestion.swift */,
 				176868EF270D0C7E00532476 /* PrivateChatQuestion.swift */,
 				1760406D270A8FD600826315 /* Const.swift */,
@@ -227,6 +265,7 @@
 				176868D3270C766C00532476 /* StorageManager.swift */,
 				176868D1270C765400532476 /* HomeFeedManager.swift */,
 				176868CF270C763D00532476 /* ExploreManager.swift */,
+				175EE358271CF3F400C0AD02 /* AnalyticsManager.swift */,
 				176868D5270C767A00532476 /* HapticsManager.swift */,
 			);
 			path = Managers;
@@ -370,6 +409,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		175EE35F271D0CEC00C0AD02 /* janet.talksTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 175EE366271D0CEC00C0AD02 /* Build configuration list for PBXNativeTarget "janet.talksTests" */;
+			buildPhases = (
+				175EE35C271D0CEC00C0AD02 /* Sources */,
+				175EE35D271D0CEC00C0AD02 /* Frameworks */,
+				175EE35E271D0CEC00C0AD02 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				175EE365271D0CEC00C0AD02 /* PBXTargetDependency */,
+			);
+			name = janet.talksTests;
+			productName = janet.talksTests;
+			productReference = 175EE360271D0CEC00C0AD02 /* janet.talksTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		1760404D270A494300826315 /* janet.talks */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 17604062270A494700826315 /* Build configuration list for PBXNativeTarget "janet.talks" */;
@@ -399,6 +456,10 @@
 				LastSwiftUpdateCheck = 1300;
 				LastUpgradeCheck = 1300;
 				TargetAttributes = {
+					175EE35F271D0CEC00C0AD02 = {
+						CreatedOnToolsVersion = 13.0;
+						TestTargetID = 1760404D270A494300826315;
+					};
 					1760404D270A494300826315 = {
 						CreatedOnToolsVersion = 13.0;
 					};
@@ -418,11 +479,19 @@
 			projectRoot = "";
 			targets = (
 				1760404D270A494300826315 /* janet.talks */,
+				175EE35F271D0CEC00C0AD02 /* janet.talksTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		175EE35E271D0CEC00C0AD02 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1760404C270A494300826315 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -478,6 +547,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		175EE35C271D0CEC00C0AD02 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				175EE363271D0CEC00C0AD02 /* janet_talksTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1760404A270A494300826315 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -498,6 +575,7 @@
 				175EE349271CC5E200C0AD02 /* PublicQuestionHomeFeedCellType.swift in Sources */,
 				175EE341271CC27800C0AD02 /* TitleCollectionViewCellViewModel.swift in Sources */,
 				176868D6270C767A00532476 /* HapticsManager.swift in Sources */,
+				175EE35B271CFCEE00C0AD02 /* AuthCredentials.swift in Sources */,
 				175EE351271CDC0000C0AD02 /* AuthField.swift in Sources */,
 				17604067270A591A00826315 /* Extensions.swift in Sources */,
 				176868DA270C769C00532476 /* DatabaseManager.swift in Sources */,
@@ -507,9 +585,11 @@
 				176868BB270B51B500532476 /* TextInputWithTitle.swift in Sources */,
 				176868CB270C695700532476 /* TabBarController.swift in Sources */,
 				175EE355271CDD2A00C0AD02 /* SignUpViewController.swift in Sources */,
+				175EE359271CF3F400C0AD02 /* AnalyticsManager.swift in Sources */,
 				176868E4270C91EB00532476 /* HomeFeedCell.swift in Sources */,
 				175EE33B271CA46900C0AD02 /* HomeViewController.swift in Sources */,
 				175EE33E271CB15400C0AD02 /* SearchResultsViewController.swift in Sources */,
+				175EE357271CF02F00C0AD02 /* User.swift in Sources */,
 				176868B9270B444600532476 /* SystemIconButton.swift in Sources */,
 				176868D4270C766C00532476 /* StorageManager.swift in Sources */,
 				175EE347271CC3D200C0AD02 /* ActionsCollectionViewCellViewModel.swift in Sources */,
@@ -526,6 +606,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		175EE365271D0CEC00C0AD02 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1760404D270A494300826315 /* janet.talks */;
+			targetProxy = 175EE364271D0CEC00C0AD02 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		1760405C270A494700826315 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -538,6 +626,52 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		175EE367271D0CEC00C0AD02 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8SZJ9T656N;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ventures.darkwolf.janet-talksTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/janet.talks.app/janet.talks";
+			};
+			name = Debug;
+		};
+		175EE368271D0CEC00C0AD02 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8SZJ9T656N;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ventures.darkwolf.janet-talksTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/janet.talks.app/janet.talks";
+			};
+			name = Release;
+		};
 		17604060270A494700826315 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -717,6 +851,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		175EE366271D0CEC00C0AD02 /* Build configuration list for PBXNativeTarget "janet.talksTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				175EE367271D0CEC00C0AD02 /* Debug */,
+				175EE368271D0CEC00C0AD02 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		17604049270A494300826315 /* Build configuration list for PBXProject "janet.talks" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
