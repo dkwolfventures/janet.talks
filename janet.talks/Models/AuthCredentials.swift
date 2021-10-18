@@ -62,10 +62,53 @@ enum UsernameSafetyError: Error {
     }
 }
 
+enum EmailSafetyError: Error {
+    case noAtSymbol
+    case noPeriod
+    case containsSpace
+    case blank
+    
+    var description: String {
+        switch self {
+        case .noAtSymbol:
+            return "Emails must contain the @ symbol."
+        case .noPeriod:
+            return "Make sure your email has a .com, .io or .something"
+        case .containsSpace:
+            return "Spaces are not valid in email addresses"
+        case .blank:
+            return "Cannot have a blank email address!"
+        }
+    }
+}
+
 struct AuthCredentials {
     let username: String
     let email: String
     let password: String
+    
+    public func isValidEmail() -> (Bool, EmailSafetyError?) {
+        
+        let email = email
+        
+        if email.contains(" ") {
+            return (false, .containsSpace)
+        }
+        
+        if email.trimmingCharacters(in: .whitespaces).isEmpty {
+            return (false, .blank)
+        }
+        
+        if !email.contains("@") {
+            return (false, .noAtSymbol)
+        }
+        
+        if !email.contains(".") {
+            return (false, .noPeriod)
+        }
+        
+        return (true, nil)
+    }
     
     public func usernameIsSafe() -> (Bool, UsernameSafetyError?){
         

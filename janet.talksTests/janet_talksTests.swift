@@ -7,7 +7,7 @@
 
 import XCTest
 
-@testable import janet_talks
+//@testable import janet_talks
 
 class janet_talksTests: XCTestCase {
 
@@ -19,8 +19,10 @@ class janet_talksTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testUserModel_canCreate(){
-        let user = User(
-    }
+//    func testUserModel_canCreate(){
+//        let user = User(username: "kanyeWest", email: "kwest@kaysvest.com")
+//
+//        XCTAssertNotNil(user)
+//    }
 
 }

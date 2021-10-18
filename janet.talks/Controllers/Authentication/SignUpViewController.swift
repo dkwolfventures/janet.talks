@@ -84,18 +84,32 @@ class SignUpViewController: UIViewController {
     @objc private func didTapSignUp(){
         hideKeyboard()
         
-        guard let username = usernameTextField.text,
-              let email = emailTextField.text,
-              let password = passwordTextField.text,
-              !username.trimmingCharacters(in: .whitespaces).isEmpty,
-              !email.trimmingCharacters(in: .whitespaces).isEmpty,
-              !password.trimmingCharacters(in: .whitespaces).isEmpty else {
-                  let alert = UIAlertController(title: "Blank Spaces", message: "That should only be a Taylor Swift song. Please make sure all the .\nThank you\n- Management", preferredStyle: .alert)
-                  alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
-                  present(alert, animated: true)
-                  
-                  return
-              }
+        guard let username = usernameTextField.text, let email = emailTextField.text, let password = passwordTextField.text else {
+            return
+        }
+        
+        let authCreds = AuthCredentials(username: username, email: email, password: password)
+        
+        if authCreds.usernameIsSafe().0
+            && authCreds.isValidEmail().0
+            && authCreds.passwordIsSafe().0 {
+            
+        } else {
+            
+        }
+        
+//        guard let username = usernameTextField.text,
+//              let email = emailTextField.text,
+//              let password = passwordTextField.text,
+//              !username.trimmingCharacters(in: .whitespaces).isEmpty,
+//              !email.trimmingCharacters(in: .whitespaces).isEmpty,
+//              !password.trimmingCharacters(in: .whitespaces).isEmpty else {
+//                  let alert = UIAlertController(title: "Blank Spaces", message: "That should only be a Taylor Swift song. Please make sure all the .\nThank you\n- Management", preferredStyle: .alert)
+//                  alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
+//                  present(alert, animated: true)
+//
+//                  return
+//              }
         
 //        AuthenticationManager.shared.signIn(email: email, password: password) { [weak self] success in
 //            switch success {
