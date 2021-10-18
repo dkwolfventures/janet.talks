@@ -1,0 +1,23 @@
+${PODS_ROOT}/Target Support Files/Pods-janet.talksTests/Pods-janet.talksTests-frameworks.sh
+${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC-framework/openssl_grpc.framework
+${BUILT_PRODUCTS_DIR}/FirebaseABTesting-framework/FirebaseABTesting.framework
+${BUILT_PRODUCTS_DIR}/FirebaseAuth-framework/FirebaseAuth.framework
+${BUILT_PRODUCTS_DIR}/FirebaseCore-framework/FirebaseCore.framework
+${BUILT_PRODUCTS_DIR}/FirebaseCoreDiagnostics-framework/FirebaseCoreDiagnostics.framework
+${BUILT_PRODUCTS_DIR}/FirebaseCrashlytics-framework/FirebaseCrashlytics.framework
+${BUILT_PRODUCTS_DIR}/FirebaseDynamicLinks-framework/FirebaseDynamicLinks.framework
+${BUILT_PRODUCTS_DIR}/FirebaseFirestore-framework/FirebaseFirestore.framework
+${BUILT_PRODUCTS_DIR}/FirebaseInAppMessaging-framework/FirebaseInAppMessaging.framework
+${BUILT_PRODUCTS_DIR}/FirebaseInstallations-framework/FirebaseInstallations.framework
+${BUILT_PRODUCTS_DIR}/FirebaseMessaging-framework/FirebaseMessaging.framework
+${BUILT_PRODUCTS_DIR}/FirebaseRemoteConfig-framework/FirebaseRemoteConfig.framework
+${BUILT_PRODUCTS_DIR}/GTMSessionFetcher-framework/GTMSessionFetcher.framework
+${BUILT_PRODUCTS_DIR}/GoogleDataTransport-framework/GoogleDataTransport.framework
+${BUILT_PRODUCTS_DIR}/GoogleUtilities-framework/GoogleUtilities.framework
+${BUILT_PRODUCTS_DIR}/ProgressHUD-framework/ProgressHUD.framework
+${BUILT_PRODUCTS_DIR}/PromisesObjC-framework/FBLPromises.framework
+${BUILT_PRODUCTS_DIR}/abseil-framework/absl.framework
+${BUILT_PRODUCTS_DIR}/gRPC-C++-framework/grpcpp.framework
+${BUILT_PRODUCTS_DIR}/gRPC-Core-framework/grpc.framework
+${BUILT_PRODUCTS_DIR}/leveldb-library-framework/leveldb.framework
+${BUILT_PRODUCTS_DIR}/nanopb-framework/nanopb.framework

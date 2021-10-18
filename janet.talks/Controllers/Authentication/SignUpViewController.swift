@@ -90,9 +90,7 @@ class SignUpViewController: UIViewController {
         
         let authCreds = AuthCredentials(username: username, email: email, password: password)
         
-        if authCreds.usernameIsSafe().0
-            && authCreds.isValidEmail().0
-            && authCreds.passwordIsSafe().0 {
+        if authCreds.usernameIsSafe().0 {
             
         } else {
             
@@ -128,6 +126,10 @@ class SignUpViewController: UIViewController {
     }
     
     //MARK: - helpers
+    
+    private func showAlert(){
+        
+    }
     
     private func hideKeyboard(){
         emailTextField.resignFirstResponder()
