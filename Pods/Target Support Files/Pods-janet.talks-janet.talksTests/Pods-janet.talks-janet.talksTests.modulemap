@@ -1,0 +1,6 @@
+module Pods_janet_talks_janet_talksTests {
+  umbrella header "Pods-janet.talks-janet.talksTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

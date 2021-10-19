@@ -2,7 +2,8 @@ platform :ios, '14.0'
 
 target 'janet.talks' do
   
-
+pod 'Firebase/Core'
+pod 'Firebase/Storage'
 pod 'Firebase/Analytics'
 pod 'Firebase/Firestore'
 pod 'Firebase/Messaging'
@@ -13,6 +14,12 @@ pod 'Firebase/RemoteConfig'
 pod 'Firebase/Auth'
 pod 'ProgressHUD'
 
-  # Pods for janet.talks
+# Pods for janet.talks
+
+  target 'janet.talksTests' do
+    
+    pod 'Firebase'
+    
+  end
 
 end

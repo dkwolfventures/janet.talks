@@ -30,27 +30,28 @@ final class DatabaseManager {
     
     public func createUser(newUser: User, completion: @escaping(Result<User,Error>) -> Void){
         
-        self.checkIfUsernameIsTaken(newUser.username) { result in
+        self.checkIfUsernameIsTaken(newUser.username) { [weak self] result in
             switch result {
             case .success(_):
                 
-                let reference = self.db.document("users/\(newUser.username)")
+                let reference = self?.db.document("users/\(newUser.username)")
                 
                 guard let data = newUser.asDictionary() else {
                     completion(.failure(DatabaseErrors.usernameTaken))
                     return
                 }
                 
-                reference.setData(data) { error in
+                reference?.setData(data) { error in
                     completion(.success(newUser))
                 }
             case .failure(let error):
                 
                 if error.localizedDescription == DatabaseErrors.usernameTaken.localizedDescription {
                     
-                    let usernameTakenReference = self.db.collection("users").document()
+//                    let tempUsername = "\(self?.firstNames.randomElement()!)\(self?.middlePart.randomElement()!)\(self?.lastNames.randomElement()!)\(self?.randomNum)"
+//                    let usernameTakenReference = self?.db.document("users/\(tempUsername)")
                     
-                    
+//                    usernameTakenReference.
                     
                     completion(.failure(error))
                 } else {
