@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import ProgressHUD
 
 class SignUpViewController: UIViewController {
     
@@ -15,15 +14,7 @@ class SignUpViewController: UIViewController {
     public var completion: (() -> Void)?
     private var firstResp: UITextField?
     
-    private let logoView: UIImageView = {
-        let iv = UIImageView()
-        iv.image = UIImage(named: "logo")
-        iv.contentMode = .scaleAspectFit
-        iv.layer.cornerCurve = .continuous
-        iv.layer.cornerRadius = 8
-        iv.layer.masksToBounds = true
-        return iv
-    }()
+    private let logoView = LogoImageView(frame: .zero)
     
     private let usernameTextField = AuthField(.username)
     private let emailTextField = AuthField(.email)
@@ -58,10 +49,12 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
+        let spacing = view.spacing * 2
         let logoSize = CGSize(width: 200, height: 200)
         logoView.frame = CGRect(x: view.width/2 - (logoSize.width/2), y: view.safeAreaInsets.top, width: logoSize.width, height: logoSize.height)
         
-        let stackWidth = view.width - 60
+        let stackWidth = view.width - (spacing * 2)
         let stackCount = CGFloat(stack.subviews.count)
         let stackSectionHeight: CGFloat = stackCount * 60 + (stackCount - 1 * 12)
         stack.frame = CGRect(x: view.width/2 - (stackWidth / 2), y: logoView.bottom, width: stackWidth, height: stackSectionHeight)
@@ -75,21 +68,15 @@ class SignUpViewController: UIViewController {
     
     //MARK: - actions
     
-    @objc private func didTapSignIn(){
-        
-        hideKeyboard()
-        
-        
-    }
-    
     @objc private func didTapSignUp(){
         hideKeyboard()
-        ProgressHUD.show("Creating User...")
-        guard let username = usernameTextField.text, let email = emailTextField.text, let password = passwordTextField.text else {
+        view.showLoader(loadingWhat: "Creating User...")
+        guard let username = usernameTextField.text?.lowercased(), let email = emailTextField.text?.lowercased(), let password = passwordTextField.text else {
             return
         }
         
         let authCreds = AuthCredentials(username: username, email: email, password: password)
+        let user = User(username: username, email: email)
         
         if authCreds.usernameIsSafe().0 && authCreds.isValidEmail().0 && authCreds.passwordIsSafe().0 {
             
@@ -98,7 +85,7 @@ class SignUpViewController: UIViewController {
                 DispatchQueue.main.async {
                     switch result {
                     case .success( let user):
-                        ProgressHUD.dismiss()
+                        self?.view.dismissLoader()
                         UserDefaults.standard.setValue(user.email, forKey: "email")
                         UserDefaults.standard.setValue(user.username, forKey: "username")
                         
@@ -106,11 +93,24 @@ class SignUpViewController: UIViewController {
                         self?.completion?()
                         
                     case .failure(let error):
-                        ProgressHUD.dismiss()
+                        self?.view.dismissLoader()
                         
-                        if error.localizedDescription == DatabaseErrors.usernameTaken.localizedDescription {
-                            
-                        } else {
+                        switch error {
+                        case is DatabaseErrors:
+                            DispatchQueue.main.async {
+                                UserDefaults.standard.setValue(user.email, forKey: "email")
+                                UserDefaults.standard.setValue(true, forKey: "doesntHaveUserName")
+                                let vc = UsernamePickerViewController(reason: .usernameTaken, user: user)
+                                vc.title = "Username"
+                                vc.completion = { [weak self] in
+                                    DispatchQueue.main.async {
+                                        self?.navigationController?.popToRootViewController(animated: true)
+                                        self?.completion?()
+                                    }
+                                }
+                                self?.show(vc, sender: self)
+                            }
+                        default:
                             let alert = UIAlertController(title: "Ooops", message: error.localizedDescription, preferredStyle: .alert)
                             
                             alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
@@ -125,7 +125,7 @@ class SignUpViewController: UIViewController {
             }
             
         } else {
-            ProgressHUD.dismiss()
+            view.dismissLoader()
             if !authCreds.usernameIsSafe().0 {
                 if let error = authCreds.usernameIsSafe().1 {
                     self.showAlert(error, nil, nil)
@@ -212,7 +212,7 @@ extension SignUpViewController: UITextFieldDelegate {
             textField.resignFirstResponder()
             passwordTextField.becomeFirstResponder()
         } else {
-            textField.resignFirstResponder()
+            didTapSignUp()
         }
         
         return true

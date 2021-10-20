@@ -55,6 +55,27 @@ final class AuthenticationManager {
         
     }
     
+    public func signInUser(email: String, password: String, completion: @escaping(Result<User, Error>) -> Void){
+        
+        auth.signIn(withEmail: email, password: password) { result, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            DatabaseManager.shared.findUser(email: email) { result in
+                switch result {
+                case .success(let user):
+                    UserDefaults.standard.set(user.username, forKey: "username")
+                    UserDefaults.standard.set(user.email, forKey: "email")
+                    completion(.success(user))
+                case .failure(_):
+                    completion(.failure(DatabaseErrors.accountNoUsername))
+                }
+            }
+        }
+    }
+    
     //MARK: - helpers private
     
 }

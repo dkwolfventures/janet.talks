@@ -9,6 +9,10 @@ import Foundation
 import UIKit
 import ProgressHUD
 
+extension UIViewController {
+    
+}
+
 extension UIView {
     
     var width: CGFloat {
@@ -120,6 +124,22 @@ extension UIView {
         guard let view = superview else { return }
         anchor(top: view.topAnchor, left: view.leftAnchor,
                bottom: view.bottomAnchor, right: view.rightAnchor)
+    }
+    
+    var spacing: CGFloat {
+        return frame.width/20
+    }
+    
+}
+
+extension UIView {
+    
+    func showLoader(loadingWhat: String?){
+        ProgressHUD.show(loadingWhat)
+    }
+    
+    func dismissLoader(){
+        ProgressHUD.dismiss()
     }
     
 }

@@ -8,11 +8,22 @@
 import Foundation
 import Firebase
 
-enum DatabaseErrors: Error {
+enum DatabaseErrors: Comparable, Equatable, Error {
     case usernameTaken
+    case databaseError
+    case accountNoUsername
     
     var localizedDescription: String {
-        return "This username is already taken, please try a different one."
+        switch self {
+        case .usernameTaken:
+            return "This username is already taken, please try a different one."
+
+        case .databaseError:
+            return "There was a network error, please try again!"
+            
+        case .accountNoUsername:
+            return "This account has no username."
+        }
     }
 }
 
@@ -37,7 +48,7 @@ final class DatabaseManager {
                 let reference = self?.db.document("users/\(newUser.username)")
                 
                 guard let data = newUser.asDictionary() else {
-                    completion(.failure(DatabaseErrors.usernameTaken))
+                    completion(.failure(DatabaseErrors.databaseError))
                     return
                 }
                 
@@ -45,27 +56,33 @@ final class DatabaseManager {
                     completion(.success(newUser))
                 }
             case .failure(let error):
-                
-                if error.localizedDescription == DatabaseErrors.usernameTaken.localizedDescription {
-                    
-//                    let tempUsername = "\(self?.firstNames.randomElement()!)\(self?.middlePart.randomElement()!)\(self?.lastNames.randomElement()!)\(self?.randomNum)"
-//                    let usernameTakenReference = self?.db.document("users/\(tempUsername)")
-                    
-//                    usernameTakenReference.
-                    
-                    completion(.failure(error))
-                } else {
-                    completion(.failure(error))
-                }
-                
+                completion(.failure(error))
             }
         }
         
     }
     
-    public func changeUsernameBecuaseItWasTaken(username: String, completion: @escaping(Result<User, Error>) -> Void){
+    public func findUser(email: String, completion: @escaping(Result<User, Error>) -> Void){
         
+        let ref = db.collection("users").whereField("email", isEqualTo: email)
         
+        ref.getDocuments { snapshot, error in
+            if let error = error {
+                completion(.failure(error))
+            }
+            
+            guard let users = snapshot?.documents.compactMap({User(with: $0.data())}) else {
+                completion(.failure(DatabaseErrors.accountNoUsername))
+                return
+            }
+            
+            if !users.isEmpty {
+                completion(.success(users[0]))
+            } else {
+                completion(.failure(DatabaseErrors.accountNoUsername))
+            }
+        
+        }
         
     }
     

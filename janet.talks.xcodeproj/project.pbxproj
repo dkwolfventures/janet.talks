@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1753AC2E271EFEB400E49DD0 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1753AC2D271EFEB400E49DD0 /* UserManager.swift */; };
+		1753AC31271F05C500E49DD0 /* UsernamePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1753AC30271F05C500E49DD0 /* UsernamePickerViewController.swift */; };
+		1753AC33271F0D8400E49DD0 /* LogoImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1753AC32271F0D8300E49DD0 /* LogoImageView.swift */; };
 		175EE33B271CA46900C0AD02 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EE33A271CA46900C0AD02 /* HomeViewController.swift */; };
 		175EE33E271CB15400C0AD02 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EE33D271CB15400C0AD02 /* SearchResultsViewController.swift */; };
 		175EE341271CC27800C0AD02 /* TitleCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EE340271CC27800C0AD02 /* TitleCollectionViewCellViewModel.swift */; };
@@ -71,6 +73,8 @@
 /* Begin PBXFileReference section */
 		0F97FE106B177C490622B9F8 /* Pods-janet.talks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-janet.talks.release.xcconfig"; path = "Target Support Files/Pods-janet.talks/Pods-janet.talks.release.xcconfig"; sourceTree = "<group>"; };
 		1753AC2D271EFEB400E49DD0 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		1753AC30271F05C500E49DD0 /* UsernamePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernamePickerViewController.swift; sourceTree = "<group>"; };
+		1753AC32271F0D8300E49DD0 /* LogoImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoImageView.swift; sourceTree = "<group>"; };
 		175EE33A271CA46900C0AD02 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		175EE33D271CB15400C0AD02 /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		175EE340271CC27800C0AD02 /* TitleCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
@@ -147,6 +151,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1753AC2F271F05AA00E49DD0 /* UsernamePickerController */ = {
+			isa = PBXGroup;
+			children = (
+				1753AC30271F05C500E49DD0 /* UsernamePickerViewController.swift */,
+			);
+			path = UsernamePickerController;
+			sourceTree = "<group>";
+		};
 		175EE33C271CB12F00C0AD02 /* HomeControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -312,6 +324,7 @@
 				176868B8270B444600532476 /* SystemIconButton.swift */,
 				176868BA270B51B500532476 /* TextInputWithTitle.swift */,
 				176868BC270B594900532476 /* PublicQuestionOrPrivateChat.swift */,
+				1753AC32271F0D8300E49DD0 /* LogoImageView.swift */,
 			);
 			path = "Custom Objects";
 			sourceTree = "<group>";
@@ -349,6 +362,7 @@
 			children = (
 				175EE34E271CDB5400C0AD02 /* SignInViewController.swift */,
 				175EE354271CDD2A00C0AD02 /* SignUpViewController.swift */,
+				1753AC2F271F05AA00E49DD0 /* UsernamePickerController */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -641,8 +655,10 @@
 				176868E4270C91EB00532476 /* HomeFeedCell.swift in Sources */,
 				175EE33B271CA46900C0AD02 /* HomeViewController.swift in Sources */,
 				1753AC2E271EFEB400E49DD0 /* UserManager.swift in Sources */,
+				1753AC31271F05C500E49DD0 /* UsernamePickerViewController.swift in Sources */,
 				175EE33E271CB15400C0AD02 /* SearchResultsViewController.swift in Sources */,
 				175EE357271CF02F00C0AD02 /* User.swift in Sources */,
+				1753AC33271F0D8400E49DD0 /* LogoImageView.swift in Sources */,
 				176868B9270B444600532476 /* SystemIconButton.swift in Sources */,
 				176868D4270C766C00532476 /* StorageManager.swift in Sources */,
 				175EE347271CC3D200C0AD02 /* ActionsCollectionViewCellViewModel.swift in Sources */,

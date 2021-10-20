@@ -17,7 +17,21 @@ class TabBarController: UITabBarController {
     //MARK: - lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+//        UserManager.shared.signOut()
+        DispatchQueue.main.async { [weak self] in
+            
+            if UserDefaults.standard.bool(forKey: "doesntHaveUserName") {
+                let vc = UsernamePickerViewController(reason: .accountHasNoUsername, user: User(username: "", email: UserDefaults.standard.string(forKey: "email")!))
+                vc.modalPresentationStyle = .fullScreen
+                self?.present(vc, animated: true)
+                vc.completion = {
+                    vc.dismiss(animated: true, completion: nil)
+                }
+            }
+        }
+        
         setUpControllers()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

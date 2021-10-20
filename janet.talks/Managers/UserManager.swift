@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Firebase
 
 final class UserManager {
     static let shared = UserManager()
@@ -14,8 +15,19 @@ final class UserManager {
     
     //MARK: - public
     
+    public func signOut(){
+        do{
+            
+            try Auth.auth().signOut()
+            UserDefaults.standard.removeObject(forKey: "email")
+            UserDefaults.standard.removeObject(forKey: "username")
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
     public func createTempUsername() -> String {
-        return firstNames.randomElement()! + middlePart.randomElement()! + lastNames.randomElement()!
+        return (firstNames.randomElement()?.lowercased())! + middlePart.randomElement()! + (lastNames.randomElement()?.lowercased())! + "\(randomNum)"
     }
     
     //MARK: - private
