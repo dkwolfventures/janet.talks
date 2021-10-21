@@ -13,6 +13,7 @@ pod 'Firebase/InAppMessaging'
 pod 'Firebase/RemoteConfig'
 pod 'Firebase/Auth'
 pod 'ProgressHUD'
+pod 'Kingfisher'
 
 # Pods for janet.talks
 

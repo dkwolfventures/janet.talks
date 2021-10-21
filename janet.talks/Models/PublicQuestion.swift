@@ -16,6 +16,8 @@ struct PublicQuestion: Codable {
     let question: String
     var lovers: [String]
     let dateAsked: String
+    let dateAskedInSecondsSince1970: Int
+    let tags: [String]
     
     var date: Date {
         guard let date = DateFormatter.formatter.date(from: dateAsked) else {

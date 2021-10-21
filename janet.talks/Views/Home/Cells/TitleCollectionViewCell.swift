@@ -45,7 +45,19 @@ class TitleCollectionViewCell: UICollectionViewCell {
         fatalError()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        featuredImageView.image = nil
+        titleLabel.text = nil
+        
+    }
+    
     //MARK: - actions
     
     //MARK: - helpers
+    
+    func configure(with viewModel: TitleCollectionViewCellViewModel, index: Int){
+        featuredImageView.image = viewModel.featuredImageUrl
+    }
 }

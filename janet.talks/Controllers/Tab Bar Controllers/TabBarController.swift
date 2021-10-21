@@ -52,7 +52,8 @@ class TabBarController: UITabBarController {
     
     private func setUpControllers(){
         
-        let home = HomeViewController()
+        let layout = UICollectionViewFlowLayout()
+        let home = HomeViewController(collectionViewLayout: layout)
         let questionsChatsAndArticles = NotificationFeedTableViewController()
         let alerts = NotificationFeedTableViewController()
         let profile = ProfileViewController()
@@ -78,10 +79,12 @@ class TabBarController: UITabBarController {
         nav2.navigationBar.prefersLargeTitles = true
         nav3.navigationBar.prefersLargeTitles = true
         nav4.navigationBar.prefersLargeTitles = true
-
+        
         tabBar.backgroundColor = .systemBackground
         tabBar.backgroundImage = UIImage()
         tabBar.shadowImage = UIImage()
+        
+        tabBar.itemPositioning = .centered
         
         setViewControllers([nav1, nav2, nav3, nav4], animated: true)
     }
