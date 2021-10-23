@@ -9,5 +9,5 @@ import Foundation
 
 struct TitleCollectionViewCellViewModel {
     let featuredImageUrl: URL
-    let Subject: String
+    let subject: String
 }

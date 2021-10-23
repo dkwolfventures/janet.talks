@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 //MARK: - the cell height 205
 
@@ -22,12 +23,14 @@ class TitleCollectionViewCell: UICollectionViewCell {
         iv.clipsToBounds = true
         iv.layer.cornerRadius = 10
         iv.layer.masksToBounds = true
+        iv.image = UIImage(named: "featuredPlaceholder")
         return iv
     }()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 2
+        label.numberOfLines = 3
+        label.font = .systemFont(ofSize: 22, weight: .heavy)
         label.textAlignment = .left
         return label
     }()
@@ -37,12 +40,27 @@ class TitleCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect){
         super.init(frame: frame)
         
-        
+        contentView.backgroundColor = .systemBackground
+        contentView.layer.cornerRadius = 25
+        contentView.layer.masksToBounds = true
+        contentView.addSubview(featuredImageView)
+        contentView.addSubview(titleLabel)
         
     }
     
     required init?(coder: NSCoder) {
         fatalError()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        let spacing = contentView.width/20
+        featuredImageView.frame = CGRect(x: spacing, y: 10, width: contentView.height - 20, height: contentView.height - 20)
+        
+        titleLabel.sizeToFit()
+        titleLabel.frame = CGRect(x: featuredImageView.right + 15, y: featuredImageView.top, width: contentView.width - featuredImageView.width - (spacing*2), height: featuredImageView.height)
+        
     }
     
     override func prepareForReuse() {
@@ -58,6 +76,30 @@ class TitleCollectionViewCell: UICollectionViewCell {
     //MARK: - helpers
     
     func configure(with viewModel: TitleCollectionViewCellViewModel, index: Int){
-        featuredImageView.image = viewModel.featuredImageUrl
+        
+        featuredImageView.image = UIImage(named: "featuredPlaceholder")
+        titleLabel.text = viewModel.subject
+        
+//        let processor = DownsamplingImageProcessor(size: featuredImageView.bounds.size)
+//                     |> RoundCornerImageProcessor(cornerRadius: 20)
+//        featuredImageView.kf.indicatorType = .activity
+//        featuredImageView.kf.setImage(
+//            with: viewModel.featuredImageUrl,
+//            placeholder: UIImage(named: "placeholderImage"),
+//            options: [
+//                .processor(processor),
+//                .scaleFactor(UIScreen.main.scale),
+//                .transition(.fade(1)),
+//                .cacheOriginalImage
+//            ])
+//        {
+//            result in
+//            switch result {
+//            case .success(let value):
+//                print("Task done for: \(value.source.url?.absoluteString ?? "")")
+//            case .failure(let error):
+//                print("Job failed: \(error.localizedDescription)")
+//            }
+//        }
     }
 }

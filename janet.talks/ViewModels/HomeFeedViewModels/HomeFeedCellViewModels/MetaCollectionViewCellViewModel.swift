@@ -8,7 +8,7 @@
 import Foundation
 
 struct MetaCollectionViewCellViewModel {
-    let datePosted: Date
-    let views: Float
-    let answers: Float
+    let datePosted: String
+    var views: Int
+    let answers: Int
 }

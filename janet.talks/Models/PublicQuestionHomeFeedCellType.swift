@@ -12,4 +12,5 @@ enum PublicQuestionHomeFeedCellType {
     case Meta(viewModel: MetaCollectionViewCellViewModel)
     case Post(viewModel: PostCollectionViewCellViewModel)
     case Actions(viewModel: ActionsCollectionViewCellViewModel)
+    case Heart
 }
