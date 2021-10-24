@@ -216,10 +216,18 @@ class PosterAndActionsCollectionViewCell: UICollectionViewCell {
             return viewModel.postLovers >= 1000 ? "\(love)" : "\(Int(love))"
         }
         
+        var commentCount: String {
+            return viewModel.postLovers >= 1000 ? "\(comments)" : "\(Int(comments))"
+        }
+        
+        var shareCount: String {
+            return viewModel.postLovers >= 1000 ? "\(shares)" : "\(Int(shares))"
+        }
+        
         usernameLabel.text = viewModel.username
         loveAmount.text = loveCount
-        commentAmount.text = "\(comments)"
-        shareAmount.text = "\(shares)"
+        commentAmount.text = commentCount
+        shareAmount.text = shareCount
         
         questionAskedLabel.text = "\(viewModel.qsAsked) Qs Asked"
 

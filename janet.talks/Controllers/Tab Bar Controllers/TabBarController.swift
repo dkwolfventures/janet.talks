@@ -15,6 +15,11 @@ class TabBarController: UITabBarController {
     private var signinHasBeenPresented = false
     
     //MARK: - lifecycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 //        UserManager.shared.signOut()
@@ -34,21 +39,9 @@ class TabBarController: UITabBarController {
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
     //MARK: - actions
     
     //MARK: - helpers
-    
-    private func presentSignInIfNeeded(){
-        //present the signin screen if user is not logged in
-        DispatchQueue.main.async {
-            
-        }
-        
-    }
     
     private func setUpControllers(){
         
@@ -67,10 +60,10 @@ class TabBarController: UITabBarController {
         let nav3 = UINavigationController(rootViewController: alerts)
         let nav4 = UINavigationController(rootViewController: profile)
         
-        nav1.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "square.text.square.fill"), tag: 2)
-        nav2.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "bubble.left.and.bubble.right.fill"), tag: 1)
-        nav3.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "bell.fill"), tag: 1)
-        nav4.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "person.crop.circle"), tag: 3)
+        nav1.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "square.text.square.fill"), tag: 1)
+        nav2.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "questionmark.app.fill"), tag: 2)
+        nav3.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "bell.fill"), tag: 3)
+        nav4.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "person.crop.circle"), tag: 4)
         
         UITabBar.appearance().tintColor = .label
 
@@ -81,6 +74,7 @@ class TabBarController: UITabBarController {
         
         nav1.navigationBar.shadowImage = UIImage()
         
+        additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -30, right: 0)
         tabBar.backgroundColor = .systemBackground
         tabBar.backgroundImage = UIImage()
         tabBar.shadowImage = UIImage()

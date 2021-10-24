@@ -57,7 +57,6 @@ class NotificationFeedTableViewController: UITableViewController {
         
         let vc = AskAQuestionViewController()
         addChild(vc)
-        vc.delegate = self
         vc.didMove(toParent: self)
         view.addSubview(vc.view)
         let frame: CGRect = CGRect(x: 0, y: 0 - tableView.height, width: tableView.width, height: tableView.height)

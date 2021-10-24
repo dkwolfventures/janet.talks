@@ -18,17 +18,26 @@ class HomeViewController: UIViewController {
     
     private var collectionView: UICollectionView?
     
+    private let askQuestionButton: UIImageView = {
+        let iv = UIImageView()
+        iv.image = UIImage(systemName: "plus.circle")
+        iv.tintColor = .label
+        iv.isUserInteractionEnabled = true
+        return iv
+    }()
+    
     //MARK: - lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureNav()
         
         view.showLoader(loadingWhat: "Loading Feed...")
-        
         configureCollectionView()
         fetchGlobalFeed()
         (searchVC.searchResultsController as? SearchResultsViewController)?.delegate = self
-        searchVC.searchBar.placeholder = "Search..."
+        searchVC.searchBar.placeholder = "Search Qs..."
+        
 //        searchVC.searchResultsUpdater = self
         navigationItem.searchController = searchVC
         navigationItem.hidesSearchBarWhenScrolling = false
@@ -42,7 +51,40 @@ class HomeViewController: UIViewController {
     
     //MARK: - actions
     
+    @objc private func askQuestionTapped(){
+       
+        let vc = AskAQuestionViewController()
+        
+        let navVC = UINavigationController(rootViewController: vc)
+        navVC.modalPresentationStyle = .fullScreen
+        navVC.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
+        present(navVC, animated: true, completion: nil)
+        
+    }
+    
     //MARK: - helpers
+    
+    private func configureNav(){
+        
+        guard let navigationBar = self.navigationController?.navigationBar else { return }
+        navigationBar.addSubview(askQuestionButton)
+        askQuestionButton.layer.cornerRadius = Const.ImageSizeForLargeState / 2
+        askQuestionButton.clipsToBounds = true
+        askQuestionButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            askQuestionButton.rightAnchor.constraint(equalTo: navigationBar.rightAnchor,
+                                                     constant: -Const.ImageRightMargin),
+            askQuestionButton.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor,
+                                                      constant: -Const.ImageBottomMarginForLargeState - 50),
+            askQuestionButton.heightAnchor.constraint(equalToConstant: Const.ImageSizeForLargeState),
+            askQuestionButton.widthAnchor.constraint(equalTo: askQuestionButton.heightAnchor)
+        ])
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(askQuestionTapped))
+        tap.numberOfTapsRequired = 1
+        askQuestionButton.addGestureRecognizer(tap)
+        
+    }
     
     private func fetchGlobalFeed(){
         
@@ -180,6 +222,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
         
     }
+    
 }
 
 //MARK: - setUpCollectionView

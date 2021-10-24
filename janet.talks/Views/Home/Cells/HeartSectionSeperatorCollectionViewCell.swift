@@ -21,13 +21,25 @@ class HeartSectionSeperatorCollectionViewCell: UICollectionViewCell {
         return iv
     }()
     
+    let dividerLeft: UIView = {
+        let v = UIView()
+        v.backgroundColor = .label
+        return v
+    }()
+    
+    let dividerRight: UIView = {
+        let v = UIView()
+        v.backgroundColor = .label
+        return v
+    }()
+    
     //MARK: - lifecycle
     
     override init(frame: CGRect){
         super.init(frame: frame)
-        
+        contentView.addSubview(dividerLeft)
         contentView.addSubview(heartIcon)
-        
+        contentView.addSubview(dividerRight)
     }
     
     required init?(coder: NSCoder) {
@@ -36,9 +48,11 @@ class HeartSectionSeperatorCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+        dividerLeft.centerY(inView: self)
+        dividerLeft.anchor(left: contentView.leftAnchor, right: heartIcon.leftAnchor, paddingRight: 10, height: 0.5)
         heartIcon.center(inView: self)
-        
+        dividerRight.centerY(inView: self)
+        dividerRight.anchor(left: heartIcon.rightAnchor, right: contentView.rightAnchor, paddingLeft: 10, height: 0.5)
     }
     
 }
