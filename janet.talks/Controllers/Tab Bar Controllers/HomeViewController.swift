@@ -56,6 +56,7 @@ class HomeViewController: UIViewController {
         let vc = AskAQuestionViewController()
         
         let navVC = UINavigationController(rootViewController: vc)
+        navVC.navigationBar.prefersLargeTitles = true
         navVC.modalPresentationStyle = .fullScreen
         navVC.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
         present(navVC, animated: true, completion: nil)
