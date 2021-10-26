@@ -16,7 +16,6 @@ struct PublicQuestion: Codable, Hashable {
     let background: String?
     let question: String
     var lovers: [String]
-    var isLoved: Bool
     let dateAsked: String
     let dateAskedInSecondsSince1970: Int
     let tags: [String]
