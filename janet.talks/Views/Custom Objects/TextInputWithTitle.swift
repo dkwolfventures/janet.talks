@@ -11,7 +11,6 @@ class TextInputWithTitle: UIView {
     
     private var titleSize: CGFloat = 0
     private var textfieldTextSize: CGFloat = 0
-    private var paddingFromTop: CGFloat = 0
     private var numberOfLines: Int? = nil
     
     private let titleLabel: UILabel = {
@@ -32,10 +31,9 @@ class TextInputWithTitle: UIView {
         return tv
     }()
     
-    init(title: String, titleSize: CGFloat, textFieldTextSize: CGFloat, paddingFromTop: CGFloat, numberOfLines: Int? = nil){
+    init(title: String, titleSize: CGFloat, textFieldTextSize: CGFloat, numberOfLines: Int? = nil){
         self.titleSize = titleSize
         self.textfieldTextSize = textFieldTextSize
-        self.paddingFromTop = paddingFromTop
         self.numberOfLines = numberOfLines
         super.init(frame: .zero)
         titleLabel.text = title
@@ -57,7 +55,7 @@ class TextInputWithTitle: UIView {
         titleLabel.font = .systemFont(ofSize: titleSize, weight: .bold)
         textField.font = .systemFont(ofSize: textfieldTextSize, weight: .semibold)
         
-        textField.textContainerInset = UIEdgeInsets(top: paddingFromTop, left: spacing, bottom: 0, right: spacing)
+        textField.textContainerInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
         
         titleLabel.sizeToFit()
         titleLabel.frame = CGRect(x: 0, y: 0, width: width, height: titleLabel.height)

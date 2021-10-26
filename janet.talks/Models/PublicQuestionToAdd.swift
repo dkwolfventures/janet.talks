@@ -10,8 +10,8 @@ import UIKit
 
 struct PublicQuestionToAdd: Hashable {
     var featuredImage: UIImage?
-    var title: String
-    var question: String
+    var title: String?
+    var question: String?
     var situationOrBackground: String?
     var tags: [String]?
     var questionImages: [UIImage]?

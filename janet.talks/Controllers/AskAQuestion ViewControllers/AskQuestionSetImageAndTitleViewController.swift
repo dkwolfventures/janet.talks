@@ -17,7 +17,7 @@ class AskQuestionSetImageAndTitleViewController: UIViewController {
     
     weak var delegate: AskQuestionSetImageAndTitleViewControllerDelegate?
     
-    private let question: PublicQuestionToAdd?
+    private let question: PublicQuestionToAdd
     
     private let featuredImageView: UIImageView = {
         let iv = UIImageView()
@@ -37,11 +37,11 @@ class AskQuestionSetImageAndTitleViewController: UIViewController {
         return button
     }()
     
-    private let titleTextField = TextInputWithTitle(title: "Title:", titleSize: 20, textFieldTextSize: 28, paddingFromTop: 20)
+    private let titleTextField = TextInputWithTitle(title: "Title:", titleSize: 20, textFieldTextSize: 28)
     
     //MARK: - lifecycle
     
-    init(_ question: PublicQuestionToAdd? = nil){
+    init(_ question: PublicQuestionToAdd){
         self.question = question
         super.init(nibName: nil, bundle: nil)
     }
@@ -78,7 +78,34 @@ class AskQuestionSetImageAndTitleViewController: UIViewController {
     //MARK: - actions
     
     @objc private func changeImageTapped(){
-        print("debug: this is sutff..")
+        let sheet = UIAlertController(title: "Change Featured Image", message: "Please select an option below.", preferredStyle: .actionSheet)
+        
+        sheet.addAction(UIAlertAction(title: "Take A Photo", style: .default, handler: {  [weak self] _ in
+            
+            DispatchQueue.main.async {
+                let picker = UIImagePickerController()
+                picker.sourceType = .camera
+                picker.allowsEditing = true
+                picker.delegate = self
+                self?.present(picker, animated: true)
+            }
+            
+        }))
+        sheet.addAction(UIAlertAction(title: "Choose From Library", style: .default, handler: {  [weak self] _ in
+            DispatchQueue.main.async {
+                let picker = UIImagePickerController()
+                picker.allowsEditing = true
+                picker.sourceType = .photoLibrary
+                picker.delegate = self
+                self?.present(picker, animated: true)
+            }
+            
+        }))
+        sheet.addAction(UIAlertAction(title: "Random Image", style: .default, handler: { [weak self] _ in
+            self?.chooseRandomPhoto()
+        }))
+        
+        present(sheet, animated: true)
     }
     
     @objc private func addImageAndTitle(){
@@ -100,14 +127,19 @@ class AskQuestionSetImageAndTitleViewController: UIViewController {
     
     //MARK: - helpers
     
+    private func chooseRandomPhoto(){
+        let randomNumber = Int.random(in: 1...26)
+        
+        featuredImageView.image = UIImage(named: "feature\(randomNumber)")
+    }
+    
     private func configureTextView(){
         
         titleTextField.textField.delegate = self
         titleTextField.textField.autocapitalizationType = .words
         
-        if let question = question {
-            titleTextField.textField.text = question.title
-        }
+        titleTextField.textField.text = question.title
+
     }
     
     private func configureNavigation(){
@@ -126,10 +158,10 @@ class AskQuestionSetImageAndTitleViewController: UIViewController {
         featuredImageView.isUserInteractionEnabled = true
         featuredImageView.addGestureRecognizer(tap)
         
-        if let image = question?.featuredImage {
+        if let image = question.featuredImage {
             featuredImageView.image = image
         } else {
-            let randomNumber = Int.random(in: 1...25)
+            let randomNumber = Int.random(in: 1...26)
             
             featuredImageView.image = UIImage(named: "feature\(randomNumber)")
             
@@ -148,5 +180,22 @@ extension AskQuestionSetImageAndTitleViewController: UITextViewDelegate {
         }
         
         return true
+    }
+}
+
+//MARK: - uiimagepickerdelegate
+
+extension AskQuestionSetImageAndTitleViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
+            return
+        }
+        featuredImageView.image = image
     }
 }

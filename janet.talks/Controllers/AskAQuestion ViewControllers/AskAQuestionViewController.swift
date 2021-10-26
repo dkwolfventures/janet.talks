@@ -18,16 +18,11 @@ class AskAQuestionViewController: UIViewController {
     var cellSize = CGFloat()
     
     var viewModels = [AddAQuestionCellType]()
-    private var questionToPost = PublicQuestionToAdd(featuredImage: nil, title: " ", question: " ", situationOrBackground: nil, tags: nil, questionImages: nil)
-    
-    private var imageAndTitleDone: Bool = false
-    private var questionDone: Bool = false
-    private var situationOrBackgroundDone: Bool = false
-    private var tagsAndImagesDone: Bool = false
+    private var questionToPost = PublicQuestionToAdd(featuredImage: nil, title: nil, question: nil, situationOrBackground: nil, tags: nil, questionImages: nil)
     
     private var imageAndTitle = ImageAndTitleTableViewCellViewModel(title: "Image & Title", isComplete: false)
     private var question = QuestionTableViewCellViewModel(title: "Question", isComplete: false)
-    private var situationOrBackground = SituationOrBackgroundTableViewCellViewModel(title: "Situation/Background", isComplete: false)
+    private var situationOrBackground = SituationOrBackgroundTableViewCellViewModel(title: "Background Info", isComplete: false)
     private var tagsAndImages = TagsAndImagesTableViewCellViewModel(title: "Tags & Images", isComplete: false)
 
     let questionTableView: UITableView = {
@@ -62,6 +57,10 @@ class AskAQuestionViewController: UIViewController {
         navigationController?.dismiss(animated: true, completion: nil)
     }
     
+    @objc private func previewQTapped(){
+        
+    }
+    
     //MARK: - helpers
     
     private func configureTableView(){
@@ -87,6 +86,10 @@ class AskAQuestionViewController: UIViewController {
     private func configureNav(){
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapClose))
+        
+        if self.question.isComplete && self.imageAndTitle.isComplete {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Preview Q", style: .done, target: self, action: #selector(previewQTapped))
+        }
         
     }
     
@@ -145,13 +148,13 @@ extension AskAQuestionViewController: UITableViewDelegate, UITableViewDataSource
             vc.delegate = self
             show(vc, sender: self)
         case .Question(_):
-            self.question.isComplete = true
-            configureTableView()
-            questionTableView.reloadData()
+            let vc = AskQuestionCreateQuestionViewController(question: questionToPost)
+            vc.delegate = self
+            show(vc, sender: self)
         case .SituationOrBackground(_):
-            self.situationOrBackground.isComplete = true
-            configureTableView()
-            questionTableView.reloadData()
+            let vc = AskQuestionSituationOrBackgroundViewController(question: questionToPost)
+            vc.delegate = self
+            show(vc, sender: self)
         case .TagsAndImages(_):
             self.tagsAndImages.isComplete = true
             configureTableView()
@@ -165,16 +168,53 @@ extension AskAQuestionViewController: UITableViewDelegate, UITableViewDataSource
 extension AskAQuestionViewController: AskQuestionSetImageAndTitleViewControllerDelegate{
     func addImageAndTitle(image: UIImage, title: String) {
         
-        
-        
         self.questionToPost.featuredImage = image
         self.questionToPost.title = title
         self.imageAndTitle.isComplete = true
         configureTableView()
         questionTableView.reloadData()
         
-        let indexPath = IndexPath(row: 1, section: 0)
+        configureNav()
+                
+        if questionToPost.question == nil {
+            
+            let vc = AskQuestionCreateQuestionViewController(question: questionToPost)
+            vc.delegate = self
+            show(vc, sender: self)
+            
+        }
         
-        questionTableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+    }
+}
+
+//MARK: -
+
+extension AskAQuestionViewController: AskQuestionCreateQuestionViewControllerDelegate{
+    func addQuestion(question: String) {
+        
+        self.questionToPost.question = question
+        self.question.isComplete = true
+        configureTableView()
+        questionTableView.reloadData()
+        
+        configureNav()
+        
+        if questionToPost.situationOrBackground == nil {
+            
+            let vc = AskQuestionSituationOrBackgroundViewController(question: questionToPost)
+            vc.delegate = self
+            show(vc, sender: self)
+        }
+    }
+}
+
+//MARK: - Section Heading
+
+extension AskAQuestionViewController: AskQuestionSituationOrBackgroundViewControllerDelegate{
+    func addBackgroundInfo(background: String) {
+        self.questionToPost.situationOrBackground = background
+        self.situationOrBackground.isComplete = true
+        configureTableView()
+        questionTableView.reloadData()
     }
 }
