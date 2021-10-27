@@ -51,7 +51,7 @@ class TabBarController: UITabBarController {
         let profile = ProfileViewController()
         
         home.title = "relationship.talks"
-        questionsChatsAndArticles.title = "explore"
+        questionsChatsAndArticles.title = "my questions"
         alerts.title = "alerts"
         profile.title = "profile"
         

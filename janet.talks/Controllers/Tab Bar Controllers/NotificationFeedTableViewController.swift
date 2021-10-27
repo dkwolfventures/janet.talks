@@ -51,90 +51,30 @@ class NotificationFeedTableViewController: UITableViewController {
     
     @objc private func askQuestionTapped(){
         
-        let topRow = IndexPath(row: 0, section: 0)
-        
-        self.tableView.scrollToRow(at: topRow, at: .top, animated: true)
-        
-        let vc = AskAQuestionViewController()
-        addChild(vc)
-        vc.didMove(toParent: self)
-        view.addSubview(vc.view)
-        let frame: CGRect = CGRect(x: 0, y: 0 - tableView.height, width: tableView.width, height: tableView.height)
-        vc.view.frame = frame
-        tableView.isScrollEnabled = false
-        UIView.animate(withDuration: 0.2) { [weak self] in
-            vc.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
-            self?.askQuestionButton.isUserInteractionEnabled = false
-            self?.askQuestionButton.alpha = 0.5
-            
-        }
-
+         let vc = AskAQuestionViewController()
+         
+         let navVC = UINavigationController(rootViewController: vc)
+         navVC.navigationBar.prefersLargeTitles = true
+         navVC.modalPresentationStyle = .fullScreen
+         navVC.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
+         present(navVC, animated: true, completion: nil)
+         
     }
     
     //MARK: - helpers
     
     private func configureNav(){
         
-        guard let navigationBar = self.navigationController?.navigationBar else { return }
-        navigationBar.addSubview(askQuestionButton)
-        askQuestionButton.layer.cornerRadius = Const.ImageSizeForLargeState / 2
-        askQuestionButton.clipsToBounds = true
-        askQuestionButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            askQuestionButton.rightAnchor.constraint(equalTo: navigationBar.rightAnchor,
-                                                     constant: -Const.ImageRightMargin),
-            askQuestionButton.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor,
-                                                      constant: -Const.ImageBottomMarginForLargeState),
-            askQuestionButton.heightAnchor.constraint(equalToConstant: Const.ImageSizeForLargeState),
-            askQuestionButton.widthAnchor.constraint(equalTo: askQuestionButton.heightAnchor)
-        ])
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(askQuestionTapped))
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(askQuestionTapped))
-        tap.numberOfTapsRequired = 1
-        askQuestionButton.addGestureRecognizer(tap)
         
     }
-    
-    private func moveAndResizeImage(for height: CGFloat) {
-        let coeff: CGFloat = {
-            let delta = height - Const.NavBarHeightSmallState
-            let heightDifferenceBetweenStates = (Const.NavBarHeightLargeState - Const.NavBarHeightSmallState)
-            return delta / heightDifferenceBetweenStates
-        }()
-
-        let factor = Const.ImageSizeForSmallState / Const.ImageSizeForLargeState
-
-        let scale: CGFloat = {
-            let sizeAddendumFactor = coeff * (1.0 - factor)
-            return min(1.0, sizeAddendumFactor + factor)
-        }()
-
-        // Value of difference between icons for large and small states
-        let sizeDiff = Const.ImageSizeForLargeState * (1.0 - factor) // 8.0
-
-        let yTranslation: CGFloat = {
-            /// This value = 14. It equals to difference of 12 and 6 (bottom margin for large and small states). Also it adds 8.0 (size difference when the image gets smaller size)
-            let maxYTranslation = Const.ImageBottomMarginForLargeState - Const.ImageBottomMarginForSmallState + sizeDiff
-            return max(0, min(maxYTranslation, (maxYTranslation - coeff * (Const.ImageBottomMarginForSmallState + sizeDiff))))
-        }()
-
-        let xTranslation = max(0, sizeDiff - coeff * sizeDiff)
-
-        askQuestionButton.transform = CGAffineTransform.identity
-            .scaledBy(x: scale, y: scale)
-            .translatedBy(x: xTranslation, y: yTranslation)
-    }
-    
+   
     func configure(){
         
         activitySpinner.stopAnimating()
         
         tableView.register(MyQuestionsTableViewCell.self, forCellReuseIdentifier: MyQuestionsTableViewCell.identifier)
-    }
-    
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let height = navigationController?.navigationBar.frame.height else { return }
-        moveAndResizeImage(for: height)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

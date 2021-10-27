@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVKit
 
 protocol AskAQuestionDelegate: AnyObject{
     func closeAskAQuestion(_ vc: AskAQuestionViewController)
@@ -24,7 +25,16 @@ class AskAQuestionViewController: UIViewController {
     private var question = QuestionTableViewCellViewModel(title: "Question", isComplete: false)
     private var situationOrBackground = SituationOrBackgroundTableViewCellViewModel(title: "Background Info", isComplete: false)
     private var tagsAndImages = TagsAndImagesTableViewCellViewModel(title: "Tags & Images", isComplete: false)
-
+    
+    private let featuredImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.layer.cornerRadius = 25
+        iv.isHidden = true
+        iv.layer.masksToBounds = true
+        iv.clipsToBounds = true
+        return iv
+    }()
+    
     let questionTableView: UITableView = {
         let tv = UITableView()
         tv.backgroundColor = .systemBackground
@@ -32,21 +42,25 @@ class AskAQuestionViewController: UIViewController {
         tv.isScrollEnabled = false
         return tv
     }()
-
+    
     //MARK: - lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        view.addSubview(featuredImageView)
         configureNav()
         configureTableView()
         view.backgroundColor = .secondarySystemBackground
         title = "Ask A Question"
+        
+        cameraAccess()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+        let featuedImageSize = CGSize(width: questionTableView.top - view.safeAreaInsets.top - (view.spacing), height: questionTableView.top - view.safeAreaInsets.top - (view.spacing))
+        featuredImageView.setDimensions(height: featuedImageSize.height, width: featuedImageSize.width)
+        featuredImageView.centerX(inView: view, topAnchor: view.safeAreaLayoutGuide.topAnchor, paddingTop: (view.spacing/2))
         questionTableView.center(inView: view)
         questionTableView.anchor(width: view.width - (view.spacing * 2), height: view.width - (view.spacing * 2))
     }
@@ -62,6 +76,31 @@ class AskAQuestionViewController: UIViewController {
     }
     
     //MARK: - helpers
+    
+    private func cameraAccess(){
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized: // The user has previously granted access to the camera.
+            
+            return
+        case .notDetermined: // The user has not yet been asked for camera access.
+            
+            AVCaptureDevice.requestAccess(for: .video) { _ in
+                
+                
+            }
+        case .denied: // The user has previously denied access.
+            
+            AVCaptureDevice.requestAccess(for: .video) { _ in
+                
+                
+            }
+        case .restricted: // The user can't grant access due to restrictions.
+            
+            return
+        @unknown default:
+            fatalError()
+        }
+    }
     
     private func configureTableView(){
         
@@ -81,6 +120,7 @@ class AskAQuestionViewController: UIViewController {
         questionTableView.dataSource = self
         
         view.addSubview(questionTableView)
+        
     }
     
     private func configureNav(){
@@ -94,7 +134,7 @@ class AskAQuestionViewController: UIViewController {
     }
     
     private func configureButtons(){
-//        closeButton.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
+        //        closeButton.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
     }
     
 }
@@ -174,8 +214,12 @@ extension AskAQuestionViewController: AskQuestionSetImageAndTitleViewControllerD
         configureTableView()
         questionTableView.reloadData()
         
+        self.title = title
+        self.featuredImageView.image = image
+        self.featuredImageView.isHidden = false
+        
         configureNav()
-                
+        
         if questionToPost.question == nil {
             
             let vc = AskQuestionCreateQuestionViewController(question: questionToPost)

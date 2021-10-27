@@ -66,24 +66,7 @@ class HomeViewController: UIViewController {
     //MARK: - helpers
     
     private func configureNav(){
-        
-        guard let navigationBar = self.navigationController?.navigationBar else { return }
-        navigationBar.addSubview(askQuestionButton)
-        askQuestionButton.layer.cornerRadius = Const.ImageSizeForLargeState / 2
-        askQuestionButton.clipsToBounds = true
-        askQuestionButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            askQuestionButton.rightAnchor.constraint(equalTo: navigationBar.rightAnchor,
-                                                     constant: -Const.ImageRightMargin),
-            askQuestionButton.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor,
-                                                      constant: -Const.ImageBottomMarginForLargeState - 50),
-            askQuestionButton.heightAnchor.constraint(equalToConstant: Const.ImageSizeForLargeState),
-            askQuestionButton.widthAnchor.constraint(equalTo: askQuestionButton.heightAnchor)
-        ])
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(askQuestionTapped))
-        tap.numberOfTapsRequired = 1
-        askQuestionButton.addGestureRecognizer(tap)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(askQuestionTapped))
         
     }
     
