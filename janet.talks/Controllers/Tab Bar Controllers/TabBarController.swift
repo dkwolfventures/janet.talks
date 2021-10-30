@@ -60,13 +60,25 @@ class TabBarController: UITabBarController {
         let nav3 = UINavigationController(rootViewController: alerts)
         let nav4 = UINavigationController(rootViewController: profile)
         
+        nav1.navigationItem.rightBarButtonItem?.tintColor = .label
+        nav1.navigationItem.leftBarButtonItem?.tintColor = .label
+        
+        nav2.navigationItem.rightBarButtonItem?.tintColor = .label
+        nav2.navigationItem.leftBarButtonItem?.tintColor = .label
+        
+        nav3.navigationItem.rightBarButtonItem?.tintColor = .label
+        nav3.navigationItem.leftBarButtonItem?.tintColor = .label
+        
+        nav4.navigationItem.rightBarButtonItem?.tintColor = .label
+        nav4.navigationItem.leftBarButtonItem?.tintColor = .label
+        
         nav1.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "square.text.square.fill"), tag: 1)
         nav2.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "questionmark.app.fill"), tag: 2)
         nav3.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "bell.fill"), tag: 3)
         nav4.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "person.crop.circle"), tag: 4)
         
         UITabBar.appearance().tintColor = .label
-
+        
         nav1.navigationBar.prefersLargeTitles = true
         nav2.navigationBar.prefersLargeTitles = true
         nav3.navigationBar.prefersLargeTitles = true
@@ -74,11 +86,11 @@ class TabBarController: UITabBarController {
         
         nav1.navigationBar.shadowImage = UIImage()
         
-        additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: -30, right: 0)
         tabBar.backgroundColor = .systemBackground
         tabBar.backgroundImage = UIImage()
         tabBar.shadowImage = UIImage()
         
         setViewControllers([nav1, nav2, nav3, nav4], animated: true)
+        
     }
 }

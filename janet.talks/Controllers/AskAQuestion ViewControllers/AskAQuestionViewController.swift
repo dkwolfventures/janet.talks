@@ -35,6 +35,14 @@ class AskAQuestionViewController: UIViewController {
         return iv
     }()
     
+    private let questionTitleLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 3
+        label.isHidden = true
+        label.font = .systemFont(ofSize: 20, weight: .bold)
+        return label
+    }()
+    
     let questionTableView: UITableView = {
         let tv = UITableView()
         tv.backgroundColor = .systemBackground
@@ -48,6 +56,7 @@ class AskAQuestionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(featuredImageView)
+        view.addSubview(questionTitleLabel)
         configureNav()
         configureTableView()
         view.backgroundColor = .secondarySystemBackground
@@ -60,7 +69,10 @@ class AskAQuestionViewController: UIViewController {
         super.viewDidLayoutSubviews()
         let featuedImageSize = CGSize(width: questionTableView.top - view.safeAreaInsets.top - (view.spacing), height: questionTableView.top - view.safeAreaInsets.top - (view.spacing))
         featuredImageView.setDimensions(height: featuedImageSize.height, width: featuedImageSize.width)
-        featuredImageView.centerX(inView: view, topAnchor: view.safeAreaLayoutGuide.topAnchor, paddingTop: (view.spacing/2))
+        featuredImageView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: questionTableView.leftAnchor, paddingTop: view.spacing/2)
+        
+        questionTitleLabel.anchor(top: featuredImageView.topAnchor, left: featuredImageView.rightAnchor, right: view.rightAnchor, paddingLeft: view.spacing/2, paddingRight: view.spacing)
+        
         questionTableView.center(inView: view)
         questionTableView.anchor(width: view.width - (view.spacing * 2), height: view.width - (view.spacing * 2))
     }
@@ -129,6 +141,7 @@ class AskAQuestionViewController: UIViewController {
         
         if self.question.isComplete && self.imageAndTitle.isComplete {
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Preview Q", style: .done, target: self, action: #selector(previewQTapped))
+            
         }
         
     }
@@ -182,6 +195,8 @@ extension AskAQuestionViewController: UITableViewDelegate, UITableViewDataSource
         
         let cell = viewModels[indexPath.row]
         
+        HapticsManager.shared.vibrateForSelection()
+       
         switch cell {
         case .ImageAndTitle(_):
             let vc = AskQuestionSetImageAndTitleViewController(questionToPost)
@@ -196,9 +211,8 @@ extension AskAQuestionViewController: UITableViewDelegate, UITableViewDataSource
             vc.delegate = self
             show(vc, sender: self)
         case .TagsAndImages(_):
-            self.tagsAndImages.isComplete = true
-            configureTableView()
-            questionTableView.reloadData()
+            let vc = AskQuestionTagsAndPhotosViewController()
+            show(vc, sender: self)
         }
     }
 }
@@ -214,7 +228,8 @@ extension AskAQuestionViewController: AskQuestionSetImageAndTitleViewControllerD
         configureTableView()
         questionTableView.reloadData()
         
-        self.title = title
+        self.questionTitleLabel.text = title
+        self.questionTitleLabel.isHidden = false
         self.featuredImageView.image = image
         self.featuredImageView.isHidden = false
         
@@ -260,5 +275,10 @@ extension AskAQuestionViewController: AskQuestionSituationOrBackgroundViewContro
         self.situationOrBackground.isComplete = true
         configureTableView()
         questionTableView.reloadData()
+        
+        if questionToPost.tags == nil || questionToPost.questionImages == nil {
+            let vc = AskQuestionTagsAndPhotosViewController()
+            show(vc, sender: self)
+        }
     }
 }

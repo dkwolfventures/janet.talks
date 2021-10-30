@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		174E5E27272AED5900BD1760 /* AskQuestionTagsAndPhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174E5E26272AED5900BD1760 /* AskQuestionTagsAndPhotosViewController.swift */; };
+		174F154A272C717900F20397 /* AskAQuestionTagsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174F1549272C717900F20397 /* AskAQuestionTagsCollectionViewCell.swift */; };
+		174F154C272CA13900F20397 /* AskAQuestionAdditionalPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174F154B272CA13900F20397 /* AskAQuestionAdditionalPhotoCollectionViewCell.swift */; };
+		174F154E272CC2E600F20397 /* AskAQuestionAdditionalPhotoSelectedPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174F154D272CC2E600F20397 /* AskAQuestionAdditionalPhotoSelectedPhotoCollectionViewCell.swift */; };
 		1751B82B272031D3002E060C /* GlobalFeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1751B82A272031D3002E060C /* GlobalFeedController.swift */; };
 		1753AC2E271EFEB400E49DD0 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1753AC2D271EFEB400E49DD0 /* UserManager.swift */; };
 		1753AC31271F05C500E49DD0 /* UsernamePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1753AC30271F05C500E49DD0 /* UsernamePickerViewController.swift */; };
@@ -91,6 +95,10 @@
 
 /* Begin PBXFileReference section */
 		0F97FE106B177C490622B9F8 /* Pods-janet.talks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-janet.talks.release.xcconfig"; path = "Target Support Files/Pods-janet.talks/Pods-janet.talks.release.xcconfig"; sourceTree = "<group>"; };
+		174E5E26272AED5900BD1760 /* AskQuestionTagsAndPhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskQuestionTagsAndPhotosViewController.swift; sourceTree = "<group>"; };
+		174F1549272C717900F20397 /* AskAQuestionTagsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskAQuestionTagsCollectionViewCell.swift; sourceTree = "<group>"; };
+		174F154B272CA13900F20397 /* AskAQuestionAdditionalPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskAQuestionAdditionalPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		174F154D272CC2E600F20397 /* AskAQuestionAdditionalPhotoSelectedPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskAQuestionAdditionalPhotoSelectedPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		1751B82A272031D3002E060C /* GlobalFeedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFeedController.swift; sourceTree = "<group>"; };
 		1753AC2D271EFEB400E49DD0 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		1753AC30271F05C500E49DD0 /* UsernamePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernamePickerViewController.swift; sourceTree = "<group>"; };
@@ -189,6 +197,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		174F1548272C714A00F20397 /* TagsAndPhotosCells */ = {
+			isa = PBXGroup;
+			children = (
+				174F1549272C717900F20397 /* AskAQuestionTagsCollectionViewCell.swift */,
+				174F154B272CA13900F20397 /* AskAQuestionAdditionalPhotoCollectionViewCell.swift */,
+				174F154D272CC2E600F20397 /* AskAQuestionAdditionalPhotoSelectedPhotoCollectionViewCell.swift */,
+			);
+			path = TagsAndPhotosCells;
+			sourceTree = "<group>";
+		};
 		1751B82927203194002E060C /* HomeViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -212,6 +230,7 @@
 				1755624027271BBB0043C52D /* QuestionTableViewCell.swift */,
 				1755624227271C280043C52D /* SituationOrBackgroundTableViewCell.swift */,
 				1755624427271C4D0043C52D /* TagsAndImagesTableViewCell.swift */,
+				174F1548272C714A00F20397 /* TagsAndPhotosCells */,
 			);
 			path = "Ask Question";
 			sourceTree = "<group>";
@@ -430,6 +449,7 @@
 				1755624627272F150043C52D /* AskQuestionSetImageAndTitleViewController.swift */,
 				175CB3A2272824F5001412CC /* AskQuestionCreateQuestionViewController.swift */,
 				175CB3A427285826001412CC /* AskQuestionSituationOrBackgroundViewController.swift */,
+				174E5E26272AED5900BD1760 /* AskQuestionTagsAndPhotosViewController.swift */,
 			);
 			path = "AskAQuestion ViewControllers";
 			sourceTree = "<group>";
@@ -717,7 +737,9 @@
 				175EE343271CC31E00C0AD02 /* MetaCollectionViewCellViewModel.swift in Sources */,
 				176868D2270C765400532476 /* HomeFeedManager.swift in Sources */,
 				176868C1270B8D3300532476 /* ExploreFeedViewController.swift in Sources */,
+				174E5E27272AED5900BD1760 /* AskQuestionTagsAndPhotosViewController.swift in Sources */,
 				175EE353271CDC0C00C0AD02 /* AuthButton.swift in Sources */,
+				174F154A272C717900F20397 /* AskAQuestionTagsCollectionViewCell.swift in Sources */,
 				17550F3B2726460500E5296A /* ImageAndTitleTableViewCell.swift in Sources */,
 				1755624727272F150043C52D /* AskQuestionSetImageAndTitleViewController.swift in Sources */,
 				175EE34B271CC69300C0AD02 /* TitleCollectionViewCell.swift in Sources */,
@@ -732,6 +754,7 @@
 				17604054270A494300826315 /* SceneDelegate.swift in Sources */,
 				175EE349271CC5E200C0AD02 /* PublicQuestionHomeFeedCellType.swift in Sources */,
 				175EE341271CC27800C0AD02 /* TitleCollectionViewCellViewModel.swift in Sources */,
+				174F154E272CC2E600F20397 /* AskAQuestionAdditionalPhotoSelectedPhotoCollectionViewCell.swift in Sources */,
 				176868D6270C767A00532476 /* HapticsManager.swift in Sources */,
 				175EE35B271CFCEE00C0AD02 /* AuthCredentials.swift in Sources */,
 				175EE351271CDC0000C0AD02 /* AuthField.swift in Sources */,
@@ -769,6 +792,7 @@
 				1754A4C6272363F300155EEC /* HeartSectionSeperatorCollectionViewCell.swift in Sources */,
 				176868F2270D0C8C00532476 /* PublicQuestion.swift in Sources */,
 				175CB3A3272824F5001412CC /* AskQuestionCreateQuestionViewController.swift in Sources */,
+				174F154C272CA13900F20397 /* AskAQuestionAdditionalPhotoCollectionViewCell.swift in Sources */,
 				176868D0270C763D00532476 /* ExploreManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

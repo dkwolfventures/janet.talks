@@ -52,6 +52,8 @@ class HomeViewController: UIViewController {
     //MARK: - actions
     
     @objc private func askQuestionTapped(){
+        
+        HapticsManager.shared.vibrateForSelection()
        
         let vc = AskAQuestionViewController()
         
@@ -67,6 +69,7 @@ class HomeViewController: UIViewController {
     
     private func configureNav(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(askQuestionTapped))
+        navigationItem.rightBarButtonItem?.tintColor = .label
         
     }
     

@@ -66,7 +66,7 @@ class NotificationFeedTableViewController: UITableViewController {
     private func configureNav(){
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(askQuestionTapped))
-        
+        navigationItem.rightBarButtonItem?.tintColor = .label
         
     }
    
