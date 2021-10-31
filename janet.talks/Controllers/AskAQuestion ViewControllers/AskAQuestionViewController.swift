@@ -211,7 +211,8 @@ extension AskAQuestionViewController: UITableViewDelegate, UITableViewDataSource
             vc.delegate = self
             show(vc, sender: self)
         case .TagsAndImages(_):
-            let vc = AskQuestionTagsAndPhotosViewController()
+            let vc = AskQuestionTagsAndPhotosViewController(question: questionToPost)
+            vc.delegate = self
             show(vc, sender: self)
         }
     }
@@ -277,8 +278,44 @@ extension AskAQuestionViewController: AskQuestionSituationOrBackgroundViewContro
         questionTableView.reloadData()
         
         if questionToPost.tags == nil || questionToPost.questionImages == nil {
-            let vc = AskQuestionTagsAndPhotosViewController()
+            let vc = AskQuestionTagsAndPhotosViewController(question: questionToPost)
+            vc.delegate = self
             show(vc, sender: self)
         }
+    }
+}
+
+//MARK: - AskQuestionTagsAndPhotosViewControllerDelegate
+
+extension AskAQuestionViewController: AskQuestionTagsAndPhotosViewControllerDelegate {
+    func addTagsAndOrPhotos(tags: [String]?, photos: [UIImage]?) {
+        self.questionToPost.tags = tags
+        self.questionToPost.questionImages = photos
+        
+        var tagsGoFalse = false
+        var photosGoFalse = false
+
+        if let tags = tags {
+            if !tags.isEmpty{
+                self.tagsAndImages.isComplete = true
+            } else {
+                tagsGoFalse = true
+            }
+        }
+        
+        if let photos = photos {
+            if !photos.isEmpty {
+                self.tagsAndImages.isComplete = true
+            } else {
+                photosGoFalse = true
+            }
+        }
+        
+        if tagsGoFalse == true && photosGoFalse == true {
+            self.tagsAndImages.isComplete = false
+        }
+        
+        configureTableView()
+        questionTableView.reloadData()
     }
 }

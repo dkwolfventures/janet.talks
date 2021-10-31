@@ -8,23 +8,44 @@
 import UIKit
 import PhotosUI
 
+protocol AskQuestionTagsAndPhotosViewControllerDelegate: AnyObject {
+    func addTagsAndOrPhotos(tags: [String]?, photos: [UIImage]?)
+}
+
 class AskQuestionTagsAndPhotosViewController: UIViewController {
     
     //MARK: - properties
+    
+    weak var delegate: AskQuestionTagsAndPhotosViewControllerDelegate?
+    
+    private var question: PublicQuestionToAdd
+    
     private var configuration = PHPickerConfiguration()
 
     private var addedPhotosArray = [UIImage]()
+    private var tags = String()
     
     private lazy var spacing = view.spacing
     
     private var collectionView: UICollectionView?
     
     //MARK: - lifecycle
-
+    
+    init(question: PublicQuestionToAdd){
+        self.question = question
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureNavigation()
         title = "Tags & Photos"
+        configureElements()
         createCollectionView()
         configurePhotoPicker()
         
@@ -39,7 +60,68 @@ class AskQuestionTagsAndPhotosViewController: UIViewController {
     
     //MARK: - actions
     
+    @objc func addTagsAndOrPhotos(){
+        
+        let legitTags = self.getTags(tags: tags)
+        let photos = addedPhotosArray
+        
+        navigationController?.popViewController(animated: true)
+        delegate?.addTagsAndOrPhotos(tags: legitTags, photos: photos)
+    }
+    
     //MARK: - helpers
+    
+    private func getTags(tags: String) -> [String]? {
+        
+        var results = [String]()
+        
+        if tags.count < 2 {
+            return nil
+        }
+        
+        let tagArr = tags.split(separator: "#")
+        
+        tagArr.forEach { tag in
+            results.append("\(tag)")
+        }
+        
+        return results
+    }
+    
+    private func configureElements(){
+        
+        if let legitTags = question.tags {
+            self.tags = "#" + legitTags.joined(separator: " #")
+        }
+        
+        if let photos = question.questionImages {
+            self.addedPhotosArray = photos
+        }
+    }
+    
+    private func configureNavigation(){
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(addTagsAndOrPhotos))
+    }
+    
+    private func presentDeletionAlert(index: Int){
+        
+        HapticsManager.shared.vibrate(for: .warning)
+        
+        let alert = UIAlertController(title: "Are you sure...", message: "you would like to remove this photo?", preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { [weak self] _ in
+            
+            self?.addedPhotosArray.remove(at: index)
+            HapticsManager.shared.vibrateForSelection()
+            self?.collectionView?.reloadData()
+            
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(alert, animated: true)
+        
+    }
     
     private func presentPicker(){
         let picker = PHPickerViewController(configuration: configuration)
@@ -57,6 +139,16 @@ class AskQuestionTagsAndPhotosViewController: UIViewController {
     private func addPhoto(){
         addedPhotosArray.append(UIImage())
         collectionView?.reloadData()
+    }
+    
+    private func showTags(tags: [String]?) -> String? {
+        
+        if let tags = tags {
+            return "#" + tags.joined(separator: " #")
+        } else {
+            return nil
+        }
+        
     }
 }
 
@@ -86,6 +178,9 @@ extension AskQuestionTagsAndPhotosViewController: UICollectionViewDelegate, UICo
         case 0:
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AskAQuestionTagsCollectionViewCell.identifier, for: indexPath) as! AskAQuestionTagsCollectionViewCell
+            cell.delegate = self
+            
+            cell.configure(with: question.tags)
             return cell
             
         case 1:
@@ -118,7 +213,10 @@ extension AskQuestionTagsAndPhotosViewController: UICollectionViewDelegate, UICo
         case 1:
             
             if indexPath.row == addedPhotosArray.count {
+                HapticsManager.shared.vibrateForSelection()
                 presentPicker()
+            } else {
+                presentDeletionAlert(index: indexPath.row)
             }
             
         default:
@@ -158,7 +256,7 @@ extension AskQuestionTagsAndPhotosViewController {
                         count: 1)
                     
                     let section = NSCollectionLayoutSection(group: group)
-                    section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: self.view.spacing, bottom: 0, trailing: self.view.spacing)
+                    section.contentInsets = NSDirectionalEdgeInsets(top: self.view.spacing, leading: self.view.spacing, bottom: 0, trailing: self.view.spacing)
                     return section
                     
                 case 1:
@@ -207,9 +305,23 @@ extension AskQuestionTagsAndPhotosViewController {
 }
 
 extension AskQuestionTagsAndPhotosViewController: PHPickerViewControllerDelegate {
+    
+    
+    
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         
         var count: Int = 0
+        
+        DispatchQueue.main.async { [weak self] in
+            
+            picker.dismiss(animated: true)
+            
+            if !results.isEmpty {
+                HapticsManager.shared.vibrateForSelection()
+                
+                self?.view.showLoader(loadingWhat: "Loading Photos...")
+            }
+        }
         
         for result in results {
             count += 1
@@ -219,22 +331,24 @@ extension AskQuestionTagsAndPhotosViewController: PHPickerViewControllerDelegate
                     if let image = image as? UIImage {
                         self?.addedPhotosArray.append(image)
                         
-                        if count == (results.count) {
-                            
+                        if count == results.count {
                             DispatchQueue.main.async {
-                                self?.view.showLoader(loadingWhat: "Loading Photos...")
-                                picker.dismiss(animated: true)
                                 self?.collectionView?.reloadData()
                                 self?.view.dismissLoader()
-                                
+                                HapticsManager.shared.vibrateForSelection()
                             }
                         }
                     }
                 }
             }
         }
-        
     }
 }
 
+//MARK: - AskAQuestionTagsCollectionViewCellDelegate
 
+extension AskQuestionTagsAndPhotosViewController: AskAQuestionTagsCollectionViewCellDelegate {
+    func tagsChanged(tags: String) {
+        self.tags = tags
+    }
+}

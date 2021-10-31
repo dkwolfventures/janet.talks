@@ -87,8 +87,6 @@ class SignInViewController: UIViewController {
                 
             case .failure(let error):
                 
-                print("debug: \(error)")
-                
                 if let theError = error as? DatabaseErrors {
                     if theError == DatabaseErrors.accountNoUsername {
                         let vc = UsernamePickerViewController(reason: .accountHasNoUsername, user: User(username: "", email: email))

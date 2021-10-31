@@ -12,6 +12,7 @@
 		174F154C272CA13900F20397 /* AskAQuestionAdditionalPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174F154B272CA13900F20397 /* AskAQuestionAdditionalPhotoCollectionViewCell.swift */; };
 		174F154E272CC2E600F20397 /* AskAQuestionAdditionalPhotoSelectedPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174F154D272CC2E600F20397 /* AskAQuestionAdditionalPhotoSelectedPhotoCollectionViewCell.swift */; };
 		1751B82B272031D3002E060C /* GlobalFeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1751B82A272031D3002E060C /* GlobalFeedController.swift */; };
+		175363E2272DA2020082509D /* Tags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175363E1272DA2020082509D /* Tags.swift */; };
 		1753AC2E271EFEB400E49DD0 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1753AC2D271EFEB400E49DD0 /* UserManager.swift */; };
 		1753AC31271F05C500E49DD0 /* UsernamePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1753AC30271F05C500E49DD0 /* UsernamePickerViewController.swift */; };
 		1753AC33271F0D8400E49DD0 /* LogoImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1753AC32271F0D8300E49DD0 /* LogoImageView.swift */; };
@@ -100,6 +101,7 @@
 		174F154B272CA13900F20397 /* AskAQuestionAdditionalPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskAQuestionAdditionalPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		174F154D272CC2E600F20397 /* AskAQuestionAdditionalPhotoSelectedPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskAQuestionAdditionalPhotoSelectedPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		1751B82A272031D3002E060C /* GlobalFeedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFeedController.swift; sourceTree = "<group>"; };
+		175363E1272DA2020082509D /* Tags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tags.swift; sourceTree = "<group>"; };
 		1753AC2D271EFEB400E49DD0 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		1753AC30271F05C500E49DD0 /* UsernamePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernamePickerViewController.swift; sourceTree = "<group>"; };
 		1753AC32271F0D8300E49DD0 /* LogoImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoImageView.swift; sourceTree = "<group>"; };
@@ -362,6 +364,7 @@
 				1760406D270A8FD600826315 /* Const.swift */,
 				175EE348271CC5E200C0AD02 /* PublicQuestionHomeFeedCellType.swift */,
 				17556233272716EC0043C52D /* AddAQuestionCellType.swift */,
+				175363E1272DA2020082509D /* Tags.swift */,
 				176868E0270C913600532476 /* HomeFeedModels */,
 			);
 			path = Models;
@@ -728,6 +731,7 @@
 			files = (
 				176868E8270C92B400532476 /* PublicQuestionHomeFeedCellViewModel.swift in Sources */,
 				175BF09227206F280054C5CB /* PosterAndActionsCollectionViewCell.swift in Sources */,
+				175363E2272DA2020082509D /* Tags.swift in Sources */,
 				176868E2270C915900532476 /* HomeFeedType.swift in Sources */,
 				176868B6270B2FE900532476 /* AskAQuestionViewController.swift in Sources */,
 				1755624327271C280043C52D /* SituationOrBackgroundTableViewCell.swift in Sources */,

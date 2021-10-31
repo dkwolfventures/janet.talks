@@ -12,6 +12,7 @@ class TextInputWithTitle: UIView {
     private var titleSize: CGFloat = 0
     private var textfieldTextSize: CGFloat = 0
     private var numberOfLines: Int? = nil
+    private var forTags: Bool?
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -31,10 +32,11 @@ class TextInputWithTitle: UIView {
         return tv
     }()
     
-    init(title: String, titleSize: CGFloat, textFieldTextSize: CGFloat, numberOfLines: Int? = nil){
+    init(title: String, titleSize: CGFloat, textFieldTextSize: CGFloat, numberOfLines: Int? = nil, forTags: Bool? = nil){
         self.titleSize = titleSize
         self.textfieldTextSize = textFieldTextSize
         self.numberOfLines = numberOfLines
+        self.forTags = forTags
         super.init(frame: .zero)
         titleLabel.text = title
         addSubview(titleLabel)
