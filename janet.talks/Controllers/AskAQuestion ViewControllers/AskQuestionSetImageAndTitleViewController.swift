@@ -53,6 +53,7 @@ class AskQuestionSetImageAndTitleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        titleTextField.textField.becomeFirstResponder()
         title = "Featured Image & Title"
         view.backgroundColor = .secondarySystemBackground
         

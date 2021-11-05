@@ -84,7 +84,8 @@ class AskAQuestionViewController: UIViewController {
     }
     
     @objc private func previewQTapped(){
-        
+        let vc = PreviewQuestionCollectionViewController(question: questionToPost)
+        show(vc, sender: self)
     }
     
     //MARK: - helpers

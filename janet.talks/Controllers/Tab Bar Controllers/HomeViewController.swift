@@ -118,7 +118,7 @@ class HomeViewController: UIViewController {
             
             let postData: [PublicQuestionHomeFeedCellType] = [
                 
-                    .title(viewModel: TitleCollectionViewCellViewModel(
+                    .Title(viewModel: TitleCollectionViewCellViewModel(
                         featuredImageUrl: featuredImageUrl,
                         subject: question.subject)),
                 
@@ -164,7 +164,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let cellType = viewModels[indexPath.section][indexPath.row]
         
         switch cellType {
-        case .title(let viewModel):
+        case .Title(let viewModel):
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: TitleCollectionViewCell.identifier,
                 for: indexPath) as? TitleCollectionViewCell else {

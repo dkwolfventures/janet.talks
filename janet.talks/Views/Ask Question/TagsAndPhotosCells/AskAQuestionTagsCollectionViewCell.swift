@@ -103,7 +103,10 @@ extension AskAQuestionTagsCollectionViewCell: UITextViewDelegate {
             if lastChar == " " {
                 textView.text.append("#")
             } else if lastChar == "#" {
-                
+                if textView.text.count == 1 {
+                    print("debug: deleting last ampersand..")
+                }
+
             } else if !lastChar.isLetter {
                 if !lastChar.isNumber {
                     textView.text.removeLast()
@@ -118,6 +121,17 @@ extension AskAQuestionTagsCollectionViewCell: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
 
         if textView.text.last == "#" && text == "" {
+            if textView.text.count == 0 {
+                textView.text.append("#")
+            }
+            textView.text.removeLast()
+        }
+        
+        if textView.text.last == "#" && text == "#" {
+            textView.text.removeLast()
+        }
+        
+        if textView.text.last == "#" && text == " " {
             textView.text.removeLast()
         }
         

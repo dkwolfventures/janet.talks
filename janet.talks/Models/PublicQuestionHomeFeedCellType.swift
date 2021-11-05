@@ -8,7 +8,7 @@
 import Foundation
 
 enum PublicQuestionHomeFeedCellType {
-    case title(viewModel: TitleCollectionViewCellViewModel)
+    case Title(viewModel: TitleCollectionViewCellViewModel)
     case Meta(viewModel: MetaCollectionViewCellViewModel)
     case Post(viewModel: PostCollectionViewCellViewModel)
     case Actions(viewModel: ActionsCollectionViewCellViewModel)

@@ -130,6 +130,17 @@ extension UIView {
         return frame.width/20
     }
     
+    func bindToSuperview(_ padding: CGFloat = 0) {
+        guard let superview = superview else {
+            return
+        }
+        
+        translatesAutoresizingMaskIntoConstraints = false
+        topAnchor.constraint(equalTo: superview.topAnchor, constant: padding).isActive = true
+        bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: -padding).isActive = true
+        leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: padding).isActive = true
+        trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: -padding).isActive = true
+    }
 }
 
 extension UIView {

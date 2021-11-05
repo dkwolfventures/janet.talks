@@ -66,6 +66,19 @@ struct Tags: Codable, Hashable {
     
 }
 
+struct Tag: Codable, Hashable {
+    var tag: String
+    var isFollowing: Bool
+}
+
+struct TagGroup: Codable, Hashable {
+    var tags: [[Tag]]
+    
+    mutating func append(tag: Tag){
+        tags.append([tag])
+    }
+}
+
 struct ValidTag: Codable, Hashable {
     var tag: String
 }

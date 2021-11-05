@@ -256,7 +256,7 @@ extension AskQuestionTagsAndPhotosViewController {
                         count: 1)
                     
                     let section = NSCollectionLayoutSection(group: group)
-                    section.contentInsets = NSDirectionalEdgeInsets(top: self.view.spacing, leading: self.view.spacing, bottom: 0, trailing: self.view.spacing)
+                    section.contentInsets = NSDirectionalEdgeInsets(top: self.spacing, leading: self.spacing, bottom: 0, trailing: self.spacing)
                     return section
                     
                 case 1:
@@ -277,7 +277,7 @@ extension AskQuestionTagsAndPhotosViewController {
                         count: 3)
                     
                     let section = NSCollectionLayoutSection(group: group)
-                    section.contentInsets = NSDirectionalEdgeInsets(top: self.view.spacing, leading: self.view.spacing, bottom: 5, trailing: self.view.spacing)
+                    section.contentInsets = NSDirectionalEdgeInsets(top: self.spacing, leading: self.spacing, bottom: 5, trailing: self.spacing)
                     return section
                     
                 default:
