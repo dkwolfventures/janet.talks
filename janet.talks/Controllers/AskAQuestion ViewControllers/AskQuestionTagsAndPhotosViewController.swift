@@ -82,7 +82,7 @@ class AskQuestionTagsAndPhotosViewController: UIViewController {
         let tagArr = tags.split(separator: "#")
         
         tagArr.forEach { tag in
-            results.append("\(tag)")
+            results.append("\(tag.replacingOccurrences(of: " ", with: ""))")
         }
         
         return results
@@ -349,6 +349,6 @@ extension AskQuestionTagsAndPhotosViewController: PHPickerViewControllerDelegate
 
 extension AskQuestionTagsAndPhotosViewController: AskAQuestionTagsCollectionViewCellDelegate {
     func tagsChanged(tags: String) {
-        self.tags = tags
+        self.tags = tags.replacingOccurrences(of: " ", with: "")
     }
 }

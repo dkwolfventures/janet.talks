@@ -166,32 +166,7 @@ extension PreviewQuestionCollectionViewController: UICollectionViewDelegate, UIC
         
     }
     
-//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-//        guard kind == UICollectionView.elementKindSectionHeader,
-//              let header = collectionView.dequeueReusableSupplementaryView(
-//                ofKind: kind,
-//                withReuseIdentifier: PreviewQuestionTagsHeader.identifier,
-//                for: indexPath
-//              ) as? PreviewQuestionTagsHeader else {
-//            return UICollectionReusableView()
-//        }
-//        
-//        if let tags = question.tags {
-//            header.setup(tags: tags)
-//        }
-//        
-//        return header
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-//        return CGSize(width: view.width, height: 300)
-//    }
-    
 }
-
-//extension PreviewQuestionCollectionViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-//
-//}
 
 //MARK: - configureCollectionView
 
@@ -220,7 +195,7 @@ extension PreviewQuestionCollectionViewController {
                     )
                 )
                 
-                tagItem.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: -spacing, bottom: 10, trailing: -spacing)
+                tagItem.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: -spacing, bottom: 0, trailing: -spacing)
                 
                 let metaItem = NSCollectionLayoutItem(
                     layoutSize: NSCollectionLayoutSize(

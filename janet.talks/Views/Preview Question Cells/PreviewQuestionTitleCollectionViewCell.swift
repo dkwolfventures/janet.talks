@@ -29,6 +29,7 @@ class PreviewQuestionTitleCollectionViewCell: UICollectionViewCell {
         label.numberOfLines = 3
         label.font = .systemFont(ofSize: 22, weight: .heavy)
         label.textAlignment = .left
+        label.lineBreakMode = .byWordWrapping
         return label
     }()
     
@@ -55,8 +56,7 @@ class PreviewQuestionTitleCollectionViewCell: UICollectionViewCell {
         let spacing = contentView.width/20
         featuredImageView.frame = CGRect(x: spacing, y: 10, width: contentView.height - 20, height: contentView.height - 20)
         
-        titleLabel.sizeToFit()
-        titleLabel.frame = CGRect(x: featuredImageView.right + 15, y: featuredImageView.top, width: contentView.width - featuredImageView.width - (spacing*2), height: featuredImageView.height)
+        titleLabel.anchor(top: featuredImageView.topAnchor, left: featuredImageView.rightAnchor, right: contentView.rightAnchor, paddingLeft: spacing, paddingRight: spacing)
         
     }
     

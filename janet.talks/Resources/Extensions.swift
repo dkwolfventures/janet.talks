@@ -254,3 +254,9 @@ extension Date {
     var mediumDateTime: String { localizedDescription(dateStyle: .medium, timeStyle: .medium) }
     var shortDateTime: String  { localizedDescription(dateStyle: .short,  timeStyle: .short) }
 }
+
+extension UIColor {
+    
+    static let logoGreen = UIColor(named: "logoGreen")
+    
+}

@@ -114,7 +114,7 @@ extension AskAQuestionTagsCollectionViewCell: UITextViewDelegate {
             }
         }
         
-        delegate?.tagsChanged(tags: textView.text)
+        delegate?.tagsChanged(tags: textView.text.lowercased())
         
     }
     

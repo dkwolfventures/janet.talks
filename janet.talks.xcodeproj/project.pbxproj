@@ -50,6 +50,7 @@
 		175CB3A3272824F5001412CC /* AskQuestionCreateQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175CB3A2272824F5001412CC /* AskQuestionCreateQuestionViewController.swift */; };
 		175CB3A527285826001412CC /* AskQuestionSituationOrBackgroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175CB3A427285826001412CC /* AskQuestionSituationOrBackgroundViewController.swift */; };
 		175DC21D27217ECD00331FE7 /* MetaLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175DC21C27217ECD00331FE7 /* MetaLabel.swift */; };
+		175EDB5927389D990055B985 /* TagButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EDB5827389D990055B985 /* TagButton.swift */; };
 		175EE33B271CA46900C0AD02 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EE33A271CA46900C0AD02 /* HomeViewController.swift */; };
 		175EE33E271CB15400C0AD02 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EE33D271CB15400C0AD02 /* SearchResultsViewController.swift */; };
 		175EE341271CC27800C0AD02 /* TitleCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EE340271CC27800C0AD02 /* TitleCollectionViewCellViewModel.swift */; };
@@ -76,9 +77,6 @@
 		1760406E270A8FD600826315 /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1760406D270A8FD600826315 /* Const.swift */; };
 		176726552730921F009AC0EA /* PreviewSectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176726542730921F009AC0EA /* PreviewSectionType.swift */; };
 		176726572730929F009AC0EA /* PreviewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176726562730929F009AC0EA /* PreviewSection.swift */; };
-		176726592730C409009AC0EA /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176726582730C409009AC0EA /* TagView.swift */; };
-		1767265B2730C88C009AC0EA /* TagGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767265A2730C88C009AC0EA /* TagGroupView.swift */; };
-		1767265D2730CA63009AC0EA /* PreviewQuestionTagsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767265C2730CA63009AC0EA /* PreviewQuestionTagsHeader.swift */; };
 		176756AE270DCC6D000BF8A6 /* PrivateChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176756AD270DCC6D000BF8A6 /* PrivateChatTableViewCell.swift */; };
 		176756B1270DDE58000BF8A6 /* PublicQuestionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176756B0270DDE58000BF8A6 /* PublicQuestionTableViewController.swift */; };
 		176868B6270B2FE900532476 /* AskAQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868B5270B2FE900532476 /* AskAQuestionViewController.swift */; };
@@ -160,6 +158,7 @@
 		175CB3A2272824F5001412CC /* AskQuestionCreateQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskQuestionCreateQuestionViewController.swift; sourceTree = "<group>"; };
 		175CB3A427285826001412CC /* AskQuestionSituationOrBackgroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskQuestionSituationOrBackgroundViewController.swift; sourceTree = "<group>"; };
 		175DC21C27217ECD00331FE7 /* MetaLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaLabel.swift; sourceTree = "<group>"; };
+		175EDB5827389D990055B985 /* TagButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagButton.swift; sourceTree = "<group>"; };
 		175EE33A271CA46900C0AD02 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		175EE33D271CB15400C0AD02 /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		175EE340271CC27800C0AD02 /* TitleCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
@@ -189,9 +188,6 @@
 		1760406D270A8FD600826315 /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
 		176726542730921F009AC0EA /* PreviewSectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewSectionType.swift; sourceTree = "<group>"; };
 		176726562730929F009AC0EA /* PreviewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewSection.swift; sourceTree = "<group>"; };
-		176726582730C409009AC0EA /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
-		1767265A2730C88C009AC0EA /* TagGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagGroupView.swift; sourceTree = "<group>"; };
-		1767265C2730CA63009AC0EA /* PreviewQuestionTagsHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewQuestionTagsHeader.swift; sourceTree = "<group>"; };
 		176756AD270DCC6D000BF8A6 /* PrivateChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateChatTableViewCell.swift; sourceTree = "<group>"; };
 		176756B0270DDE58000BF8A6 /* PublicQuestionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicQuestionTableViewController.swift; sourceTree = "<group>"; };
 		176868B5270B2FE900532476 /* AskAQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskAQuestionViewController.swift; sourceTree = "<group>"; };
@@ -283,7 +279,6 @@
 				1750C3A4272EE3D000DD8E0A /* PreviewQuesitonBackgroundCollectionViewCell.swift */,
 				1750C3A6272EE40200DD8E0A /* PreviewQuestionPhotosCollectionViewCell.swift */,
 				1750C3A8272EE43400DD8E0A /* PreviewQuestionPosterInfoCollectionViewCell.swift */,
-				1767265C2730CA63009AC0EA /* PreviewQuestionTagsHeader.swift */,
 			);
 			path = "Preview Question Cells";
 			sourceTree = "<group>";
@@ -512,8 +507,6 @@
 				176868BC270B594900532476 /* PublicQuestionOrPrivateChat.swift */,
 				1753AC32271F0D8300E49DD0 /* LogoImageView.swift */,
 				175DC21C27217ECD00331FE7 /* MetaLabel.swift */,
-				176726582730C409009AC0EA /* TagView.swift */,
-				1767265A2730C88C009AC0EA /* TagGroupView.swift */,
 			);
 			path = "Custom Objects";
 			sourceTree = "<group>";
@@ -578,6 +571,7 @@
 				175BF08F27206F0E0054C5CB /* QuestionBodyCollectionViewCell.swift */,
 				175BF09127206F280054C5CB /* PosterAndActionsCollectionViewCell.swift */,
 				1754A4C5272363F300155EEC /* HeartSectionSeperatorCollectionViewCell.swift */,
+				175EDB5827389D990055B985 /* TagButton.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -879,7 +873,6 @@
 				1750C38B272EDBD700DD8E0A /* PreviewQuestionCellType.swift in Sources */,
 				176868BB270B51B500532476 /* TextInputWithTitle.swift in Sources */,
 				176868CB270C695700532476 /* TabBarController.swift in Sources */,
-				1767265B2730C88C009AC0EA /* TagGroupView.swift in Sources */,
 				175EE355271CDD2A00C0AD02 /* SignUpViewController.swift in Sources */,
 				175EE359271CF3F400C0AD02 /* AnalyticsManager.swift in Sources */,
 				176868E4270C91EB00532476 /* HomeFeedCell.swift in Sources */,
@@ -887,11 +880,11 @@
 				1753AC2E271EFEB400E49DD0 /* UserManager.swift in Sources */,
 				17556237272717780043C52D /* ImageAndTitleTableViewCellViewModel.swift in Sources */,
 				1753AC31271F05C500E49DD0 /* UsernamePickerViewController.swift in Sources */,
-				1767265D2730CA63009AC0EA /* PreviewQuestionTagsHeader.swift in Sources */,
 				175EE33E271CB15400C0AD02 /* SearchResultsViewController.swift in Sources */,
 				1750C393272EE04200DD8E0A /* PreviewQuestionTagsViewModel.swift in Sources */,
 				175EE357271CF02F00C0AD02 /* User.swift in Sources */,
 				1753AC33271F0D8400E49DD0 /* LogoImageView.swift in Sources */,
+				175EDB5927389D990055B985 /* TagButton.swift in Sources */,
 				176868B9270B444600532476 /* SystemIconButton.swift in Sources */,
 				176868D4270C766C00532476 /* StorageManager.swift in Sources */,
 				175EE347271CC3D200C0AD02 /* ActionsCollectionViewCellViewModel.swift in Sources */,
@@ -905,7 +898,6 @@
 				176868C3270B8D7900532476 /* ProfileViewController.swift in Sources */,
 				1750C391272EDF4B00DD8E0A /* PreviewQuestionTitleViewModel.swift in Sources */,
 				175EE34F271CDB5400C0AD02 /* SignInViewController.swift in Sources */,
-				176726592730C409009AC0EA /* TagView.swift in Sources */,
 				176868EA270C92CD00532476 /* PrivateChatHomeFeedCellViewModel.swift in Sources */,
 				1755623D272718770043C52D /* SituationOrBackgroundTableViewCellViewModel.swift in Sources */,
 				1754A4C6272363F300155EEC /* HeartSectionSeperatorCollectionViewCell.swift in Sources */,
