@@ -11,6 +11,7 @@
 		174F154A272C717900F20397 /* AskAQuestionTagsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174F1549272C717900F20397 /* AskAQuestionTagsCollectionViewCell.swift */; };
 		174F154C272CA13900F20397 /* AskAQuestionAdditionalPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174F154B272CA13900F20397 /* AskAQuestionAdditionalPhotoCollectionViewCell.swift */; };
 		174F154E272CC2E600F20397 /* AskAQuestionAdditionalPhotoSelectedPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174F154D272CC2E600F20397 /* AskAQuestionAdditionalPhotoSelectedPhotoCollectionViewCell.swift */; };
+		1750730627396E7400ADD9F0 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750730527396E7400ADD9F0 /* PersistenceManager.swift */; };
 		1750C389272EDA4800DD8E0A /* PreviewQuestionCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750C388272EDA4800DD8E0A /* PreviewQuestionCollectionViewController.swift */; };
 		1750C38B272EDBD700DD8E0A /* PreviewQuestionCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750C38A272EDBD700DD8E0A /* PreviewQuestionCellType.swift */; };
 		1750C38E272EDDC500DD8E0A /* PreviewQuestionTitleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750C38D272EDDC500DD8E0A /* PreviewQuestionTitleCollectionViewCell.swift */; };
@@ -119,6 +120,7 @@
 		174F1549272C717900F20397 /* AskAQuestionTagsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskAQuestionTagsCollectionViewCell.swift; sourceTree = "<group>"; };
 		174F154B272CA13900F20397 /* AskAQuestionAdditionalPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskAQuestionAdditionalPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		174F154D272CC2E600F20397 /* AskAQuestionAdditionalPhotoSelectedPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskAQuestionAdditionalPhotoSelectedPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		1750730527396E7400ADD9F0 /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
 		1750C388272EDA4800DD8E0A /* PreviewQuestionCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewQuestionCollectionViewController.swift; sourceTree = "<group>"; };
 		1750C38A272EDBD700DD8E0A /* PreviewQuestionCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewQuestionCellType.swift; sourceTree = "<group>"; };
 		1750C38D272EDDC500DD8E0A /* PreviewQuestionTitleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewQuestionTitleCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -451,6 +453,7 @@
 			isa = PBXGroup;
 			children = (
 				176868D7270C768E00532476 /* AuthenticationManager.swift */,
+				1750730527396E7400ADD9F0 /* PersistenceManager.swift */,
 				176868D9270C769C00532476 /* DatabaseManager.swift */,
 				176868D3270C766C00532476 /* StorageManager.swift */,
 				176868D1270C765400532476 /* HomeFeedManager.swift */,
@@ -844,6 +847,7 @@
 				1755624727272F150043C52D /* AskQuestionSetImageAndTitleViewController.swift in Sources */,
 				175EE34B271CC69300C0AD02 /* TitleCollectionViewCell.swift in Sources */,
 				1755623B272717EB0043C52D /* QuestionTableViewCellViewModel.swift in Sources */,
+				1750730627396E7400ADD9F0 /* PersistenceManager.swift in Sources */,
 				1750C3A1272EE37200DD8E0A /* PreviewQuestionMetaCollectionViewCell.swift in Sources */,
 				17604052270A494300826315 /* AppDelegate.swift in Sources */,
 				1750C39F272EE33200DD8E0A /* PreviewQuestionTagsCollectionViewCell.swift in Sources */,

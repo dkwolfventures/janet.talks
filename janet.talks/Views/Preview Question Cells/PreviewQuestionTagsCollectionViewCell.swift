@@ -55,9 +55,11 @@ class PreviewQuestionTagsCollectionViewCell: UICollectionViewCell {
         
         switch button.following {
         case true:
+            PersistenceManager.shared.removeFromFollowedTags(tagToRemove: button.title)
             button.following = false
             button.configureForNotFollowed()
         case false:
+            PersistenceManager.shared.addToFollowedTags(newTag: button.title)
             button.following = true
             button.configureForFollowed()
         }
@@ -75,14 +77,13 @@ class PreviewQuestionTagsCollectionViewCell: UICollectionViewCell {
             
             let buttonTitle = viewModel.tags[i]
             
-            let button = TagButton(title: buttonTitle, following: false)
+            let isFollowing = PersistenceManager.shared.isFollowingTag(tag: viewModel.tags[i])
+            
+            let button = TagButton(title: buttonTitle, following: isFollowing)
             button.tag = i
             button.addTarget(self, action: #selector(tagTapped(_:)), for: UIControl.Event.touchUpInside)
             
-            let font: UIFont = .systemFont(ofSize: 18)
-            let fontAttributes = [NSAttributedString.Key.font: font]
-            
-            let buttonSize = CGSize(width: (viewModel.tags[i] as NSString).size(withAttributes: fontAttributes).width + 65, height: contentView.height)
+            let buttonSize = CGSize(width: viewModel.tags[i].width(withConstrainedHeight: 0 , font: .systemFont(ofSize: 18)) + 65, height: contentView.height)
             
             if i == 0 {
                 button.frame = CGRect(x: spacing, y: 0, width: buttonSize.width, height: buttonSize.height)

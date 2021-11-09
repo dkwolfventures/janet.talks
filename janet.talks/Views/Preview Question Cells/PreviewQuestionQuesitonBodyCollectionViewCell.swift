@@ -19,14 +19,12 @@ class PreviewQuestionQuesitonBodyCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let readMoreButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .none
-        button.setTitle("read more", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 14)
-        button.setTitleColor( .secondaryLabel, for: .normal)
-        button.addTarget(self, action: #selector(readMoreButtonTapped), for: .touchUpInside)
-        return button
+    private let qLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 27, weight: .heavy)
+        label.textColor = .secondaryLabel
+        label.text = "Q:"
+        return label
     }()
     
     //MARK: - lifecycle
@@ -37,7 +35,7 @@ class PreviewQuestionQuesitonBodyCollectionViewCell: UICollectionViewCell {
         contentView.layer.cornerRadius = 25
         contentView.layer.masksToBounds = true
         contentView.addSubview(questionBodyLabel)
-        contentView.addSubview(readMoreButton)
+        contentView.addSubview(qLabel)
         clipsToBounds = true
     }
     
@@ -48,11 +46,9 @@ class PreviewQuestionQuesitonBodyCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let spacing = contentView.width/20
-        
-        questionBodyLabel.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: readMoreButton.topAnchor, right: contentView.rightAnchor, paddingTop: 10, paddingLeft: spacing, paddingRight: spacing)
-        
-        readMoreButton.anchor(left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, height: 45)
+        qLabel.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, paddingTop: 10, paddingLeft: spacing)
+              
+        questionBodyLabel.anchor(top: qLabel.bottomAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, paddingTop: 5, paddingLeft: spacing, paddingBottom: 10, paddingRight: spacing)
     }
     
     override func prepareForReuse() {
@@ -69,6 +65,7 @@ class PreviewQuestionQuesitonBodyCollectionViewCell: UICollectionViewCell {
     //MARK: - helpers
     
     func configure(with viewModel: PreviewQuestionQuestionBodyViewModel){
+        
         questionBodyLabel.text = viewModel.question
     }
 }

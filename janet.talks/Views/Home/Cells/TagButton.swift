@@ -10,9 +10,11 @@ import UIKit
 class TagButton: UIButton {
     
     public var following: Bool
+    public var title: String
 
     init(title: String, following: Bool){
         self.following = following
+        self.title = title
         super.init(frame: .zero)
         setTitle(title, for: .normal)
             
@@ -31,7 +33,7 @@ class TagButton: UIButton {
         
         var configuration = UIButton.Configuration.filled()
         configuration.cornerStyle = .capsule
-        configuration.baseForegroundColor = .label
+        configuration.baseForegroundColor = .white
         configuration.imagePadding = 15
         configuration.baseBackgroundColor = .logoGreen
         configuration.image = UIImage(systemName: "checkmark")

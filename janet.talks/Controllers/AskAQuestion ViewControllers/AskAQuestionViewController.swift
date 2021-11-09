@@ -84,6 +84,23 @@ class AskAQuestionViewController: UIViewController {
     }
     
     @objc private func previewQTapped(){
+        
+        var photos: [UIImage] {
+            return questionToPost.questionImages == nil ? [] : questionToPost.questionImages!
+        }
+        
+        var tags: [String]{
+            return questionToPost.tags == nil ? [] : questionToPost.tags!
+        }
+        
+        var background: String {
+            return questionToPost.situationOrBackground == nil ? "" : questionToPost.situationOrBackground!
+        }
+        
+        questionToPost.questionImages = photos
+        questionToPost.tags = tags
+        questionToPost.situationOrBackground = background
+        
         let vc = PreviewQuestionCollectionViewController(question: questionToPost)
         show(vc, sender: self)
     }

@@ -14,5 +14,4 @@ enum PreviewQuestionCellType {
     case Question(viewModel: PreviewQuestionQuestionBodyViewModel)
     case Background(viewModel: PreviewQuestionBackgroundViewModel)
     case Photos(viewModel: PreviewQuestionPhotosViewModel)
-    case PosterInfo(viewModel: PreviewQuestionPosterInfoViewModel)
 }

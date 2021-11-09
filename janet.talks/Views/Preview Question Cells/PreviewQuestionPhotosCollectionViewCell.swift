@@ -12,10 +12,21 @@ class PreviewQuestionPhotosCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "PreviewQuestionPhotosCollectionViewCell"
     
+    var scView:UIScrollView!
+    let buttonPadding:CGFloat = 10
+    var xOffset:CGFloat = 10
+    
     //MARK: - lifecycle
     
-    override init(frame: CGRect) {
+    override init(frame: CGRect){
         super.init(frame: frame)
+        
+        scView = UIScrollView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: (contentView.width) / 2))
+        addSubview(scView)
+        
+        scView.showsHorizontalScrollIndicator = false
+        scView.backgroundColor = .none
+        scView.translatesAutoresizingMaskIntoConstraints = false
         
     }
     
@@ -25,19 +36,57 @@ class PreviewQuestionPhotosCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+                
+        scView.contentSize = CGSize(width: xOffset, height: scView.frame.height)
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        scView.reloadInputViews()
     }
     
     //MARK: - actions
     
-    //MARK: - helpers
-    
-    public func configure(with viewModel: PreviewQuestionPhotosViewModel) {
+    @objc private func tagTapped(_ sender: UIButton){
+        print(sender.tag)
         
     }
+    
+    //MARK: - helpers
+    
+    public func configureButtons(viewModel: PreviewQuestionPhotosViewModel){
+        
+        if scView.subviews.count >= viewModel.photos.count {
+            return
+        }
+        
+        for i in 0 ... (viewModel.photos.count - 1) {
+            
+            let image = viewModel.photos[i]
+                        
+            let button = UIButton()
+            button.setImage(image, for: .normal)
+            button.layer.cornerRadius = 25
+            button.imageView?.clipsToBounds = true
+            button.imageView?.contentMode = .scaleAspectFill
+            button.layer.masksToBounds = true
+            button.tag = i
+            button.addTarget(self, action: #selector(tagTapped(_:)), for: UIControl.Event.touchUpInside)
+            
+            let buttonWidth = (contentView.width) / 2
+            
+            let buttonSize = CGSize(width: buttonWidth, height: buttonWidth)
+            
+            if i == 0 {
+                button.frame = CGRect(x: spacing, y: 0, width: buttonSize.width, height: buttonSize.height)
+            } else {
+                button.frame = CGRect(x: xOffset + 10, y: 0, width: buttonSize.width, height: buttonSize.height)
+            }
+            
+            xOffset = xOffset + CGFloat(buttonPadding) + button.frame.size.width
+            scView.addSubview(button)
+        }
+    }
+    
 }

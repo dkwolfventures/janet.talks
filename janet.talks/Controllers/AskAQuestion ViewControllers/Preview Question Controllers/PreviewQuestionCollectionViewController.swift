@@ -18,6 +18,12 @@ class PreviewQuestionCollectionViewController: UIViewController {
     
     //MARK: - lifecycle
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        configureNav()
+    }
+    
     init(question: PublicQuestionToAdd){
         self.question = question
         super.init(nibName: nil, bundle: nil)
@@ -45,6 +51,12 @@ class PreviewQuestionCollectionViewController: UIViewController {
     
     //MARK: - helpers
     
+    private func configureNav(){
+        
+        title = "Preview Q"
+        
+    }
+    
     private func configureQuestion(){
         if let featuredImage = question.featuredImage, let title = question.title, let questionBody = question.question, let background = question.situationOrBackground, let tags = question.tags, let photos = question.questionImages {
             let question = PublicQuestionToAdd(
@@ -66,11 +78,6 @@ class PreviewQuestionCollectionViewController: UIViewController {
     
     private func createViewModels(question: PublicQuestionToAdd, completion: @escaping(Bool) -> Void){
         
-        
-        guard let currentUsername = UserDefaults.standard.string(forKey: "username") else {
-            return
-        }
-        
         let questionData: [PreviewQuestionCellType] = [
             .Title(viewModel: PreviewQuestionTitleViewModel(
                 featuredImageUrl: question.featuredImage!,
@@ -78,7 +85,7 @@ class PreviewQuestionCollectionViewController: UIViewController {
             .Tags(viewModel: PreviewQuestionTagsViewModel(
                 tags: question.tags!)),
             .Meta(viewModel: PreviewQuestionMetaViewModel(
-                datePosted: "Today at \(Date().mediumTime)",
+                datePosted: "Today at \(Date().shortTime)",
                 views: 0,
                 answers: 0)),
             .Question(viewModel: PreviewQuestionQuestionBodyViewModel(
@@ -86,15 +93,7 @@ class PreviewQuestionCollectionViewController: UIViewController {
             .Background(viewModel: PreviewQuestionBackgroundViewModel(
                 background: question.situationOrBackground!)),
             .Photos(viewModel: PreviewQuestionPhotosViewModel(
-                photos: question.questionImages)),
-            .PosterInfo(viewModel: PreviewQuestionPosterInfoViewModel(
-                profileImageUrl: UIImage(named: "test")!,
-                isLoved: false,
-                username: currentUsername,
-                qsAsked: 200,
-                postLovers: 0,
-                comments: 0,
-                shares: 0))
+                photos: question.questionImages!))
         ]
         
         self.viewModels.append(questionData)
@@ -134,7 +133,6 @@ extension PreviewQuestionCollectionViewController: UICollectionViewDelegate, UIC
         case .Tags(let viewModel):
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PreviewQuestionTagsCollectionViewCell.identifier, for: indexPath) as! PreviewQuestionTagsCollectionViewCell
             cell.configureButtons(viewModel: viewModel)
-//            cell.setup(tags: question.tags!)
             return cell
             
         case .Meta(let viewModel):
@@ -148,18 +146,16 @@ extension PreviewQuestionCollectionViewController: UICollectionViewDelegate, UIC
             return cell
             
         case .Background(let viewModel):
+            
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PreviewQuesitonBackgroundCollectionViewCell.identifier, for: indexPath) as! PreviewQuesitonBackgroundCollectionViewCell
-            cell.configure(with: viewModel)
+            if question.situationOrBackground != "" {
+                cell.configure(with: viewModel)
+            }
             return cell
             
         case .Photos(let viewModel):
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PreviewQuestionPhotosCollectionViewCell.identifier, for: indexPath) as! PreviewQuestionPhotosCollectionViewCell
-            cell.configure(with: viewModel)
-            return cell
-            
-        case .PosterInfo(let viewModel):
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PreviewQuestionPosterInfoCollectionViewCell.identifier, for: indexPath) as! PreviewQuestionPosterInfoCollectionViewCell
-            cell.configure(with: viewModel)
+            cell.configureButtons(viewModel: viewModel)
             return cell
             
         }
@@ -171,10 +167,30 @@ extension PreviewQuestionCollectionViewController: UICollectionViewDelegate, UIC
 //MARK: - configureCollectionView
 
 extension PreviewQuestionCollectionViewController {
+
     
     private func configureCollectionView(){
-        let sectionHeight: CGFloat = 600 + view.width
+        
         let spacing = view.width/20
+        let width = view.width
+        
+        let questionHeight = (question.question?.height(withConstrainedWidth: width - (spacing * 4), font: .systemFont(ofSize: 18)))! + 40
+        
+        var backgroundHeight: CGFloat{
+            return question.situationOrBackground == "" ? 0 : (question.situationOrBackground?.height(withConstrainedWidth: width - (spacing * 4), font: .systemFont(ofSize: 18)))! + 40
+        }
+        
+        var photoWidth: CGFloat{
+            return question.questionImages == [] ? 0 : ((width) / 2) + 10
+        }
+        
+        var tagHeight: CGFloat {
+            return question.tags == [] ? 0 : 50
+        }
+        
+        let sectionDynamicNumbers = tagHeight + questionHeight + backgroundHeight + photoWidth
+
+        let sectionHeight: CGFloat = 130 + sectionDynamicNumbers
         
         let collectionView = UICollectionView(
             frame: .zero,
@@ -191,7 +207,7 @@ extension PreviewQuestionCollectionViewController {
                 let tagItem = NSCollectionLayoutItem(
                     layoutSize: NSCollectionLayoutSize(
                         widthDimension: .fractionalWidth(1),
-                        heightDimension: .absolute(50)
+                        heightDimension: .absolute(tagHeight)
                     )
                 )
                 
@@ -209,7 +225,7 @@ extension PreviewQuestionCollectionViewController {
                 let postItem = NSCollectionLayoutItem(
                     layoutSize: NSCollectionLayoutSize(
                         widthDimension: .fractionalWidth(1),
-                        heightDimension: .absolute(self.view.width - (spacing*2))
+                        heightDimension: .absolute(questionHeight)
                     )
                 )
                 
@@ -218,7 +234,7 @@ extension PreviewQuestionCollectionViewController {
                 let backgroundItem = NSCollectionLayoutItem(
                     layoutSize: NSCollectionLayoutSize(
                         widthDimension: .fractionalWidth(1),
-                        heightDimension: .absolute(self.view.width - (spacing*2))
+                        heightDimension: .absolute(backgroundHeight)
                     )
                 )
                 
@@ -227,16 +243,11 @@ extension PreviewQuestionCollectionViewController {
                 let photoItem = NSCollectionLayoutItem(
                     layoutSize: NSCollectionLayoutSize(
                         widthDimension: .fractionalWidth(1),
-                        heightDimension: .absolute(30)
+                        heightDimension: .absolute(photoWidth)
                     )
                 )
                 
-                let posterItem = NSCollectionLayoutItem(
-                    layoutSize: NSCollectionLayoutSize(
-                        widthDimension: .fractionalWidth(1),
-                        heightDimension: .absolute(110)
-                    )
-                )
+                photoItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: -spacing, bottom: 10, trailing: -spacing)
                 
                 let group = NSCollectionLayoutGroup.vertical(
                     layoutSize: NSCollectionLayoutSize(
@@ -249,8 +260,7 @@ extension PreviewQuestionCollectionViewController {
                         metaItem,
                         postItem,
                         backgroundItem,
-                        photoItem,
-                        posterItem
+                        photoItem
                     ]
                 )
                 
@@ -290,10 +300,6 @@ extension PreviewQuestionCollectionViewController {
         collectionView.register(
             PreviewQuestionPhotosCollectionViewCell.self,
             forCellWithReuseIdentifier: PreviewQuestionPhotosCollectionViewCell.identifier
-        )
-        collectionView.register(
-            PreviewQuestionPosterInfoCollectionViewCell.self,
-            forCellWithReuseIdentifier: PreviewQuestionPosterInfoCollectionViewCell.identifier
         )
         
         self.collectionView = collectionView

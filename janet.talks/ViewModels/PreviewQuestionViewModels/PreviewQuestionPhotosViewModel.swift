@@ -9,5 +9,5 @@ import Foundation
 import UIKit
 
 struct PreviewQuestionPhotosViewModel {
-    let photos: [UIImage]?
+    let photos: [UIImage]
 }
