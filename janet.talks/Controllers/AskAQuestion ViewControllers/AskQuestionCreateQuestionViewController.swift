@@ -78,6 +78,9 @@ class AskQuestionCreateQuestionViewController: UIViewController {
         } else if question.trimmingCharacters(in: .whitespacesAndNewlines).count < 100 {
             showAlert("Please expand on the qustion. The more specific you are, the better answers you will receive!")
             return
+        } else if !question.contains("?") {
+            showAlert("There must be a question contained in this section. Therefore, we require that an actual question ending with a '?' must be included.")
+            return
         }
         
         navigationController?.popViewController(animated: true)

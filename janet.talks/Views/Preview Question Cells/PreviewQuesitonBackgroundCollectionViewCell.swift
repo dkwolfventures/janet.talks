@@ -47,7 +47,7 @@ class PreviewQuesitonBackgroundCollectionViewCell: UICollectionViewCell {
         
         bLabel.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, paddingTop: 10, paddingLeft: spacing)
               
-        backgroundBodyLabel.anchor(top: bLabel.bottomAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, paddingTop: 5, paddingLeft: spacing, paddingBottom: 10, paddingRight: spacing)
+        backgroundBodyLabel.anchor(top: bLabel.bottomAnchor, left: contentView.leftAnchor, right: contentView.rightAnchor, paddingTop: 5, paddingLeft: spacing, paddingRight: spacing)
     }
     
     override func prepareForReuse() {

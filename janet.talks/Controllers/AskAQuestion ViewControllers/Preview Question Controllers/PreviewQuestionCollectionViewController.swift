@@ -49,11 +49,17 @@ class PreviewQuestionCollectionViewController: UIViewController {
     
     //MARK: - actions
     
+    @objc private func askQuestionButtonTapped(){
+        
+    }
+    
     //MARK: - helpers
     
     private func configureNav(){
         
         title = "Preview Q"
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Ask", style: .done, target: self, action: #selector(askQuestionButtonTapped))
         
     }
     
@@ -174,10 +180,10 @@ extension PreviewQuestionCollectionViewController {
         let spacing = view.width/20
         let width = view.width
         
-        let questionHeight = (question.question?.height(withConstrainedWidth: width - (spacing * 4), font: .systemFont(ofSize: 18)))! + 40
+        let questionHeight = (question.question?.height(withConstrainedWidth: width - (spacing * 3.8), font: .systemFont(ofSize: 18)))! + 75
         
         var backgroundHeight: CGFloat{
-            return question.situationOrBackground == "" ? 0 : (question.situationOrBackground?.height(withConstrainedWidth: width - (spacing * 4), font: .systemFont(ofSize: 18)))! + 40
+            return question.situationOrBackground == "" ? 0 : (question.situationOrBackground?.height(withConstrainedWidth: width - (spacing * 3.8), font: .systemFont(ofSize: 18)))! + 75
         }
         
         var photoWidth: CGFloat{

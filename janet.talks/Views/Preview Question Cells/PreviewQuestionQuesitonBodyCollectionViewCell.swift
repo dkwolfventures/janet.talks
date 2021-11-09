@@ -48,7 +48,7 @@ class PreviewQuestionQuesitonBodyCollectionViewCell: UICollectionViewCell {
         
         qLabel.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, paddingTop: 10, paddingLeft: spacing)
               
-        questionBodyLabel.anchor(top: qLabel.bottomAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, paddingTop: 5, paddingLeft: spacing, paddingBottom: 10, paddingRight: spacing)
+        questionBodyLabel.anchor(top: qLabel.bottomAnchor, left: contentView.leftAnchor, right: contentView.rightAnchor, paddingTop: 5, paddingLeft: spacing, paddingRight: spacing)
     }
     
     override func prepareForReuse() {

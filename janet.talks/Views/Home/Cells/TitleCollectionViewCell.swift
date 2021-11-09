@@ -58,8 +58,7 @@ class TitleCollectionViewCell: UICollectionViewCell {
         let spacing = contentView.width/20
         featuredImageView.frame = CGRect(x: spacing, y: 10, width: contentView.height - 20, height: contentView.height - 20)
         
-        titleLabel.sizeToFit()
-        titleLabel.frame = CGRect(x: featuredImageView.right + 15, y: featuredImageView.top, width: contentView.width - featuredImageView.width - (spacing*2), height: featuredImageView.height)
+        titleLabel.anchor(top: featuredImageView.topAnchor, left: featuredImageView.rightAnchor, right: contentView.rightAnchor, paddingLeft: 10, paddingRight: spacing)
         
     }
     
