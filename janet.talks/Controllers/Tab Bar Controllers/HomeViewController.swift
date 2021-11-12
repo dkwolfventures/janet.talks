@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import SwiftUI
 
 class HomeViewController: UIViewController {
     
@@ -75,21 +76,12 @@ class HomeViewController: UIViewController {
     
     private func fetchGlobalFeed(){
         
-        let post1 = PublicQuestion(questionID: "111",
-                                   username: "@kenton",
-                                   featuredImageUrl: nil,
-                                   subject: "What Is The Secret To A Perfect Relationship?",
-                                   background: "it doesn't matter...",
-                                   question: "Mustache cliche squid roof party twee cornhole. Vinyl offal selvage sustainable direct trade, post-ironic cornhole affogato vape echo park authentic locavore whatever squid. Gastropub church-key blue bottle taiyaki mlkshk, kitsch direct trade everyday carry 90's selvage cold-pressed helvetica. Yr blue bottle chicharrones church-key. Cronut raw denim copper mug you probably haven't heard of them salvia kale chips gluten-free crucifix jean shorts migas affogato woke church-key. Viral portland authentic stumptown +1 vegan ennui put a bird on it. Hexagon sriracha readymade hot chicken gastropub mlkshk, tousled flannel four loko lo-fi slow-carb ugh godard. Keffiyeh small batch gochujang, tacos 90's hell of kale chips. Fingerstache drinking vinegar af, chicharrones ennui cornhole neutra art party occupy bespoke poutine try-hard salvia. Occupy taxidermy synth pitchfork, bushwick banjo beard glossier coloring book. Tousled man bun edison bulb thundercats, art party stumptown affogato ugh street art kombucha 3 wolf moon.",
-                                   lovers: ["hi", "anotherone", "coolstorybro"],
-                                   dateAsked: Date().mediumDateTime.lowercased(),
-                                   dateAskedInSecondsSince1970: 12345678,
-                                   tags: ["relationship","hurt","lies"])
+        let post1 = PublicQuestion(questionID: "111", title: "What Is The Secret To A Perfect Relationship?", featuredImageUrl: "none", tags: ["janet", "relationshipadvice", "follow4follow"], askedDate: Date().mediumDateTime.lowercased(), question: "Mustache cliche squid roof party twee cornhole. Vinyl offal selvage sustainable direct trade, post-ironic cornhole affogato vape echo park authentic locavore whatever squid. Gastropub church-key blue bottle taiyaki mlkshk, kitsch direct trade everyday carry 90's selvage cold-pressed helvetica. Yr blue bottle chicharrones church-key. Cronut raw denim copper mug you probably haven't heard of them salvia kale chips gluten-free crucifix jean shorts migas affogato woke church-key. Viral portland authentic stumptown +1 vegan ennui put a bird on it. Hexagon sriracha readymade hot chicken gastropub mlkshk, tousled flannel four loko lo-fi slow-carb ugh godard. Keffiyeh small batch gochujang, tacos 90's hell of kale chips. Fingerstache drinking vinegar af, chicharrones ennui cornhole neutra art party occupy bespoke poutine try-hard salvia. Occupy taxidermy synth pitchfork, bushwick banjo beard glossier coloring book. Tousled man bun edison bulb thundercats, art party stumptown affogato ugh street art kombucha 3 wolf moon.", background: "Mustache cliche squid roof party twee cornhole. Vinyl offal selvage sustainable direct trade, post-ironic cornhole affogato vape echo park authentic locavore whatever squid. Gastropub church-key blue bottle taiyaki mlkshk, kitsch direct trade everyday carry 90's selvage cold-pressed helvetica. Yr blue bottle chicharrones church-key. Cronut raw denim copper mug you probably haven't heard of them salvia kale chips gluten-free crucifix jean shorts migas affogato woke church-key. Viral portland authentic stumptown +1 vegan ennui put a bird on it. Hexagon sriracha readymade hot chicken gastropub mlkshk, tousled flannel four loko lo-fi slow-carb ugh godard. Keffiyeh small batch gochujang, tacos 90's hell of kale chips. Fingerstache drinking vinegar af, chicharrones ennui cornhole neutra art party occupy bespoke poutine try-hard salvia. Occupy taxidermy synth pitchfork, bushwick banjo beard glossier coloring book. Tousled man bun edison bulb thundercats, art party stumptown affogato ugh street art kombucha 3 wolf moon.", numOfPhotos: 0, questionPhotoURLs: nil, lovers: [], askerUsername: "@kenton")
         
         let posts = [post1, post1, post1, post1, post1, post1, post1, post1, post1, post1, post1, post1]
         
         posts.forEach { question in
-            createViewModels(question: question, username: question.username) { [weak self] success in
+            createViewModels(question: question, username: question.askerUsername) { [weak self] success in
                 
                 if success {
                     self?.view.dismissLoader()
@@ -120,10 +112,10 @@ class HomeViewController: UIViewController {
                 
                     .Title(viewModel: TitleCollectionViewCellViewModel(
                         featuredImageUrl: featuredImageUrl,
-                        subject: question.subject)),
+                        subject: question.title)),
                 
                     .Meta(viewModel: MetaCollectionViewCellViewModel(
-                        datePosted: question.dateAsked,
+                        datePosted: question.askedDate,
                         views: 1000,
                         answers: 500)),
                 

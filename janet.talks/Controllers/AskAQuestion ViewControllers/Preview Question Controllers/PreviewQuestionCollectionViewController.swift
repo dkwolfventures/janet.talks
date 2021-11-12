@@ -12,6 +12,7 @@ class PreviewQuestionCollectionViewController: UIViewController {
     //MARK: - properties
     
     private var collectionView: UICollectionView?
+    public var completion: (() -> Void)?
     
     private let question: PublicQuestionToAdd
     private var viewModels = [[PreviewQuestionCellType]]()
@@ -51,9 +52,49 @@ class PreviewQuestionCollectionViewController: UIViewController {
     
     @objc private func askQuestionButtonTapped(){
         
+        HapticsManager.shared.vibrateForSelection()
+        
+        view.showLoader(loadingWhat: "Asking Question...")
+
+        navigationItem.rightBarButtonItem?.isEnabled = false
+        collectionView?.isUserInteractionEnabled = false
+        collectionView?.isScrollEnabled = false
+        
+        let qId = DatabaseManager.shared.getIDForQuestion()
+        
+        
+        DatabaseManager.shared.createQuestion(question: question, qId: qId) { [weak self] result in
+            
+            switch result {
+            case .success(_):
+                
+                HapticsManager.shared.vibrate(for: .success)
+                self?.view.dismissLoader()
+                self?.completion?()
+                
+            case .failure(let error):
+                self?.showAlert(error: error)
+            }
+            
+        }
+        
+        
     }
     
     //MARK: - helpers
+    
+    private func sendToDatabase(qId:String, additionalPhotoURLs: [String]?){
+        
+    }
+    
+    private func showAlert(error: Error){
+        
+        let alert = UIAlertController(title: "oh no!", message: error.localizedDescription, preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Okay!", style: .cancel))
+        
+        present(alert, animated: true)
+    }
     
     private func configureNav(){
         
@@ -64,9 +105,11 @@ class PreviewQuestionCollectionViewController: UIViewController {
     }
     
     private func configureQuestion(){
-        if let featuredImage = question.featuredImage, let title = question.title, let questionBody = question.question, let background = question.situationOrBackground, let tags = question.tags, let photos = question.questionImages {
+        if let featuredImage = question.featuredImage, let defaultFeaturedImageName = question.defaultFeaturedImageName, let title = question.title, let questionBody = question.question, let background = question.situationOrBackground, let tags = question.tags, let photos = question.questionImages {
             let question = PublicQuestionToAdd(
                 featuredImage: featuredImage,
+                usingDefaultImage: question.usingDefaultImage,
+                defaultFeaturedImageName: defaultFeaturedImageName,
                 title: title,
                 question: questionBody,
                 situationOrBackground: background,

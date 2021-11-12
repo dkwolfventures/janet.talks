@@ -46,7 +46,7 @@ class SearchResultsViewController: UIViewController, UITableViewDelegate, UITabl
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = questions[indexPath.row].subject
+        cell.textLabel?.text = questions[indexPath.row].title
         return cell
     }
 

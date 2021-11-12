@@ -8,6 +8,12 @@
 import Foundation
 import Firebase
 
+enum DatabaseEndpoints: String {
+    case globalFeed
+    case users
+    case publicQuestions
+}
+
 enum DatabaseErrors: Comparable, Equatable, Error {
     case usernameTaken
     case databaseError
@@ -38,6 +44,75 @@ final class DatabaseManager {
     private init(){}
     
     //MARK: - public helpers
+    
+    public func createQuestion(question: PublicQuestionToAdd, qId: String, completion: @escaping(Result<Bool?, Error>) -> Void){
+        
+        guard let title = question.title, let featuredImage = question.featuredImage, let questionBody = question.question else {
+            return
+        }
+    
+        var questionToAdd = TempPublicQuestion(questionID: qId, title: title, featuredImageUrl: "", tags: nil, askedDate: Date().shortDateTime, question: questionBody, background: nil, numOfPhotos: question.questionImages!.count, lovers: [], askerUsername: PersistenceManager.shared.username)
+        
+        //if the user chose a custom featured image
+
+        if question.defaultFeaturedImageName != nil {
+            questionToAdd.featuredImageUrl = question.defaultFeaturedImageName!
+        } else {
+            StorageManager.shared.uploadFeaturedImage(customImage: featuredImage, questionID: qId) { result in
+                defer{
+                }
+                switch result {
+                case .success(let url):
+                    guard let url = url else {return}
+                    questionToAdd.featuredImageUrl = url.absoluteString
+                    
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        } //exit if statement
+
+        if let tags = question.tags {
+            
+            if !tags.isEmpty {
+                questionToAdd.tags = tags
+            }
+            
+        }
+
+        if let background = question.situationOrBackground {
+            if background != "" {
+                questionToAdd.background = background
+            }
+        }
+        
+        if let photos = question.questionImages {
+            if !photos.isEmpty {
+                StorageManager.shared.uploadQuestionImages(photos: photos, questionId: qId)
+            }
+        }
+        
+        if let questionDict = questionToAdd.asDictionary() {
+            
+            self.db.collection(DatabaseEndpoints.globalFeed.rawValue).document(DatabaseEndpoints.publicQuestions.rawValue).collection(PersistenceManager.shared.languageChosen).document(qId).setData(questionDict) { error in
+
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                completion(.success(true))
+            }
+            
+        }
+    }
+    
+    public func uploadURLsToPostedQuestion(qId: String, urls: [String]){
+        
+        db.collection(DatabaseEndpoints.globalFeed.rawValue).document(DatabaseEndpoints.publicQuestions.rawValue).collection(PersistenceManager.shared.languageChosen).document(qId).setData(["questionPhotosURLs": urls], merge: true)
+        
+    }
+    
     
     public func createUser(newUser: User, completion: @escaping(Result<User,Error>) -> Void){
         
@@ -83,6 +158,16 @@ final class DatabaseManager {
             }
         
         }
+        
+    }
+    
+    public func getIDForQuestion() -> String{
+        
+        let reference = db.collection("globalFeed").document("publicQuestions").collection(PersistenceManager.shared.languageChosen).document()
+        
+        reference.setData([:])
+        
+        return reference.documentID
         
     }
     

@@ -10,6 +10,8 @@ import UIKit
 
 struct PublicQuestionToAdd: Hashable {
     var featuredImage: UIImage?
+    var usingDefaultImage: Bool
+    var defaultFeaturedImageName: String?
     var title: String?
     var question: String?
     var situationOrBackground: String?

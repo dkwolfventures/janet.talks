@@ -19,7 +19,7 @@ class AskAQuestionViewController: UIViewController {
     var cellSize = CGFloat()
     
     var viewModels = [AddAQuestionCellType]()
-    private var questionToPost = PublicQuestionToAdd(featuredImage: nil, title: nil, question: nil, situationOrBackground: nil, tags: nil, questionImages: nil)
+    private var questionToPost = PublicQuestionToAdd(featuredImage: nil, usingDefaultImage: true, defaultFeaturedImageName: nil, title: nil, question: nil, situationOrBackground: nil, tags: nil, questionImages: nil)
     
     private var imageAndTitle = ImageAndTitleTableViewCellViewModel(title: "Image & Title", isComplete: false)
     private var question = QuestionTableViewCellViewModel(title: "Question", isComplete: false)
@@ -102,6 +102,13 @@ class AskAQuestionViewController: UIViewController {
         questionToPost.situationOrBackground = background
         
         let vc = PreviewQuestionCollectionViewController(question: questionToPost)
+        vc.completion = { [weak self] in
+            
+            DispatchQueue.main.async {
+                self?.navigationController?.dismiss(animated: true, completion: nil)
+            }
+            
+        }
         show(vc, sender: self)
     }
     
@@ -239,10 +246,17 @@ extension AskAQuestionViewController: UITableViewDelegate, UITableViewDataSource
 //MARK: - AskQuestionSetImageAndTitleViewControllerDelegate
 
 extension AskAQuestionViewController: AskQuestionSetImageAndTitleViewControllerDelegate{
-    func addImageAndTitle(image: UIImage, title: String) {
+    func addImageAndTitle(image: UIImage, title: String, usingDefaultImage: Bool, defaultImageName: String) {
         
         self.questionToPost.featuredImage = image
         self.questionToPost.title = title
+        
+        self.questionToPost.usingDefaultImage = usingDefaultImage
+        
+        if usingDefaultImage {
+            self.questionToPost.defaultFeaturedImageName = defaultImageName
+        }
+        
         self.imageAndTitle.isComplete = true
         configureTableView()
         questionTableView.reloadData()

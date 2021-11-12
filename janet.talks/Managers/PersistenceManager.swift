@@ -7,6 +7,24 @@
 
 import Foundation
 
+enum Languages: Comparable, Hashable {
+    
+    case english
+    case spanish
+    case french
+    
+    var description: String {
+        switch self {
+        case .english:
+            return "english"
+        case .spanish:
+            return "spanish"
+        case .french:
+            return "french"
+        }
+    }
+}
+
 final class PersistenceManager {
     
     ///singleton
@@ -23,6 +41,16 @@ final class PersistenceManager {
     }
 
     //MARK: - public
+    
+    public func setLanguage(language: Languages){
+        
+        userDefaults.set(language.description, forKey: "language")
+        
+    }
+    
+    public lazy var languageChosen = userDefaults.string(forKey: "language")!
+    
+    public lazy var username = userDefaults.string(forKey: "username")!
     
     public var tags: [String] {
         if !hasOnboarded {

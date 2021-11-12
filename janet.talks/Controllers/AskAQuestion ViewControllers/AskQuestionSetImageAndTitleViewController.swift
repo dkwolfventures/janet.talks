@@ -8,7 +8,7 @@
 import UIKit
 
 protocol AskQuestionSetImageAndTitleViewControllerDelegate: AnyObject {
-    func addImageAndTitle(image: UIImage, title: String)
+    func addImageAndTitle(image: UIImage, title: String, usingDefaultImage: Bool, defaultImageName: String)
 }
 
 class AskQuestionSetImageAndTitleViewController: UIViewController {
@@ -18,6 +18,8 @@ class AskQuestionSetImageAndTitleViewController: UIViewController {
     weak var delegate: AskQuestionSetImageAndTitleViewControllerDelegate?
     
     private let question: PublicQuestionToAdd
+    private var featuredImageName = String()
+    private var usingDefaultImage: Bool = true
     
     private let featuredImageView: UIImageView = {
         let iv = UIImageView()
@@ -122,7 +124,7 @@ class AskQuestionSetImageAndTitleViewController: UIViewController {
         }
         
         navigationController?.popViewController(animated: true)
-        delegate?.addImageAndTitle(image: image, title: title)
+        delegate?.addImageAndTitle(image: image, title: title, usingDefaultImage: usingDefaultImage, defaultImageName: featuredImageName)
         
     }
     
@@ -130,6 +132,8 @@ class AskQuestionSetImageAndTitleViewController: UIViewController {
     
     private func chooseRandomPhoto(){
         let randomNumber = Int.random(in: 1...26)
+        
+        self.featuredImageName = "feature\(randomNumber)"
         
         featuredImageView.image = UIImage(named: "feature\(randomNumber)")
     }
@@ -163,6 +167,8 @@ class AskQuestionSetImageAndTitleViewController: UIViewController {
             featuredImageView.image = image
         } else {
             let randomNumber = Int.random(in: 1...26)
+            
+            self.featuredImageName = "feature\(randomNumber)"
             
             featuredImageView.image = UIImage(named: "feature\(randomNumber)")
             
@@ -198,5 +204,6 @@ extension AskQuestionSetImageAndTitleViewController: UIImagePickerControllerDele
             return
         }
         featuredImageView.image = image
+        self.usingDefaultImage = false
     }
 }

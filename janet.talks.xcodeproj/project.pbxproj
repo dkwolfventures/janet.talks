@@ -45,6 +45,7 @@
 		1755624527271C4D0043C52D /* TagsAndImagesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1755624427271C4D0043C52D /* TagsAndImagesTableViewCell.swift */; };
 		1755624727272F150043C52D /* AskQuestionSetImageAndTitleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1755624627272F150043C52D /* AskQuestionSetImageAndTitleViewController.swift */; };
 		1755624927276ACE0043C52D /* PublicQuestionToAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1755624827276ACE0043C52D /* PublicQuestionToAdd.swift */; };
+		1756CB37273AD81C000A043C /* Languages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1756CB36273AD81C000A043C /* Languages.swift */; };
 		175BF08E27206EC50054C5CB /* MetaCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175BF08D27206EC50054C5CB /* MetaCollectionViewCell.swift */; };
 		175BF09027206F0E0054C5CB /* QuestionBodyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175BF08F27206F0E0054C5CB /* QuestionBodyCollectionViewCell.swift */; };
 		175BF09227206F280054C5CB /* PosterAndActionsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175BF09127206F280054C5CB /* PosterAndActionsCollectionViewCell.swift */; };
@@ -154,6 +155,7 @@
 		1755624427271C4D0043C52D /* TagsAndImagesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsAndImagesTableViewCell.swift; sourceTree = "<group>"; };
 		1755624627272F150043C52D /* AskQuestionSetImageAndTitleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskQuestionSetImageAndTitleViewController.swift; sourceTree = "<group>"; };
 		1755624827276ACE0043C52D /* PublicQuestionToAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicQuestionToAdd.swift; sourceTree = "<group>"; };
+		1756CB36273AD81C000A043C /* Languages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Languages.swift; sourceTree = "<group>"; };
 		175BF08D27206EC50054C5CB /* MetaCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaCollectionViewCell.swift; sourceTree = "<group>"; };
 		175BF08F27206F0E0054C5CB /* QuestionBodyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionBodyCollectionViewCell.swift; sourceTree = "<group>"; };
 		175BF09127206F280054C5CB /* PosterAndActionsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterAndActionsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -443,6 +445,7 @@
 				175EE348271CC5E200C0AD02 /* PublicQuestionHomeFeedCellType.swift */,
 				17556233272716EC0043C52D /* AddAQuestionCellType.swift */,
 				175363E1272DA2020082509D /* Tags.swift */,
+				1756CB36273AD81C000A043C /* Languages.swift */,
 				1767265327309126009AC0EA /* Preview */,
 				176868E0270C913600532476 /* HomeFeedModels */,
 			);
@@ -910,6 +913,7 @@
 				175CB3A3272824F5001412CC /* AskQuestionCreateQuestionViewController.swift in Sources */,
 				174F154C272CA13900F20397 /* AskAQuestionAdditionalPhotoCollectionViewCell.swift in Sources */,
 				176868D0270C763D00532476 /* ExploreManager.swift in Sources */,
+				1756CB37273AD81C000A043C /* Languages.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

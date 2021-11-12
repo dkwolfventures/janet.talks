@@ -22,6 +22,9 @@ class TabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        PersistenceManager.shared.setLanguage(language: .english)
+        
 //        UserManager.shared.signOut()
         DispatchQueue.main.async { [weak self] in
             
