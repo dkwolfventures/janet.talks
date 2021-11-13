@@ -63,7 +63,7 @@ class PreviewQuestionCollectionViewController: UIViewController {
         let qId = DatabaseManager.shared.getIDForQuestion()
         
         
-        DatabaseManager.shared.createQuestion(question: question, qId: qId) { [weak self] result in
+        DatabaseManager.shared.createQuestion(question: question, qId: qId) { [weak self, question] result in
             
             switch result {
             case .success(_):
@@ -71,7 +71,7 @@ class PreviewQuestionCollectionViewController: UIViewController {
                 HapticsManager.shared.vibrate(for: .success)
                 self?.view.dismissLoader()
                 self?.completion?()
-                
+                NotificationCenter.default.post(name: .didAskQNotification, object: question)
             case .failure(let error):
                 self?.showAlert(error: error)
             }

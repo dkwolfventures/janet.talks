@@ -19,6 +19,12 @@ class HomeViewController: UIViewController {
     
     private var collectionView: UICollectionView?
     
+    //all posts
+    private var allQs: [PublicQuestion] = []
+    
+    /// Notification observer
+    private var observer: NSObjectProtocol?
+
     private let askQuestionButton: UIImageView = {
         let iv = UIImageView()
         iv.image = UIImage(systemName: "plus.circle")
@@ -43,6 +49,10 @@ class HomeViewController: UIViewController {
         navigationItem.searchController = searchVC
         navigationItem.hidesSearchBarWhenScrolling = false
     
+        observer = NotificationCenter.default.addObserver(forName: .didAskQNotification, object: PublicQuestionToAdd.self, queue: .main){ [weak self] _ in
+            self?.viewModels.removeAll()
+            self?.fetchGlobalFeed()
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -78,7 +88,15 @@ class HomeViewController: UIViewController {
         
         let post1 = PublicQuestion(questionID: "111", title: "What Is The Secret To A Perfect Relationship?", featuredImageUrl: "none", tags: ["janet", "relationshipadvice", "follow4follow"], askedDate: Date().mediumDateTime.lowercased(), question: "Mustache cliche squid roof party twee cornhole. Vinyl offal selvage sustainable direct trade, post-ironic cornhole affogato vape echo park authentic locavore whatever squid. Gastropub church-key blue bottle taiyaki mlkshk, kitsch direct trade everyday carry 90's selvage cold-pressed helvetica. Yr blue bottle chicharrones church-key. Cronut raw denim copper mug you probably haven't heard of them salvia kale chips gluten-free crucifix jean shorts migas affogato woke church-key. Viral portland authentic stumptown +1 vegan ennui put a bird on it. Hexagon sriracha readymade hot chicken gastropub mlkshk, tousled flannel four loko lo-fi slow-carb ugh godard. Keffiyeh small batch gochujang, tacos 90's hell of kale chips. Fingerstache drinking vinegar af, chicharrones ennui cornhole neutra art party occupy bespoke poutine try-hard salvia. Occupy taxidermy synth pitchfork, bushwick banjo beard glossier coloring book. Tousled man bun edison bulb thundercats, art party stumptown affogato ugh street art kombucha 3 wolf moon.", background: "Mustache cliche squid roof party twee cornhole. Vinyl offal selvage sustainable direct trade, post-ironic cornhole affogato vape echo park authentic locavore whatever squid. Gastropub church-key blue bottle taiyaki mlkshk, kitsch direct trade everyday carry 90's selvage cold-pressed helvetica. Yr blue bottle chicharrones church-key. Cronut raw denim copper mug you probably haven't heard of them salvia kale chips gluten-free crucifix jean shorts migas affogato woke church-key. Viral portland authentic stumptown +1 vegan ennui put a bird on it. Hexagon sriracha readymade hot chicken gastropub mlkshk, tousled flannel four loko lo-fi slow-carb ugh godard. Keffiyeh small batch gochujang, tacos 90's hell of kale chips. Fingerstache drinking vinegar af, chicharrones ennui cornhole neutra art party occupy bespoke poutine try-hard salvia. Occupy taxidermy synth pitchfork, bushwick banjo beard glossier coloring book. Tousled man bun edison bulb thundercats, art party stumptown affogato ugh street art kombucha 3 wolf moon.", numOfPhotos: 0, questionPhotoURLs: nil, lovers: [], askerUsername: "@kenton")
         
-        let posts = [post1, post1, post1, post1, post1, post1, post1, post1, post1, post1, post1, post1]
+        let post2 = PublicQuestion(questionID: "111", title: "What Is The Secret To A Perfect Relationship?", featuredImageUrl: "none", tags: ["janet", "relationshipadvice", "follow4follow"], askedDate: Date().mediumDateTime.lowercased(), question: "Mustache cliche squid roof party twee cornhole. Vinyl offal selvage sustainable direct trade, post-ironic cornhole affogato vape echo park authentic locavore whatever squid. Gastropub church-key blue bottle taiyaki mlkshk, kitsch direct trade everyday carry 90's selvage cold-pressed helvetica.", background: "Mustache cliche squid roof party twee cornhole. Vinyl offal selvage sustainable direct trade, post-ironic cornhole affogato vape echo park authentic locavore whatever squid. Gastropub church-key blue bottle taiyaki mlkshk, kitsch direct trade everyday carry 90's selvage cold-pressed helvetica. Yr blue bottle chicharrones church-key. Cronut raw denim copper mug you probably haven't heard of them salvia kale chips gluten-free crucifix jean shorts migas affogato woke church-key. Viral portland authentic stumptown +1 vegan ennui put a bird on it. Hexagon sriracha readymade hot chicken gastropub mlkshk, tousled flannel four loko lo-fi slow-carb ugh godard. Keffiyeh small batch gochujang, tacos 90's hell of kale chips. Fingerstache drinking vinegar af, chicharrones ennui cornhole neutra art party occupy bespoke poutine try-hard salvia. Occupy taxidermy synth pitchfork, bushwick banjo beard glossier coloring book. Tousled man bun edison bulb thundercats, art party stumptown affogato ugh street art kombucha 3 wolf moon.", numOfPhotos: 0, questionPhotoURLs: nil, lovers: [], askerUsername: "@kenton")
+        
+        let post3 = PublicQuestion(questionID: "111", title: "What Is The Secret To A Perfect Relationship?", featuredImageUrl: "none", tags: ["janet", "relationshipadvice", "follow4follow"], askedDate: Date().mediumDateTime.lowercased(), question: "Mustache cliche squid roof party twee cornhole. Vinyl offal selvage sustainable direct trade, post-ironic cornhole affogato vape echo park authentic locavore whatever squid. Gastropub church-key blue bottle taiyaki mlkshk, kitsch direct trade everyday carry 90's selvage cold-pressed helvetica. Yr blue bottle chicharrones church-key.", background: "Mustache cliche squid roof party twee cornhole. Vinyl offal selvage sustainable direct trade, post-ironic cornhole affogato vape echo park authentic locavore whatever squid. Gastropub church-key blue bottle taiyaki mlkshk, kitsch direct trade everyday carry 90's selvage cold-pressed helvetica. Yr blue bottle chicharrones church-key. Cronut raw denim copper mug you probably haven't heard of them salvia kale chips gluten-free crucifix jean shorts migas affogato woke church-key. Viral portland authentic stumptown +1 vegan ennui put a bird on it. Hexagon sriracha readymade hot chicken gastropub mlkshk, tousled flannel four loko lo-fi slow-carb ugh godard. Keffiyeh small batch gochujang, tacos 90's hell of kale chips. Fingerstache drinking vinegar af, chicharrones ennui cornhole neutra art party occupy bespoke poutine try-hard salvia. Occupy taxidermy synth pitchfork, bushwick banjo beard glossier coloring book. Tousled man bun edison bulb thundercats, art party stumptown affogato ugh street art kombucha 3 wolf moon.", numOfPhotos: 0, questionPhotoURLs: nil, lovers: [], askerUsername: "@kenton")
+        
+        let post4 = PublicQuestion(questionID: "111", title: "What Is The Secret To A Perfect Relationship?", featuredImageUrl: "none", tags: ["janet", "relationshipadvice", "follow4follow"], askedDate: Date().mediumDateTime.lowercased(), question: "Mustache cliche squid roof party twee cornhole. Vinyl offal selvage sustainable direct trade, post-ironic cornhole affogato vape echo park authentic locavore whatever squid.", background: "Mustache cliche squid roof party twee cornhole. Vinyl offal selvage sustainable direct trade, post-ironic cornhole affogato vape echo park authentic locavore whatever squid. Gastropub church-key blue bottle taiyaki mlkshk, kitsch direct trade everyday carry 90's selvage cold-pressed helvetica. Yr blue bottle chicharrones church-key. Cronut raw denim copper mug you probably haven't heard of them salvia kale chips gluten-free crucifix jean shorts migas affogato woke church-key. Viral portland authentic stumptown +1 vegan ennui put a bird on it. Hexagon sriracha readymade hot chicken gastropub mlkshk, tousled flannel four loko lo-fi slow-carb ugh godard. Keffiyeh small batch gochujang, tacos 90's hell of kale chips. Fingerstache drinking vinegar af, chicharrones ennui cornhole neutra art party occupy bespoke poutine try-hard salvia. Occupy taxidermy synth pitchfork, bushwick banjo beard glossier coloring book. Tousled man bun edison bulb thundercats, art party stumptown affogato ugh street art kombucha 3 wolf moon.", numOfPhotos: 0, questionPhotoURLs: nil, lovers: [], askerUsername: "@kenton")
+        
+        let posts = [post1, post2, post3, post4]
+        
+        self.allQs = posts
         
         posts.forEach { question in
             createViewModels(question: question, username: question.askerUsername) { [weak self] success in
@@ -207,13 +225,33 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
 extension HomeViewController {
     
+    private func configureBodySectionHeight(section: Int, spacing: CGFloat) -> (NSCollectionLayoutItem, CGFloat) {
+        
+        let questionBody = allQs[section].question
+        
+        let bodyHeight = questionBody.height(withConstrainedWidth: self.view.width - (spacing*3.8), font: .systemFont(ofSize: 18))
+        
+        var finalHeight: CGFloat {
+            return bodyHeight > (view.width - (spacing * 2)) ? view.width - (spacing * 2) : bodyHeight
+        }
+        
+        let postItem = NSCollectionLayoutItem(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .absolute(finalHeight)
+            )
+        )
+        
+        return (postItem, finalHeight)
+    }
+    
     func configureCollectionView() {
-        let sectionHeight: CGFloat = 335 + view.width
-        let spacing = view.width/20
+        let sectionHeight: CGFloat = 300
+        let spacing = view.spacing
         
         let collectionView = UICollectionView(
             frame: .zero,
-            collectionViewLayout: UICollectionViewCompositionalLayout(sectionProvider: { index, _ -> NSCollectionLayoutSection? in
+            collectionViewLayout: UICollectionViewCompositionalLayout(sectionProvider: { [weak self] section, _ -> NSCollectionLayoutSection? in
 
                 // Item
                 let titleItem = NSCollectionLayoutItem(
@@ -230,14 +268,9 @@ extension HomeViewController {
                     )
                 )
                 
-                let postItem = NSCollectionLayoutItem(
-                    layoutSize: NSCollectionLayoutSize(
-                        widthDimension: .fractionalWidth(1),
-                        heightDimension: .absolute(self.view.width - (spacing*2))
-                    )
-                )
+                let postItem = self?.configureBodySectionHeight(section: section, spacing: spacing)
                 
-                postItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
+                postItem?.0.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
                 
                 let actionItem = NSCollectionLayoutItem(
                     layoutSize: NSCollectionLayoutSize(
@@ -258,12 +291,12 @@ extension HomeViewController {
                 let group = NSCollectionLayoutGroup.vertical(
                     layoutSize: NSCollectionLayoutSize(
                         widthDimension: .fractionalWidth(1),
-                        heightDimension: .absolute(sectionHeight)
+                        heightDimension: .absolute(sectionHeight + postItem!.1)
                     ),
                     subitems: [
                         titleItem,
                         metaItem,
-                        postItem,
+                        postItem!.0,
                         actionItem,
                         heartItem
                     ]

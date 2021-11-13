@@ -293,3 +293,9 @@ extension UIColor {
     static let logoGreen = UIColor(named: "logoGreen")
     
 }
+
+extension Notification.Name {
+    
+    ///notification to inform of new q has been asked
+    static let didAskQNotification = Notification.Name("didAskQNotification")
+}
