@@ -18,6 +18,7 @@ class HomeViewController: UIViewController {
     private let searchVC = UISearchController(searchResultsController: SearchResultsViewController())
     
     private var collectionView: UICollectionView?
+    private var lastDoc: QueryDocumentSnapshot?
     
     //all posts
     private var allQs: [PublicQuestion] = []
@@ -40,7 +41,13 @@ class HomeViewController: UIViewController {
         configureNav()
         
         view.showLoader(loadingWhat: "Loading Feed...")
+        
         configureCollectionView()
+        
+        let refresher = UIRefreshControl()
+        refresher.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        collectionView?.refreshControl = refresher
+        
         fetchGlobalFeed()
         (searchVC.searchResultsController as? SearchResultsViewController)?.delegate = self
         searchVC.searchBar.placeholder = "Search Qs..."
@@ -62,6 +69,81 @@ class HomeViewController: UIViewController {
     
     //MARK: - actions
     
+    @objc func handleRefresh(){
+        
+        collectionView?.refreshControl?.beginRefreshing()
+        self.viewModels.removeAll()
+        self.allQs.removeAll()
+        
+        DatabaseManager.shared.fetchGlobalFeed { [weak self] result in
+            
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let qs):
+                    
+                    self?.allQs = qs.0
+                    self?.lastDoc = qs.1
+                    
+                    for theQ in qs.0 {
+                        self?.createViewModels(question: theQ, username: theQ.askerUsername, completion: { success in
+                            if success {
+                                DispatchQueue.main.async {
+                                    Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
+                                        self?.collectionView?.refreshControl?.endRefreshing()
+                                        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
+                                            self?.collectionView?.reloadData()
+                                        }
+                                    }
+                                }
+                            }
+                        })
+                    }
+                    
+                case .failure(let error):
+                    
+                    self?.showAlert(error)
+                }
+            }
+            
+        }
+        
+    }
+    
+    @objc func didPullToRefresh(_ sender: UIRefreshControl) {
+        sender.beginRefreshing()
+        allQs.removeAll()
+        
+        DatabaseManager.shared.fetchGlobalFeed { [weak self] result in
+            
+                switch result {
+                case .success(let (publicQs, lastDoc)):
+                    
+                    self?.allQs = publicQs
+                    self?.lastDoc = lastDoc
+                    
+                    for theQ in publicQs {
+                        self?.createViewModels(question: theQ, username: theQ.askerUsername, completion: { success in
+                            if success {
+                                
+                                DispatchQueue.main.async {
+                                    self?.collectionView?.reloadData()
+                                    sender.endRefreshing()
+                                    self?.configureCollectionView()
+                                    
+                                }
+                                
+                            }
+                        })
+                    }
+                    
+                case .failure(_):
+                    break
+                }
+            
+        }
+
+    }
+
     @objc private func askQuestionTapped(){
         
         HapticsManager.shared.vibrateForSelection()
@@ -86,29 +168,47 @@ class HomeViewController: UIViewController {
     
     private func fetchGlobalFeed(){
         
-        let post1 = PublicQuestion(questionID: "111", title: "What Is The Secret To A Perfect Relationship?", featuredImageUrl: "none", tags: ["janet", "relationshipadvice", "follow4follow"], askedDate: Date().mediumDateTime.lowercased(), question: "Mustache cliche squid roof party twee cornhole. Vinyl offal selvage sustainable direct trade, post-ironic cornhole affogato vape echo park authentic locavore whatever squid. Gastropub church-key blue bottle taiyaki mlkshk, kitsch direct trade everyday carry 90's selvage cold-pressed helvetica. Yr blue bottle chicharrones church-key. Cronut raw denim copper mug you probably haven't heard of them salvia kale chips gluten-free crucifix jean shorts migas affogato woke church-key. Viral portland authentic stumptown +1 vegan ennui put a bird on it. Hexagon sriracha readymade hot chicken gastropub mlkshk, tousled flannel four loko lo-fi slow-carb ugh godard. Keffiyeh small batch gochujang, tacos 90's hell of kale chips. Fingerstache drinking vinegar af, chicharrones ennui cornhole neutra art party occupy bespoke poutine try-hard salvia. Occupy taxidermy synth pitchfork, bushwick banjo beard glossier coloring book. Tousled man bun edison bulb thundercats, art party stumptown affogato ugh street art kombucha 3 wolf moon.", background: "Mustache cliche squid roof party twee cornhole. Vinyl offal selvage sustainable direct trade, post-ironic cornhole affogato vape echo park authentic locavore whatever squid. Gastropub church-key blue bottle taiyaki mlkshk, kitsch direct trade everyday carry 90's selvage cold-pressed helvetica. Yr blue bottle chicharrones church-key. Cronut raw denim copper mug you probably haven't heard of them salvia kale chips gluten-free crucifix jean shorts migas affogato woke church-key. Viral portland authentic stumptown +1 vegan ennui put a bird on it. Hexagon sriracha readymade hot chicken gastropub mlkshk, tousled flannel four loko lo-fi slow-carb ugh godard. Keffiyeh small batch gochujang, tacos 90's hell of kale chips. Fingerstache drinking vinegar af, chicharrones ennui cornhole neutra art party occupy bespoke poutine try-hard salvia. Occupy taxidermy synth pitchfork, bushwick banjo beard glossier coloring book. Tousled man bun edison bulb thundercats, art party stumptown affogato ugh street art kombucha 3 wolf moon.", numOfPhotos: 0, questionPhotoURLs: nil, lovers: [], askerUsername: "@kenton")
+        let qGroup = DispatchGroup()
+        qGroup.enter()
         
-        let post2 = PublicQuestion(questionID: "111", title: "What Is The Secret To A Perfect Relationship?", featuredImageUrl: "none", tags: ["janet", "relationshipadvice", "follow4follow"], askedDate: Date().mediumDateTime.lowercased(), question: "Mustache cliche squid roof party twee cornhole. Vinyl offal selvage sustainable direct trade, post-ironic cornhole affogato vape echo park authentic locavore whatever squid. Gastropub church-key blue bottle taiyaki mlkshk, kitsch direct trade everyday carry 90's selvage cold-pressed helvetica.", background: "Mustache cliche squid roof party twee cornhole. Vinyl offal selvage sustainable direct trade, post-ironic cornhole affogato vape echo park authentic locavore whatever squid. Gastropub church-key blue bottle taiyaki mlkshk, kitsch direct trade everyday carry 90's selvage cold-pressed helvetica. Yr blue bottle chicharrones church-key. Cronut raw denim copper mug you probably haven't heard of them salvia kale chips gluten-free crucifix jean shorts migas affogato woke church-key. Viral portland authentic stumptown +1 vegan ennui put a bird on it. Hexagon sriracha readymade hot chicken gastropub mlkshk, tousled flannel four loko lo-fi slow-carb ugh godard. Keffiyeh small batch gochujang, tacos 90's hell of kale chips. Fingerstache drinking vinegar af, chicharrones ennui cornhole neutra art party occupy bespoke poutine try-hard salvia. Occupy taxidermy synth pitchfork, bushwick banjo beard glossier coloring book. Tousled man bun edison bulb thundercats, art party stumptown affogato ugh street art kombucha 3 wolf moon.", numOfPhotos: 0, questionPhotoURLs: nil, lovers: [], askerUsername: "@kenton")
-        
-        let post3 = PublicQuestion(questionID: "111", title: "What Is The Secret To A Perfect Relationship?", featuredImageUrl: "none", tags: ["janet", "relationshipadvice", "follow4follow"], askedDate: Date().mediumDateTime.lowercased(), question: "Mustache cliche squid roof party twee cornhole. Vinyl offal selvage sustainable direct trade, post-ironic cornhole affogato vape echo park authentic locavore whatever squid. Gastropub church-key blue bottle taiyaki mlkshk, kitsch direct trade everyday carry 90's selvage cold-pressed helvetica. Yr blue bottle chicharrones church-key.", background: "Mustache cliche squid roof party twee cornhole. Vinyl offal selvage sustainable direct trade, post-ironic cornhole affogato vape echo park authentic locavore whatever squid. Gastropub church-key blue bottle taiyaki mlkshk, kitsch direct trade everyday carry 90's selvage cold-pressed helvetica. Yr blue bottle chicharrones church-key. Cronut raw denim copper mug you probably haven't heard of them salvia kale chips gluten-free crucifix jean shorts migas affogato woke church-key. Viral portland authentic stumptown +1 vegan ennui put a bird on it. Hexagon sriracha readymade hot chicken gastropub mlkshk, tousled flannel four loko lo-fi slow-carb ugh godard. Keffiyeh small batch gochujang, tacos 90's hell of kale chips. Fingerstache drinking vinegar af, chicharrones ennui cornhole neutra art party occupy bespoke poutine try-hard salvia. Occupy taxidermy synth pitchfork, bushwick banjo beard glossier coloring book. Tousled man bun edison bulb thundercats, art party stumptown affogato ugh street art kombucha 3 wolf moon.", numOfPhotos: 0, questionPhotoURLs: nil, lovers: [], askerUsername: "@kenton")
-        
-        let post4 = PublicQuestion(questionID: "111", title: "What Is The Secret To A Perfect Relationship?", featuredImageUrl: "none", tags: ["janet", "relationshipadvice", "follow4follow"], askedDate: Date().mediumDateTime.lowercased(), question: "Mustache cliche squid roof party twee cornhole. Vinyl offal selvage sustainable direct trade, post-ironic cornhole affogato vape echo park authentic locavore whatever squid.", background: "Mustache cliche squid roof party twee cornhole. Vinyl offal selvage sustainable direct trade, post-ironic cornhole affogato vape echo park authentic locavore whatever squid. Gastropub church-key blue bottle taiyaki mlkshk, kitsch direct trade everyday carry 90's selvage cold-pressed helvetica. Yr blue bottle chicharrones church-key. Cronut raw denim copper mug you probably haven't heard of them salvia kale chips gluten-free crucifix jean shorts migas affogato woke church-key. Viral portland authentic stumptown +1 vegan ennui put a bird on it. Hexagon sriracha readymade hot chicken gastropub mlkshk, tousled flannel four loko lo-fi slow-carb ugh godard. Keffiyeh small batch gochujang, tacos 90's hell of kale chips. Fingerstache drinking vinegar af, chicharrones ennui cornhole neutra art party occupy bespoke poutine try-hard salvia. Occupy taxidermy synth pitchfork, bushwick banjo beard glossier coloring book. Tousled man bun edison bulb thundercats, art party stumptown affogato ugh street art kombucha 3 wolf moon.", numOfPhotos: 0, questionPhotoURLs: nil, lovers: [], askerUsername: "@kenton")
-        
-        let posts = [post1, post2, post3, post4]
-        
-        self.allQs = posts
-        
-        posts.forEach { question in
-            createViewModels(question: question, username: question.askerUsername) { [weak self] success in
-                
-                if success {
-                    self?.view.dismissLoader()
-                    self?.collectionView?.reloadData()
-                }
-                
+        DatabaseManager.shared.fetchGlobalFeed { [weak self] result in
+            
+            defer{
+                qGroup.leave()
             }
+            
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let qs):
+                    
+                    self?.allQs = qs.0
+                    self?.lastDoc = qs.1
+                    
+                    for theQ in qs.0 {
+                        self?.createViewModels(question: theQ, username: theQ.askerUsername, completion: { success in
+                            if success {
+                                self?.view.dismissLoader()
+                                self?.collectionView?.reloadData()
+                            }
+                        })
+                    }
+                    
+                case .failure(let error):
+                    
+                    self?.showAlert(error)
+                }
+            }
+            
         }
         
+    }
+    
+    private func showAlert(_ error: Error){
+        
+        let alert = UIAlertController(title: "Uh Oh!", message: error.localizedDescription, preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Okay!", style: .cancel, handler: nil))
+        present(alert, animated: true)
     }
     
     private func createViewModels(question: PublicQuestion, username: String, completion: @escaping(Bool) -> Void){
@@ -120,7 +220,7 @@ class HomeViewController: UIViewController {
         
         StorageManager.shared.profilePictureURL(for: username) { [weak self] profileImageUrl in
             
-            guard let profileImageUrl = URL(string: "gs://janet-mvp.appspot.com/users/66BE313D-ABC8-48B5-B7C1-09F47B7CE0C6/profile_pictures"), let featuredImageUrl = URL(string: "www.google.com") else {
+            guard let profileImageUrl = URL(string: "gs://janet-mvp.appspot.com/users/66BE313D-ABC8-48B5-B7C1-09F47B7CE0C6/profile_pictures") else {
                 return
             }
             
@@ -129,7 +229,7 @@ class HomeViewController: UIViewController {
             let postData: [PublicQuestionHomeFeedCellType] = [
                 
                     .Title(viewModel: TitleCollectionViewCellViewModel(
-                        featuredImageUrl: featuredImageUrl,
+                        featuredImageUrl: question.featuredImageUrl,
                         subject: question.title)),
                 
                     .Meta(viewModel: MetaCollectionViewCellViewModel(
@@ -227,6 +327,20 @@ extension HomeViewController {
     
     private func configureBodySectionHeight(section: Int, spacing: CGFloat) -> (NSCollectionLayoutItem, CGFloat) {
         
+        print("debug: this is the section number \(section)")
+        
+        if section >= allQs.count {
+            
+            let postItem = NSCollectionLayoutItem(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .absolute(0)
+                )
+            )
+            
+            return (postItem, 0)
+        }
+        
         let questionBody = allQs[section].question
         
         let bodyHeight = questionBody.height(withConstrainedWidth: self.view.width - (spacing*3.8), font: .systemFont(ofSize: 18))
@@ -252,6 +366,8 @@ extension HomeViewController {
         let collectionView = UICollectionView(
             frame: .zero,
             collectionViewLayout: UICollectionViewCompositionalLayout(sectionProvider: { [weak self] section, _ -> NSCollectionLayoutSection? in
+                
+                
 
                 // Item
                 let titleItem = NSCollectionLayoutItem(
@@ -315,7 +431,7 @@ extension HomeViewController {
         collectionView.backgroundColor = .secondarySystemBackground
         collectionView.delegate = self
         collectionView.dataSource = self
-
+        
         collectionView.register(
             TitleCollectionViewCell.self,
             forCellWithReuseIdentifier: TitleCollectionViewCell.identifier

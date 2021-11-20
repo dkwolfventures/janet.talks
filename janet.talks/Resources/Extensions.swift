@@ -8,10 +8,7 @@
 import Foundation
 import UIKit
 import ProgressHUD
-
-extension UIViewController {
-    
-}
+import Firebase
 
 extension UIView {
     
@@ -140,6 +137,14 @@ extension UIView {
         bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: -padding).isActive = true
         leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: padding).isActive = true
         trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: -padding).isActive = true
+    }
+    
+    var deviceWidth: CGFloat {
+        if UIDevice.current.orientation.isPortrait {
+            return superview?.frame.width ?? 0
+        } else {
+            return superview?.frame.height ?? 0
+        }
     }
 }
 

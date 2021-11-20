@@ -252,7 +252,7 @@ extension AskAQuestionViewController: AskQuestionSetImageAndTitleViewControllerD
         self.questionToPost.title = title
         
         self.questionToPost.usingDefaultImage = usingDefaultImage
-        
+        self.questionToPost.defaultFeaturedImageName = ""
         if usingDefaultImage {
             self.questionToPost.defaultFeaturedImageName = defaultImageName
         }

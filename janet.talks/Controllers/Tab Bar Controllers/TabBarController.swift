@@ -63,6 +63,8 @@ class TabBarController: UITabBarController {
         let nav3 = UINavigationController(rootViewController: alerts)
         let nav4 = UINavigationController(rootViewController: profile)
         
+        
+        
         nav1.navigationItem.rightBarButtonItem?.tintColor = .label
         nav1.navigationItem.leftBarButtonItem?.tintColor = .label
         

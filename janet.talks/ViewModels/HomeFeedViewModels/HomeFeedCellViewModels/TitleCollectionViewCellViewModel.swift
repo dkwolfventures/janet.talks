@@ -8,6 +8,6 @@
 import Foundation
 
 struct TitleCollectionViewCellViewModel {
-    let featuredImageUrl: URL
+    let featuredImageUrl: String
     let subject: String
 }

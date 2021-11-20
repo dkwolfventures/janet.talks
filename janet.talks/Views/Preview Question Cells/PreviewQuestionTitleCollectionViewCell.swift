@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class PreviewQuestionTitleCollectionViewCell: UICollectionViewCell {
     //MARK: - Properties
@@ -74,8 +75,8 @@ class PreviewQuestionTitleCollectionViewCell: UICollectionViewCell {
     
     func configure(with viewModel: PreviewQuestionTitleViewModel){
         
-        featuredImageView.image = viewModel.featuredImageUrl
         titleLabel.text = viewModel.subject
+        featuredImageView.image = viewModel.featuredImage
         
     }
 }

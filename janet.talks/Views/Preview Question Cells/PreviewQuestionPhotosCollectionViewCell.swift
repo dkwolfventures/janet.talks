@@ -76,12 +76,30 @@ class PreviewQuestionPhotosCollectionViewCell: UICollectionViewCell {
             
             let buttonWidth = (contentView.width) / 2
             
-            let buttonSize = CGSize(width: buttonWidth, height: buttonWidth)
+            var finalButtonSize: CGSize {
+                
+                switch image.size.width {
+                case ...image.size.height:
+                    return CGSize(width: buttonWidth/2, height: buttonWidth)
+                    
+                case image.size.height...:
+                    return CGSize(width: buttonWidth, height: buttonWidth/2)
+                  
+                case image.size.height:
+                    return CGSize(width: buttonWidth, height: buttonWidth)
+                    
+                default:
+                    fatalError()
+                }
+                
+            }
+            
+            let buttonSize = finalButtonSize
             
             if i == 0 {
-                button.frame = CGRect(x: spacing, y: 0, width: buttonSize.width, height: buttonSize.height)
+                button.frame = CGRect(x: spacing, y: contentView.height/2 - buttonSize.height/2, width: buttonSize.width, height: buttonSize.height)
             } else {
-                button.frame = CGRect(x: xOffset + 10, y: 0, width: buttonSize.width, height: buttonSize.height)
+                button.frame = CGRect(x: xOffset + 10, y: contentView.height/2 - buttonSize.height/2, width: buttonSize.width, height: buttonSize.height)
             }
             
             xOffset = xOffset + CGFloat(buttonPadding) + button.frame.size.width

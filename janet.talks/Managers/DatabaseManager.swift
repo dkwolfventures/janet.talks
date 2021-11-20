@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 import Firebase
 
 enum DatabaseEndpoints: String {
@@ -53,14 +54,15 @@ final class DatabaseManager {
     
         var questionToAdd = TempPublicQuestion(questionID: qId, title: title, featuredImageUrl: "", tags: nil, askedDate: Date().shortDateTime, question: questionBody, background: nil, numOfPhotos: question.questionImages!.count, lovers: [], askerUsername: PersistenceManager.shared.username)
         
+        let timestamp  = Timestamp(date: Date()).seconds
+        
         //if the user chose a custom featured image
 
-        if question.defaultFeaturedImageName != nil {
+        if question.defaultFeaturedImageName != "" {
             questionToAdd.featuredImageUrl = question.defaultFeaturedImageName!
         } else {
             StorageManager.shared.uploadFeaturedImage(customImage: featuredImage, questionID: qId) { result in
-                defer{
-                }
+                
                 switch result {
                 case .success(let url):
                     guard let url = url else {return}
@@ -75,6 +77,7 @@ final class DatabaseManager {
         if let tags = question.tags {
             
             if !tags.isEmpty {
+                self.saveQIdAndTimestampToTags(tags: tags, qId: qId, timestamp: timestamp)
                 questionToAdd.tags = tags
             }
             
@@ -94,13 +97,18 @@ final class DatabaseManager {
         
         if let questionDict = questionToAdd.asDictionary() {
             
-            self.db.collection(DatabaseEndpoints.globalFeed.rawValue).document(DatabaseEndpoints.publicQuestions.rawValue).collection(PersistenceManager.shared.languageChosen).document(qId).setData(questionDict) { error in
+            var dictData = questionDict
+            
+            dictData["timestamp"] = timestamp
+            
+            self.db.collection(DatabaseEndpoints.globalFeed.rawValue).document(DatabaseEndpoints.publicQuestions.rawValue).collection(PersistenceManager.shared.languageChosen).document(qId).setData(dictData) { error in
 
                 if let error = error {
                     completion(.failure(error))
                     return
                 }
                 
+                self.saveQIdToUserProfile(qId: qId, timestamp: timestamp)
                 completion(.success(true))
             }
             
@@ -171,7 +179,82 @@ final class DatabaseManager {
         
     }
     
+    public func fetchGlobalFeed(completion: @escaping(Result<([PublicQuestion], QueryDocumentSnapshot), Error>) -> Void){
+        
+        if UserDefaults.standard.string(forKey: "language") != nil {
+            
+            let reference = db.collection("globalFeed").document("publicQuestions").collection(PersistenceManager.shared.languageChosen).order(by: "timestamp").limit(to: 20)
+            
+            reference.getDocuments { snapshot, error in
+                
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                guard let questions = snapshot?.documents.compactMap({PublicQuestion(with: $0.data())}), let lastDoc = snapshot?.documents.last else {return}
+                
+                completion(.success((questions, lastDoc)))
+                
+            }
+            
+        } else {
+            
+            PersistenceManager.shared.setLanguage(language: .english)
+            
+            let reference = db.collection("globalFeed").document("publicQuestions").collection(PersistenceManager.shared.languageChosen).order(by: "timestamp").limit(to: 20)
+            
+            reference.getDocuments { snapshot, error in
+                
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                guard let questions = snapshot?.documents.compactMap({PublicQuestion(with: $0.data())}), let lastDoc = snapshot?.documents.last else {return}
+                
+                completion(.success((questions, lastDoc)))
+                
+            }
+            
+        }
+        
+    }
+    
+    public func addToGlobalFeed(lastDoc: QueryDocumentSnapshot, completion: @escaping(Result<([PublicQuestion], QueryDocumentSnapshot), Error>) -> Void){
+        
+        let reference = db.collection("globalFeed").document("publicQuestions").collection(PersistenceManager.shared.languageChosen).order(by: "timestamp").start(afterDocument: lastDoc).limit(to: 20)
+        
+        reference.getDocuments { snapshot, error in
+            
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let questions = snapshot?.documents.compactMap({PublicQuestion(with: $0.data())}), let lastDoc = snapshot?.documents.last else {return}
+            
+            completion(.success((questions, lastDoc)))
+        }
+    }
+    
     //MARK: - private helpers
+    
+    private func saveQIdAndTimestampToTags(tags: [String], qId: String, timestamp: Int64){
+        
+        for tag in tags {
+            db.document("tags/\(PersistenceManager.shared.languageChosen)/\(tag)/\(qId)").setData(["qId" : qId,
+                          "timestamp" : timestamp], merge: true)
+        }
+        
+    }
+    
+    private func saveQIdToUserProfile(qId: String, timestamp: Int64){
+        
+        db.document("users/\(PersistenceManager.shared.username)/ownedPublicQs/\(qId)").setData(["qId" : qId,
+                                                             "timestamp" : Timestamp(date: Date()),
+                                                             "language" : PersistenceManager.shared.languageChosen], merge: true)
+    }
     
     private func checkIfUsernameIsTaken(_ username: String, completion: @escaping(Result<Bool,Error>) -> Void){
         let reference = db.document("users/\(username)")

@@ -9,6 +9,6 @@ import Foundation
 import UIKit
 
 struct PreviewQuestionTitleViewModel {
-    let featuredImageUrl: UIImage
+    let featuredImage: UIImage
     let subject: String
 }

@@ -105,6 +105,7 @@ class PreviewQuestionCollectionViewController: UIViewController {
     }
     
     private func configureQuestion(){
+        print("debug: annnnnnd we're trying...")
         if let featuredImage = question.featuredImage, let defaultFeaturedImageName = question.defaultFeaturedImageName, let title = question.title, let questionBody = question.question, let background = question.situationOrBackground, let tags = question.tags, let photos = question.questionImages {
             let question = PublicQuestionToAdd(
                 featuredImage: featuredImage,
@@ -115,7 +116,8 @@ class PreviewQuestionCollectionViewController: UIViewController {
                 situationOrBackground: background,
                 tags: tags,
                 questionImages: photos)
-            
+            print("debug: annnnnnd we're trying 2... \(featuredImage)")
+
             self.createViewModels(question: question) { [weak self] success in
                 if success {
                     self?.collectionView?.reloadData()
@@ -129,7 +131,7 @@ class PreviewQuestionCollectionViewController: UIViewController {
         
         let questionData: [PreviewQuestionCellType] = [
             .Title(viewModel: PreviewQuestionTitleViewModel(
-                featuredImageUrl: question.featuredImage!,
+                featuredImage: question.featuredImage!,
                 subject: question.title!)),
             .Tags(viewModel: PreviewQuestionTagsViewModel(
                 tags: question.tags!)),
