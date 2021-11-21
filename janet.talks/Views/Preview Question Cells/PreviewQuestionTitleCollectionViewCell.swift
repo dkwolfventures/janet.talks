@@ -75,7 +75,7 @@ class PreviewQuestionTitleCollectionViewCell: UICollectionViewCell {
     
     func configure(with viewModel: PreviewQuestionTitleViewModel){
         
-        titleLabel.text = viewModel.subject
+        titleLabel.text = viewModel.subject.capitalized
         featuredImageView.image = viewModel.featuredImage
         
     }

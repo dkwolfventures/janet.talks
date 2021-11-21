@@ -312,35 +312,37 @@ extension AskQuestionTagsAndPhotosViewController: PHPickerViewControllerDelegate
         
         var count: Int = 0
         
-        DispatchQueue.main.async { [weak self] in
+        picker.dismiss(animated: true)
+        
+        if !results.isEmpty {
+            HapticsManager.shared.vibrateForSelection()
             
-            picker.dismiss(animated: true)
-            
-            if !results.isEmpty {
-                HapticsManager.shared.vibrateForSelection()
-                
-                self?.view.showLoader(loadingWhat: "Loading Photos...")
-            }
+            view.showLoader(loadingWhat: "Loading Photos...")
         }
         
+        let imageGroup = DispatchGroup()
+        
         for result in results {
+            imageGroup.enter()
+
             count += 1
             if result.itemProvider.canLoadObject(ofClass: UIImage.self) {
                 result.itemProvider.loadObject(ofClass: UIImage.self)
                 { [weak self]  image, error in
                     if let image = image as? UIImage {
-                        self?.addedPhotosArray.append(image)
-                        
-                        if count == results.count {
-                            DispatchQueue.main.async {
-                                self?.collectionView?.reloadData()
-                                self?.view.dismissLoader()
-                                HapticsManager.shared.vibrateForSelection()
-                            }
+                        defer{
+                            imageGroup.leave()
                         }
+                        self?.addedPhotosArray.append(image)
                     }
                 }
             }
+        }
+        
+        imageGroup.notify(queue: .main){ [weak self] in
+            self?.collectionView?.reloadData()
+            self?.view.dismissLoader()
+            HapticsManager.shared.vibrateForSelection()
         }
     }
 }

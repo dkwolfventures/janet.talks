@@ -63,7 +63,7 @@ class PreviewQuestionCollectionViewController: UIViewController {
         let qId = DatabaseManager.shared.getIDForQuestion()
         
         
-        DatabaseManager.shared.createQuestion(question: question, qId: qId) { [weak self, question] result in
+        DatabaseManager.shared.createQuestion(question: question, qId: qId.0, timestamp: qId.1) { [weak self, question] result in
             
             switch result {
             case .success(_):
@@ -105,8 +105,9 @@ class PreviewQuestionCollectionViewController: UIViewController {
     }
     
     private func configureQuestion(){
-        print("debug: annnnnnd we're trying...")
+        
         if let featuredImage = question.featuredImage, let defaultFeaturedImageName = question.defaultFeaturedImageName, let title = question.title, let questionBody = question.question, let background = question.situationOrBackground, let tags = question.tags, let photos = question.questionImages {
+            
             let question = PublicQuestionToAdd(
                 featuredImage: featuredImage,
                 usingDefaultImage: question.usingDefaultImage,
@@ -116,7 +117,6 @@ class PreviewQuestionCollectionViewController: UIViewController {
                 situationOrBackground: background,
                 tags: tags,
                 questionImages: photos)
-            print("debug: annnnnnd we're trying 2... \(featuredImage)")
 
             self.createViewModels(question: question) { [weak self] success in
                 if success {

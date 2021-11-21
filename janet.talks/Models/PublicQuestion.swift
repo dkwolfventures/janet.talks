@@ -8,7 +8,7 @@
 import Foundation
 import Firebase
 
-struct PublicQuestion: Codable, Hashable {
+struct PublicQuestion: Hashable {
     
     let questionID: String
     let title: String
@@ -21,6 +21,24 @@ struct PublicQuestion: Codable, Hashable {
     let questionPhotoURLs: [String]?
     let lovers: [String]
     let askerUsername: String
+    let timestamp: Timestamp
+    
+    init(dictionary: [String:Any]){
+        
+        self.questionID = dictionary["questionID"] as? String ?? ""
+        self.title = dictionary["title"] as? String ?? ""
+        self.featuredImageUrl = dictionary["featuredImageUrl"] as? String ?? ""
+        self.tags = dictionary["tags"] as? [String]? ?? []
+        self.askedDate = dictionary["askedDate"] as? String ?? ""
+        self.question = dictionary["question"] as? String ?? ""
+        self.background = dictionary["background"] as? String ?? ""
+        self.numOfPhotos = dictionary["numOfPhotos"] as? Int ?? 0
+        self.questionPhotoURLs = dictionary["questionPhotoURLs"] as? [String]? ?? []
+        self.lovers = dictionary["lovers"] as? [String] ?? []
+        self.askerUsername = dictionary["askerUsername"] as? String ?? ""
+        self.timestamp = dictionary["timestamp"] as? Timestamp ?? Timestamp(date: Date())
+
+    }
     
     var date: Date {
         guard let date = DateFormatter.formatter.date(from: askedDate) else { fatalError() }
@@ -55,6 +73,7 @@ struct TempPublicQuestion: Codable, Hashable {
     var numOfPhotos: Int
     var lovers: [String]
     var askerUsername: String
+    var photoUrls: [String]?
     
     var date: Date {
         guard let date = DateFormatter.formatter.date(from: askedDate) else { fatalError() }

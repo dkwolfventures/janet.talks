@@ -115,7 +115,7 @@ class PosterAndActionsCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
         
         let spacing = contentView.width/20
-        let imageSize: CGFloat = contentView.height - 20 - 15
+        let imageSize: CGFloat = contentView.height - 20 - 15 - 5
         let buttonIconSize: CGFloat = 35
         profileImageView.frame = CGRect(x: spacing, y: 10, width: imageSize, height: imageSize)
         profileImageView.layer.cornerRadius = imageSize/2
@@ -224,7 +224,7 @@ class PosterAndActionsCollectionViewCell: UICollectionViewCell {
             return viewModel.postLovers >= 1000 ? "\(shares)" : "\(Int(shares))"
         }
         
-        usernameLabel.text = viewModel.username
+        usernameLabel.text = "@" + viewModel.username
         loveAmount.text = loveCount
         commentAmount.text = commentCount
         shareAmount.text = shareCount

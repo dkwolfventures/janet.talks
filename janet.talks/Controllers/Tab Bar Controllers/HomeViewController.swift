@@ -25,7 +25,7 @@ class HomeViewController: UIViewController {
     
     /// Notification observer
     private var observer: NSObjectProtocol?
-
+    
     private let askQuestionButton: UIImageView = {
         let iv = UIImageView()
         iv.image = UIImage(systemName: "plus.circle")
@@ -40,8 +40,6 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         configureNav()
         
-        view.showLoader(loadingWhat: "Loading Feed...")
-        
         configureCollectionView()
         
         let refresher = UIRefreshControl()
@@ -52,10 +50,10 @@ class HomeViewController: UIViewController {
         (searchVC.searchResultsController as? SearchResultsViewController)?.delegate = self
         searchVC.searchBar.placeholder = "Search Qs..."
         
-//        searchVC.searchResultsUpdater = self
+        //        searchVC.searchResultsUpdater = self
         navigationItem.searchController = searchVC
         navigationItem.hidesSearchBarWhenScrolling = false
-    
+        
         observer = NotificationCenter.default.addObserver(forName: .didAskQNotification, object: PublicQuestionToAdd.self, queue: .main){ [weak self] _ in
             self?.viewModels.removeAll()
             self?.fetchGlobalFeed()
@@ -75,79 +73,38 @@ class HomeViewController: UIViewController {
         self.viewModels.removeAll()
         self.allQs.removeAll()
         
+        let qGroup = DispatchGroup()
+        qGroup.enter()
+        
         DatabaseManager.shared.fetchGlobalFeed { [weak self] result in
+            defer{
+                qGroup.leave()
+            }
             
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let qs):
-                    
-                    self?.allQs = qs.0
-                    self?.lastDoc = qs.1
-                    
-                    for theQ in qs.0 {
-                        self?.createViewModels(question: theQ, username: theQ.askerUsername, completion: { success in
-                            if success {
-                                DispatchQueue.main.async {
-                                    Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
-                                        self?.collectionView?.refreshControl?.endRefreshing()
-                                        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
-                                            self?.collectionView?.reloadData()
-                                        }
-                                    }
-                                }
-                            }
-                        })
-                    }
-                    
-                case .failure(let error):
-                    
-                    self?.showAlert(error)
-                }
+            switch result {
+            case .success(let qs):
+                
+                self?.allQs = qs.0
+                self?.lastDoc = qs.1
+                
+            case .failure(let error):
+                
+                self?.showAlert(error)
             }
             
         }
         
+        qGroup.notify(queue: .main){ [weak self] in
+            self?.collectionView?.refreshControl?.endRefreshing()
+            self?.collectionView?.reloadData()
+        }
+        
     }
     
-    @objc func didPullToRefresh(_ sender: UIRefreshControl) {
-        sender.beginRefreshing()
-        allQs.removeAll()
-        
-        DatabaseManager.shared.fetchGlobalFeed { [weak self] result in
-            
-                switch result {
-                case .success(let (publicQs, lastDoc)):
-                    
-                    self?.allQs = publicQs
-                    self?.lastDoc = lastDoc
-                    
-                    for theQ in publicQs {
-                        self?.createViewModels(question: theQ, username: theQ.askerUsername, completion: { success in
-                            if success {
-                                
-                                DispatchQueue.main.async {
-                                    self?.collectionView?.reloadData()
-                                    sender.endRefreshing()
-                                    self?.configureCollectionView()
-                                    
-                                }
-                                
-                            }
-                        })
-                    }
-                    
-                case .failure(_):
-                    break
-                }
-            
-        }
-
-    }
-
     @objc private func askQuestionTapped(){
         
         HapticsManager.shared.vibrateForSelection()
-       
+        
         let vc = AskAQuestionViewController()
         
         let navVC = UINavigationController(rootViewController: vc)
@@ -172,35 +129,26 @@ class HomeViewController: UIViewController {
         qGroup.enter()
         
         DatabaseManager.shared.fetchGlobalFeed { [weak self] result in
-            
             defer{
                 qGroup.leave()
             }
-            
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let qs):
-                    
-                    self?.allQs = qs.0
-                    self?.lastDoc = qs.1
-                    
-                    for theQ in qs.0 {
-                        self?.createViewModels(question: theQ, username: theQ.askerUsername, completion: { success in
-                            if success {
-                                self?.view.dismissLoader()
-                                self?.collectionView?.reloadData()
-                            }
-                        })
-                    }
-                    
-                case .failure(let error):
-                    
-                    self?.showAlert(error)
-                }
+            switch result {
+            case .success(let qs):
+                
+                self?.allQs = qs.0
+                self?.lastDoc = qs.1
+                
+            case .failure(let error):
+                
+                self?.showAlert(error)
             }
             
         }
         
+        qGroup.notify(queue: .main){ [weak self] in
+                self?.view.dismissLoader()
+                self?.collectionView?.reloadData()
+        }
     }
     
     private func showAlert(_ error: Error){
@@ -211,14 +159,16 @@ class HomeViewController: UIViewController {
         present(alert, animated: true)
     }
     
-    private func createViewModels(question: PublicQuestion, username: String, completion: @escaping(Bool) -> Void){
+    private func createViewModels(question: PublicQuestion, username: String, idx: Int, completion: @escaping(Bool) -> Void){
         
+        let qGroup = DispatchGroup()
+        qGroup.enter()
         
         guard let currentUsername = UserDefaults.standard.string(forKey: "username") else {
             return
         }
         
-        StorageManager.shared.profilePictureURL(for: username) { [weak self] profileImageUrl in
+        StorageManager.shared.profilePictureURL(for: username) { [weak self, viewModels] profileImageUrl in
             
             guard let profileImageUrl = URL(string: "gs://janet-mvp.appspot.com/users/66BE313D-ABC8-48B5-B7C1-09F47B7CE0C6/profile_pictures") else {
                 return
@@ -228,13 +178,13 @@ class HomeViewController: UIViewController {
             
             let postData: [PublicQuestionHomeFeedCellType] = [
                 
-                    .Title(viewModel: TitleCollectionViewCellViewModel(
-                        featuredImageUrl: question.featuredImageUrl,
-                        subject: question.title)),
+                .Title(viewModel: TitleCollectionViewCellViewModel(
+                    featuredImageUrl: question.featuredImageUrl,
+                    subject: question.title)),
                 
                     .Meta(viewModel: MetaCollectionViewCellViewModel(
                         datePosted: question.askedDate,
-                        views: 1000,
+                        views: question.lovers.count,
                         answers: 500)),
                 
                     .Post(viewModel: PostCollectionViewCellViewModel(
@@ -248,12 +198,24 @@ class HomeViewController: UIViewController {
                         postLovers: 300,
                         comments: 231,
                         shares: 100)),
-                    
+                
                     .Heart
             ]
             
-            self?.viewModels.append(postData)
-            completion(true)
+            qGroup.leave()
+            
+            qGroup.notify(queue: .main){
+                
+                if idx <= (viewModels.count - 1) {
+                    self?.viewModels.insert(postData, at: idx)
+                    completion(true)
+                } else {
+                    self?.viewModels.append(postData)
+                    completion(true)
+                }
+                
+            }
+            
         }
     }
     
@@ -263,18 +225,22 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource{
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        viewModels.count
+        allQs.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModels[section].count
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cellType = viewModels[indexPath.section][indexPath.row]
         
-        switch cellType {
-        case .Title(let viewModel):
+        let row = indexPath.row
+        let section = indexPath.section
+        let q = allQs[section]
+        
+        switch row {
+        case 0:
+            let viewModel = TitleCollectionViewCellViewModel(featuredImageUrl: q.featuredImageUrl, subject: q.title)
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: TitleCollectionViewCell.identifier,
                 for: indexPath) as? TitleCollectionViewCell else {
@@ -282,7 +248,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 }
             cell.configure(with: viewModel, index: indexPath.section)
             return cell
-        case .Meta(let viewModel):
+        case 1:
+            let viewModel = MetaCollectionViewCellViewModel(datePosted: q.askedDate, views: 0, answers: 0)
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: MetaCollectionViewCell.identifier,
                 for: indexPath) as? MetaCollectionViewCell else {
@@ -290,7 +257,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 }
             cell.configure(with: viewModel, index: indexPath.section)
             return cell
-        case .Post(let viewModel):
+        case 2:
+            let viewModel = PostCollectionViewCellViewModel(snipet: q.question)
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: QuestionBodyCollectionViewCell.identifier,
                 for: indexPath) as? QuestionBodyCollectionViewCell else {
@@ -299,7 +267,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             cell.configure(with: viewModel, index: indexPath.section)
             return cell
             
-        case .Actions(let viewModel):
+        case 3:
+            let viewModel = ActionsCollectionViewCellViewModel(profileImageUrl: URL(string: "janet-mvp.appspot.com/users/66BE313D-ABC8-48B5-B7C1-09F47B7CE0C6/profile_pictures")!, isLoved: false, username: q.askerUsername, qsAsked: 200, postLovers: 0, comments: 0, shares: 0)
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: PosterAndActionsCollectionViewCell.identifier,
                 for: indexPath) as? PosterAndActionsCollectionViewCell else {
@@ -308,17 +277,18 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             cell.configure(with: viewModel, index: indexPath.section)
             return cell
             
-        case .Heart:
+        case 4:
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: HeartSectionSeperatorCollectionViewCell.identifier,
                 for: indexPath) as? HeartSectionSeperatorCollectionViewCell else {
                     fatalError()
                 }
             return cell
+        default:
+            fatalError()
         }
         
     }
-    
 }
 
 //MARK: - setUpCollectionView
@@ -326,8 +296,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 extension HomeViewController {
     
     private func configureBodySectionHeight(section: Int, spacing: CGFloat) -> (NSCollectionLayoutItem, CGFloat) {
-        
-        print("debug: this is the section number \(section)")
         
         if section >= allQs.count {
             
@@ -360,6 +328,9 @@ extension HomeViewController {
     }
     
     func configureCollectionView() {
+        
+        view.showLoader(loadingWhat: "Loading Feed...")
+        
         let sectionHeight: CGFloat = 300
         let spacing = view.spacing
         
@@ -368,7 +339,7 @@ extension HomeViewController {
             collectionViewLayout: UICollectionViewCompositionalLayout(sectionProvider: { [weak self] section, _ -> NSCollectionLayoutSection? in
                 
                 
-
+                
                 // Item
                 let titleItem = NSCollectionLayoutItem(
                     layoutSize: NSCollectionLayoutSize(
@@ -422,11 +393,11 @@ extension HomeViewController {
                 let section = NSCollectionLayoutSection(group: group)
                 
                 section.contentInsets = NSDirectionalEdgeInsets(top: 3, leading: spacing, bottom: 10, trailing: spacing)
-
+                
                 return section
             })
         )
-
+        
         view.addSubview(collectionView)
         collectionView.backgroundColor = .secondarySystemBackground
         collectionView.delegate = self

@@ -28,7 +28,7 @@ final class StorageManager {
     
     public func uploadFeaturedImage(customImage: UIImage, questionID: String, completion: @escaping(Result<URL?, Error>) -> Void){
         
-        let ref = storage.child("\(questionID)/featured_image.png")
+        let ref = storage.child("\(PersistenceManager.shared.languageChosen)/\(questionID)/featured_image.png")
         
         guard let data = customImage.jpegData(compressionQuality: 0.5) else {return}
         
@@ -51,39 +51,13 @@ final class StorageManager {
         
     }
     
-    public func uploadQuestionImage(photo: UIImage, imageId: String, completion: @escaping(Result<String?, Error>) -> Void){
+    public func uploadQuestionImagesSendBackURLs(photos: [UIImage], questionId: String, completion: @escaping([String]) -> Void){
         
-        guard let data = photo.jpegData(compressionQuality: 0.50) else {return}
-        
-        let ref = storage.child("\(PersistenceManager.shared.username)/public-q-photos/\(imageId).png")
-        
-        ref.putData(data, metadata: nil) { _, error in
-            
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            
-            ref.downloadURL { url, error in
-                if let error = error {
-                    completion(.failure(error))
-                    return
-                }
-                
-                guard let url = url else {return}
-                print("debug: these are the photo urls \(url.absoluteString)")
-                completion(.success(url.absoluteString))
-            }
-        }
-        
-    }
-    
-    public func uploadQuestionImages(photos: [UIImage], questionId: String){
-        
+        let urlGroup = DispatchGroup()
         var urlStrings = [String]()
         
         for (idx, photo) in photos.enumerated() {
-            
+            urlGroup.enter()
             if idx >= 16 {
                 break
             }
@@ -96,17 +70,26 @@ final class StorageManager {
                 
                 ref.downloadURL { url, _ in
                     
+                    defer{
+                        urlGroup.leave()
+                    }
                     guard let url = url else {return}
                     
-                    urlStrings.append(url.absoluteString)
+                    if idx <= (urlStrings.count - 1) {
+                        urlStrings.insert(url.absoluteString, at: idx)
+                    } else {
+                        urlStrings.append(url.absoluteString)
+                    }
                     
-                    DatabaseManager.shared.uploadURLsToPostedQuestion(qId: questionId, urls: urlStrings)
                 }
                 
             }
         }
         
+        urlGroup.notify(queue: .main){
+            completion(urlStrings)
+        }
+        
     }
-    
 
 }

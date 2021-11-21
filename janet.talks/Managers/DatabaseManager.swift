@@ -46,26 +46,36 @@ final class DatabaseManager {
     
     //MARK: - public helpers
     
-    public func createQuestion(question: PublicQuestionToAdd, qId: String, completion: @escaping(Result<Bool?, Error>) -> Void){
+    public func createQuestion(question: PublicQuestionToAdd, qId: String, timestamp: Timestamp, completion: @escaping(Result<Bool?, Error>) -> Void){
+        
+        let qGroup = DispatchGroup()
         
         guard let title = question.title, let featuredImage = question.featuredImage, let questionBody = question.question else {
             return
         }
     
-        var questionToAdd = TempPublicQuestion(questionID: qId, title: title, featuredImageUrl: "", tags: nil, askedDate: Date().shortDateTime, question: questionBody, background: nil, numOfPhotos: question.questionImages!.count, lovers: [], askerUsername: PersistenceManager.shared.username)
-        
-        let timestamp  = Timestamp(date: Date()).seconds
+        var questionToAdd = TempPublicQuestion(questionID: qId, title: title, featuredImageUrl: "", tags: nil, askedDate: Date().shortDateTime, question: questionBody, background: nil, numOfPhotos: question.questionImages!.count, lovers: [], askerUsername: PersistenceManager.shared.username, photoUrls: nil)
         
         //if the user chose a custom featured image
 
-        if question.defaultFeaturedImageName != "" {
+        print("debug: going to upload image")
+        if question.defaultFeaturedImageName != nil && question.defaultFeaturedImageName != "" {
+            print("debug: going default image path")
+
             questionToAdd.featuredImageUrl = question.defaultFeaturedImageName!
         } else {
+            qGroup.enter()
+            print("debug: going custom image path")
+
             StorageManager.shared.uploadFeaturedImage(customImage: featuredImage, questionID: qId) { result in
-                
+                defer {
+                    qGroup.leave()
+                }
                 switch result {
                 case .success(let url):
                     guard let url = url else {return}
+                    print("debug: success custom image path")
+
                     questionToAdd.featuredImageUrl = url.absoluteString
                     
                 case .failure(let error):
@@ -91,28 +101,34 @@ final class DatabaseManager {
         
         if let photos = question.questionImages {
             if !photos.isEmpty {
-                StorageManager.shared.uploadQuestionImages(photos: photos, questionId: qId)
+                qGroup.enter()
+                StorageManager.shared.uploadQuestionImagesSendBackURLs(photos: photos, questionId: qId) { urls in
+                    defer {
+                        qGroup.leave()
+                    }
+                    questionToAdd.photoUrls = urls
+                }
             }
         }
         
-        if let questionDict = questionToAdd.asDictionary() {
+        qGroup.notify(queue: .main){
             
-            var dictData = questionDict
-            
-            dictData["timestamp"] = timestamp
-            
-            self.db.collection(DatabaseEndpoints.globalFeed.rawValue).document(DatabaseEndpoints.publicQuestions.rawValue).collection(PersistenceManager.shared.languageChosen).document(qId).setData(dictData) { error in
+            if let questionDict = questionToAdd.asDictionary() {
+                
+                self.db.collection(DatabaseEndpoints.globalFeed.rawValue).document(DatabaseEndpoints.publicQuestions.rawValue).collection(PersistenceManager.shared.languageChosen).document(qId).setData(questionDict, merge: true) { error in
 
-                if let error = error {
-                    completion(.failure(error))
-                    return
+                    if let error = error {
+                        completion(.failure(error))
+                        return
+                    }
+                    
+                    self.saveQIdToUserProfile(qId: qId, timestamp: timestamp)
+                    completion(.success(true))
                 }
                 
-                self.saveQIdToUserProfile(qId: qId, timestamp: timestamp)
-                completion(.success(true))
             }
-            
         }
+        
     }
     
     public func uploadURLsToPostedQuestion(qId: String, urls: [String]){
@@ -169,13 +185,15 @@ final class DatabaseManager {
         
     }
     
-    public func getIDForQuestion() -> String{
+    public func getIDForQuestion() -> (String, Timestamp) {
         
         let reference = db.collection("globalFeed").document("publicQuestions").collection(PersistenceManager.shared.languageChosen).document()
         
-        reference.setData([:])
+        let timestamp = Timestamp(date: Date())
         
-        return reference.documentID
+        reference.setData(["timestamp": timestamp])
+        
+        return (reference.documentID, timestamp)
         
     }
     
@@ -183,7 +201,7 @@ final class DatabaseManager {
         
         if UserDefaults.standard.string(forKey: "language") != nil {
             
-            let reference = db.collection("globalFeed").document("publicQuestions").collection(PersistenceManager.shared.languageChosen).order(by: "timestamp").limit(to: 20)
+            let reference = db.collection("globalFeed").document("publicQuestions").collection(PersistenceManager.shared.languageChosen).order(by: "timestamp", descending: true)
             
             reference.getDocuments { snapshot, error in
                 
@@ -192,7 +210,7 @@ final class DatabaseManager {
                     return
                 }
                 
-                guard let questions = snapshot?.documents.compactMap({PublicQuestion(with: $0.data())}), let lastDoc = snapshot?.documents.last else {return}
+                guard let questions = snapshot?.documents.compactMap({PublicQuestion(dictionary: $0.data())}), let lastDoc = snapshot?.documents.last else {return}
                 
                 completion(.success((questions, lastDoc)))
                 
@@ -202,7 +220,7 @@ final class DatabaseManager {
             
             PersistenceManager.shared.setLanguage(language: .english)
             
-            let reference = db.collection("globalFeed").document("publicQuestions").collection(PersistenceManager.shared.languageChosen).order(by: "timestamp").limit(to: 20)
+            let reference = db.collection("globalFeed").document("publicQuestions").collection(PersistenceManager.shared.languageChosen).order(by: "timestamp", descending: true).limit(to: 20)
             
             reference.getDocuments { snapshot, error in
                 
@@ -211,7 +229,7 @@ final class DatabaseManager {
                     return
                 }
                 
-                guard let questions = snapshot?.documents.compactMap({PublicQuestion(with: $0.data())}), let lastDoc = snapshot?.documents.last else {return}
+                guard let questions = snapshot?.documents.compactMap({PublicQuestion(dictionary: $0.data())}), let lastDoc = snapshot?.documents.last else {return}
                 
                 completion(.success((questions, lastDoc)))
                 
@@ -232,7 +250,7 @@ final class DatabaseManager {
                 return
             }
             
-            guard let questions = snapshot?.documents.compactMap({PublicQuestion(with: $0.data())}), let lastDoc = snapshot?.documents.last else {return}
+            guard let questions = snapshot?.documents.compactMap({PublicQuestion(dictionary: $0.data())}), let lastDoc = snapshot?.documents.last else {return}
             
             completion(.success((questions, lastDoc)))
         }
@@ -240,7 +258,7 @@ final class DatabaseManager {
     
     //MARK: - private helpers
     
-    private func saveQIdAndTimestampToTags(tags: [String], qId: String, timestamp: Int64){
+    private func saveQIdAndTimestampToTags(tags: [String], qId: String, timestamp: Timestamp){
         
         for tag in tags {
             db.document("tags/\(PersistenceManager.shared.languageChosen)/\(tag)/\(qId)").setData(["qId" : qId,
@@ -249,10 +267,10 @@ final class DatabaseManager {
         
     }
     
-    private func saveQIdToUserProfile(qId: String, timestamp: Int64){
+    private func saveQIdToUserProfile(qId: String, timestamp: Timestamp){
         
         db.document("users/\(PersistenceManager.shared.username)/ownedPublicQs/\(qId)").setData(["qId" : qId,
-                                                             "timestamp" : Timestamp(date: Date()),
+                                                             "timestamp" : timestamp,
                                                              "language" : PersistenceManager.shared.languageChosen], merge: true)
     }
     

@@ -21,7 +21,7 @@ class TitleCollectionViewCell: UICollectionViewCell {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
-        iv.layer.cornerRadius = 10
+        iv.layer.cornerRadius = 25
         iv.layer.masksToBounds = true
         iv.showLoader(loadingWhat: nil)
         return iv
@@ -76,38 +76,36 @@ class TitleCollectionViewCell: UICollectionViewCell {
     
     func configure(with viewModel: TitleCollectionViewCellViewModel, index: Int){
         
-        titleLabel.text = viewModel.subject
+        titleLabel.text = viewModel.subject.capitalized
         
-        if viewModel.featuredImageUrl.contains(".png") {
-            let url = URL(string: viewModel.featuredImageUrl)
-            let processor = DownsamplingImageProcessor(size: featuredImageView.bounds.size)
-                         |> RoundCornerImageProcessor(cornerRadius: 20)
-            featuredImageView.kf.indicatorType = .activity
-            featuredImageView.kf.setImage(
-                with: url,
-                placeholder: UIImage(named: "placeholderImage"),
-                options: [
-                    .processor(processor),
-                    .scaleFactor(UIScreen.main.scale),
-                    .transition(.fade(1)),
-                    .cacheOriginalImage
-                ])
-            {
-                [weak self] result in
-                
-                self?.featuredImageView.dismissLoader()
-                switch result {
-                case .success(let value):
-                    print("Task done for: \(value.source.url?.absoluteString ?? "")")
-                case .failure(let error):
-                    print("Job failed: \(error.localizedDescription)")
-                }
-            }
-        } else {
+        let url = URL(string: viewModel.featuredImageUrl)
+        let processor = DownsamplingImageProcessor(size: featuredImageView.bounds.size)
+                     |> RoundCornerImageProcessor(cornerRadius: 25)
+        featuredImageView.kf.indicatorType = .activity
+        featuredImageView.kf.setImage(
+            with: url,
+            placeholder: UIImage(named: viewModel.featuredImageUrl),
+            options: [
+                .processor(processor),
+                .scaleFactor(UIScreen.main.scale),
+                .transition(.fade(1)),
+                .cacheOriginalImage
+            ])
+        {
+            [weak self, featuredImageView] result in
             
             featuredImageView.dismissLoader()
-            featuredImageView.image = UIImage(named: viewModel.featuredImageUrl)
-            
+            switch result {
+            case .success(let value):
+                print("Task done for: \(value.source.url?.absoluteString ?? "")")
+            case .failure(let error):
+                
+                if featuredImageView.image == nil {
+                    self?.configure(with: viewModel, index: index)
+                }
+                
+                print("Job failed: \(error.localizedDescription)")
+            }
         }
         
     }
