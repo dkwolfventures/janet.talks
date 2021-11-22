@@ -20,6 +20,47 @@ final class StorageManager {
     
     //MARK: - public stuff
     
+    public func downloadProfileImageUrlForUsername(username: String, completion: @escaping(String?) -> Void){
+        
+        let group = DispatchGroup()
+        group.enter()
+        storage.child("\(username)/profilePicture.png").downloadURL { url, error in
+            defer{
+                group.leave()
+            }
+            
+            guard error == nil else {
+                completion("person.circle")
+                return
+            }
+            
+            group.notify(queue: .main){
+                completion(url?.absoluteString)
+            }
+        }
+    }
+    
+    public func downloadProfileImageUrl(qs: [PublicQuestion]) -> [URL] {
+        
+        var urls = [URL]()
+        
+        for q in qs {
+            guard let ref = q.profilePictureStorageReference else {
+                return []
+            }
+            
+            storage.child(ref).downloadURL { url, _ in
+                
+                if let url = url {
+                    urls.append(url)
+                }
+            }
+        }
+        
+        return urls
+        
+    }
+    
     public func profilePictureURL(for username: String, completion: @escaping (URL?) -> Void) {
         storage.child("\(username)/profile_picture.png").downloadURL { url, _ in
             completion(url)

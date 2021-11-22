@@ -23,7 +23,6 @@ class TitleCollectionViewCell: UICollectionViewCell {
         iv.clipsToBounds = true
         iv.layer.cornerRadius = 25
         iv.layer.masksToBounds = true
-        iv.showLoader(loadingWhat: nil)
         return iv
     }()
     
@@ -94,7 +93,6 @@ class TitleCollectionViewCell: UICollectionViewCell {
         {
             [weak self, featuredImageView] result in
             
-            featuredImageView.dismissLoader()
             switch result {
             case .success(let value):
                 print("Task done for: \(value.source.url?.absoluteString ?? "")")

@@ -23,6 +23,30 @@ struct PublicQuestion: Hashable {
     let askerUsername: String
     let timestamp: Timestamp
     
+    var profilePictureStorageReference: String? {
+        let username = PersistenceManager.shared.username
+        return "\(username)/profilePicture.png"
+    }
+    
+    var date: Date {
+        guard let date = DateFormatter.formatter.date(from: askedDate) else { fatalError() }
+        return date
+    }
+    
+    var storageReferences: [String] {
+        let username = PersistenceManager.shared.username
+        var results = [String]()
+        
+        if numOfPhotos > 0 {
+            
+            for idx in 0..<numOfPhotos {
+                results.append("\(username)/public-q-photos/\(questionID)\(idx).png")
+            }
+            
+        }
+        return results
+    }
+
     init(dictionary: [String:Any]){
         
         self.questionID = dictionary["questionID"] as? String ?? ""
@@ -40,25 +64,6 @@ struct PublicQuestion: Hashable {
 
     }
     
-    var date: Date {
-        guard let date = DateFormatter.formatter.date(from: askedDate) else { fatalError() }
-        return date
-    }
-    
-    var storageReferences: [String] {
-        let username = PersistenceManager.shared.username
-        var results = [String]()
-        
-        if numOfPhotos > 0 {
-            
-            for idx in 0..<numOfPhotos {
-                results.append("\(username)/public-q-photos/\(questionID)\(idx)")
-            }
-            
-        }
-        return results
-    }
-
 }
 
 struct TempPublicQuestion: Codable, Hashable {

@@ -19,7 +19,8 @@ class PosterAndActionsCollectionViewCell: UICollectionViewCell {
         iv.clipsToBounds = true
         iv.layer.masksToBounds = true
         iv.contentMode = .scaleAspectFill
-        iv.image = UIImage(named: "profilePlaceholder")
+        iv.backgroundColor = .secondarySystemFill
+        iv.tintColor = .secondaryLabel
         return iv
     }()
     
@@ -177,33 +178,38 @@ class PosterAndActionsCollectionViewCell: UICollectionViewCell {
     
     func configure(with viewModel: ActionsCollectionViewCellViewModel, index: Int){
         
-        profileImageView.image = UIImage(named: "profilePlaceholder")
-        
         self.love = CGFloat(viewModel.postLovers)
         self.comments = CGFloat(viewModel.comments)
         self.shares = CGFloat(viewModel.shares)
         
-//        let processor = DownsamplingImageProcessor(size: profileImageView.bounds.size)
-//        |> RoundCornerImageProcessor(cornerRadius: profileImageView.width/2)
-//        profileImageView.kf.indicatorType = .activity
-//        profileImageView.kf.setImage(
-//            with: viewModel.profileImageUrl,
-//            placeholder: UIImage(named: "placeholderImage"),
-//            options: [
-//                .processor(processor),
-//                .scaleFactor(UIScreen.main.scale),
-//                .transition(.fade(1)),
-//                .cacheOriginalImage
-//            ])
-//        {
-//            result in
-//            switch result {
-//            case .success(let value):
-//                print("Task done for: \(value.source.url?.absoluteString ?? "")")
-//            case .failure(let error):
-//                print("Job failed: \(error.localizedDescription)")
-//            }
-//        }
+        let url = URL(string: viewModel.profileImageUrl)
+        let processor = DownsamplingImageProcessor(size: profileImageView.bounds.size)
+                     |> RoundCornerImageProcessor(cornerRadius: profileImageView.width/2)
+        profileImageView.kf.indicatorType = .activity
+        profileImageView.kf.setImage(
+            with: url,
+            placeholder: UIImage(named: viewModel.profileImageUrl),
+            options: [
+                .processor(processor),
+                .scaleFactor(UIScreen.main.scale),
+                .transition(.fade(1)),
+                .cacheOriginalImage
+            ])
+        {
+            [weak self, profileImageView] result in
+            
+            switch result {
+            case .success(let value):
+                print("Task done for: \(value.source.url?.absoluteString ?? "")")
+            case .failure(let error):
+                
+                if profileImageView.image == nil {
+                    self?.configure(with: viewModel, index: index)
+                }
+                
+                print("Job failed: \(error.localizedDescription)")
+            }
+        }
         
         self.isLoved = viewModel.isLoved
         

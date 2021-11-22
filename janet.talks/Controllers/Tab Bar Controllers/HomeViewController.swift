@@ -22,6 +22,7 @@ class HomeViewController: UIViewController {
     
     //all posts
     private var allQs: [PublicQuestion] = []
+    private var allQProfileUrls: [String] = []
     
     /// Notification observer
     private var observer: NSObjectProtocol?
@@ -72,6 +73,7 @@ class HomeViewController: UIViewController {
         collectionView?.refreshControl?.beginRefreshing()
         self.viewModels.removeAll()
         self.allQs.removeAll()
+        self.allQProfileUrls.removeAll()
         
         let qGroup = DispatchGroup()
         qGroup.enter()
@@ -83,6 +85,18 @@ class HomeViewController: UIViewController {
             
             switch result {
             case .success(let qs):
+                
+                for q in qs.0 {
+                    qGroup.enter()
+                    StorageManager.shared.downloadProfileImageUrlForUsername(username: q.askerUsername) { [weak self] url in
+                        defer {
+                            qGroup.leave()
+                        }
+                        if let url = url {
+                            self?.allQProfileUrls.append(url)
+                        }
+                    }
+                }
                 
                 self?.allQs = qs.0
                 self?.lastDoc = qs.1
@@ -135,6 +149,18 @@ class HomeViewController: UIViewController {
             switch result {
             case .success(let qs):
                 
+                for q in qs.0 {
+                    qGroup.enter()
+                    StorageManager.shared.downloadProfileImageUrlForUsername(username: q.askerUsername) { [weak self] url in
+                        defer {
+                            qGroup.leave()
+                        }
+                        if let url = url {
+                            self?.allQProfileUrls.append(url)
+                        }
+                    }
+                }
+                
                 self?.allQs = qs.0
                 self?.lastDoc = qs.1
                 
@@ -158,67 +184,67 @@ class HomeViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Okay!", style: .cancel, handler: nil))
         present(alert, animated: true)
     }
-    
-    private func createViewModels(question: PublicQuestion, username: String, idx: Int, completion: @escaping(Bool) -> Void){
-        
-        let qGroup = DispatchGroup()
-        qGroup.enter()
-        
-        guard let currentUsername = UserDefaults.standard.string(forKey: "username") else {
-            return
-        }
-        
-        StorageManager.shared.profilePictureURL(for: username) { [weak self, viewModels] profileImageUrl in
-            
-            guard let profileImageUrl = URL(string: "gs://janet-mvp.appspot.com/users/66BE313D-ABC8-48B5-B7C1-09F47B7CE0C6/profile_pictures") else {
-                return
-            }
-            
-            let isLoved = question.lovers.contains(currentUsername)
-            
-            let postData: [PublicQuestionHomeFeedCellType] = [
-                
-                .Title(viewModel: TitleCollectionViewCellViewModel(
-                    featuredImageUrl: question.featuredImageUrl,
-                    subject: question.title)),
-                
-                    .Meta(viewModel: MetaCollectionViewCellViewModel(
-                        datePosted: question.askedDate,
-                        views: question.lovers.count,
-                        answers: 500)),
-                
-                    .Post(viewModel: PostCollectionViewCellViewModel(
-                        snipet: question.question)),
-                
-                    .Actions(viewModel: ActionsCollectionViewCellViewModel(
-                        profileImageUrl: profileImageUrl,
-                        isLoved: isLoved,
-                        username: username,
-                        qsAsked: 200,
-                        postLovers: 300,
-                        comments: 231,
-                        shares: 100)),
-                
-                    .Heart
-            ]
-            
-            qGroup.leave()
-            
-            qGroup.notify(queue: .main){
-                
-                if idx <= (viewModels.count - 1) {
-                    self?.viewModels.insert(postData, at: idx)
-                    completion(true)
-                } else {
-                    self?.viewModels.append(postData)
-                    completion(true)
-                }
-                
-            }
-            
-        }
-    }
-    
+//
+//    private func createViewModels(question: PublicQuestion, username: String, idx: Int, completion: @escaping(Bool) -> Void){
+//
+//        let qGroup = DispatchGroup()
+//        qGroup.enter()
+//
+//        guard let currentUsername = UserDefaults.standard.string(forKey: "username") else {
+//            return
+//        }
+//
+//        StorageManager.shared.profilePictureURL(for: username) { [weak self, viewModels] profileImageUrl in
+//
+//            guard let profileImageUrl = URL(string: "gs://janet-mvp.appspot.com/users/66BE313D-ABC8-48B5-B7C1-09F47B7CE0C6/profile_pictures") else {
+//                return
+//            }
+//
+//            let isLoved = question.lovers.contains(currentUsername)
+//
+//            let postData: [PublicQuestionHomeFeedCellType] = [
+//
+//                .Title(viewModel: TitleCollectionViewCellViewModel(
+//                    featuredImageUrl: question.featuredImageUrl,
+//                    subject: question.title)),
+//
+//                    .Meta(viewModel: MetaCollectionViewCellViewModel(
+//                        datePosted: question.askedDate,
+//                        views: question.lovers.count,
+//                        answers: 500)),
+//
+//                    .Post(viewModel: PostCollectionViewCellViewModel(
+//                        snipet: question.question)),
+//
+//                    .Actions(viewModel: ActionsCollectionViewCellViewModel(
+//                        profileImageUrl: profileImageUrl,
+//                        isLoved: isLoved,
+//                        username: username,
+//                        qsAsked: 200,
+//                        postLovers: 300,
+//                        comments: 231,
+//                        shares: 100)),
+//
+//                    .Heart
+//            ]
+//
+//            qGroup.leave()
+//
+//            qGroup.notify(queue: .main){
+//
+//                if idx <= (viewModels.count - 1) {
+//                    self?.viewModels.insert(postData, at: idx)
+//                    completion(true)
+//                } else {
+//                    self?.viewModels.append(postData)
+//                    completion(true)
+//                }
+//
+//            }
+//
+//        }
+//    }
+//
 }
 
 //MARK: - uiCollectionViewDelegate & dataSource
@@ -268,7 +294,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return cell
             
         case 3:
-            let viewModel = ActionsCollectionViewCellViewModel(profileImageUrl: URL(string: "janet-mvp.appspot.com/users/66BE313D-ABC8-48B5-B7C1-09F47B7CE0C6/profile_pictures")!, isLoved: false, username: q.askerUsername, qsAsked: 200, postLovers: 0, comments: 0, shares: 0)
+            let viewModel = ActionsCollectionViewCellViewModel(profileImageUrl: allQProfileUrls[section], isLoved: false, username: q.askerUsername, qsAsked: 200, postLovers: 0, comments: 0, shares: 0)
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: PosterAndActionsCollectionViewCell.identifier,
                 for: indexPath) as? PosterAndActionsCollectionViewCell else {
@@ -314,7 +340,20 @@ extension HomeViewController {
         let bodyHeight = questionBody.height(withConstrainedWidth: self.view.width - (spacing*3.8), font: .systemFont(ofSize: 18))
         
         var finalHeight: CGFloat {
-            return bodyHeight > (view.width - (spacing * 2)) ? view.width - (spacing * 2) : bodyHeight
+            
+            switch bodyHeight {
+            case ...150:
+                return bodyHeight + 45
+                
+            case ...(view.width - (spacing * 2)):
+                return bodyHeight
+                
+            case (view.width - (spacing * 2))...:
+                return view.width - (spacing * 2)
+                    
+            default:
+                fatalError()
+            }
         }
         
         let postItem = NSCollectionLayoutItem(

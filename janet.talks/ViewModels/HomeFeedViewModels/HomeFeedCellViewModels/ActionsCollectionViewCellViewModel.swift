@@ -8,7 +8,7 @@
 import Foundation
 
 struct ActionsCollectionViewCellViewModel {
-    let profileImageUrl: URL
+    let profileImageUrl: String
     let isLoved: Bool
     let username: String
     let qsAsked: Int
