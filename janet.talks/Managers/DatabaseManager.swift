@@ -201,7 +201,7 @@ final class DatabaseManager {
         
         if UserDefaults.standard.string(forKey: "language") != nil {
             
-            let reference = db.collection("globalFeed").document("publicQuestions").collection(PersistenceManager.shared.languageChosen).order(by: "timestamp", descending: true)
+            let reference = db.collection("globalFeed").document("publicQuestions").collection(PersistenceManager.shared.languageChosen).order(by: "timestamp", descending: true).limit(to: 5)
             
             reference.getDocuments { snapshot, error in
                 
@@ -220,7 +220,7 @@ final class DatabaseManager {
             
             PersistenceManager.shared.setLanguage(language: .english)
             
-            let reference = db.collection("globalFeed").document("publicQuestions").collection(PersistenceManager.shared.languageChosen).order(by: "timestamp", descending: true).limit(to: 20)
+            let reference = db.collection("globalFeed").document("publicQuestions").collection(PersistenceManager.shared.languageChosen).order(by: "timestamp", descending: true).limit(to: 5)
             
             reference.getDocuments { snapshot, error in
                 
@@ -239,9 +239,31 @@ final class DatabaseManager {
         
     }
     
+    ///like state that are supported
+    enum LoveState {
+        case love
+        case unlove
+    }
+    
+    public func updateLikeState(state: LoveState, postID: String, completion: @escaping(Bool) -> Void){
+        
+        let reference = db.collection("globalFeed").document("publicQuestions").collection(PersistenceManager.shared.languageChosen).document(postID)
+        
+    }
+    
+    public func fetchHowManyQsAskedByUsername(username: String, competion: @escaping(Int) -> Void){
+        
+        let reference = db.collection("users").document(username).collection("ownedPublicQs")
+        
+        reference.getDocuments { snapshot, _ in
+            guard let count = snapshot?.count else {return}
+            competion(count)
+        }
+    }
+    
     public func addToGlobalFeed(lastDoc: QueryDocumentSnapshot, completion: @escaping(Result<([PublicQuestion], QueryDocumentSnapshot), Error>) -> Void){
         
-        let reference = db.collection("globalFeed").document("publicQuestions").collection(PersistenceManager.shared.languageChosen).order(by: "timestamp").start(afterDocument: lastDoc).limit(to: 20)
+        let reference = db.collection("globalFeed").document("publicQuestions").collection(PersistenceManager.shared.languageChosen).order(by: "timestamp", descending: true).start(afterDocument: lastDoc).limit(to: 5)
         
         reference.getDocuments { snapshot, error in
             
@@ -257,6 +279,10 @@ final class DatabaseManager {
     }
     
     //MARK: - private helpers
+    
+    private func getQ(){
+        
+    }
     
     private func saveQIdAndTimestampToTags(tags: [String], qId: String, timestamp: Timestamp){
         

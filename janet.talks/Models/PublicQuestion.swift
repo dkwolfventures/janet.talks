@@ -19,7 +19,7 @@ struct PublicQuestion: Hashable {
     let background: String?
     let numOfPhotos: Int
     let questionPhotoURLs: [String]?
-    let lovers: [String]
+    var lovers: [String]
     let askerUsername: String
     let timestamp: Timestamp
     

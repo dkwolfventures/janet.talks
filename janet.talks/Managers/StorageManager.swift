@@ -20,22 +20,29 @@ final class StorageManager {
     
     //MARK: - public stuff
     
-    public func downloadProfileImageUrlForUsername(username: String, completion: @escaping(String?) -> Void){
+    public func downloadProfileImageUrlForUsername(username: String, completion: @escaping((String, (String?, Int))) -> Void){
         
         let group = DispatchGroup()
+        group.enter()
         group.enter()
         storage.child("\(username)/profilePicture.png").downloadURL { url, error in
             defer{
                 group.leave()
             }
             
-            guard error == nil else {
-                completion("person.circle")
-                return
-            }
-            
-            group.notify(queue: .main){
-                completion(url?.absoluteString)
+            DatabaseManager.shared.fetchHowManyQsAskedByUsername(username: username) { qsAskedInt in
+                defer{
+                    group.leave()
+                }
+                
+                guard error == nil else {
+                    completion((username, ("person.circle", qsAskedInt)))
+                    return
+                }
+                
+                group.notify(queue: .main){
+                    completion((username, (url?.absoluteString, qsAskedInt)))
+                }
             }
         }
     }

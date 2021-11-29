@@ -70,8 +70,8 @@ class PreviewQuestionCollectionViewController: UIViewController {
                 
                 HapticsManager.shared.vibrate(for: .success)
                 self?.view.dismissLoader()
-                self?.completion?()
                 NotificationCenter.default.post(name: .didAskQNotification, object: question)
+                self?.completion?()
             case .failure(let error):
                 self?.showAlert(error: error)
             }

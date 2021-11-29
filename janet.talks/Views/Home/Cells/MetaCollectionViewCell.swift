@@ -76,7 +76,7 @@ class MetaCollectionViewCell: UICollectionViewCell {
             
         }
         
-        metaLabel.text = "\(date) | Views: \(views) | Answers: \(viewModel.answers)"
+        metaLabel.text = "\(date) | Views: \(views) | Answers: \(viewModel.answers)".replacingOccurrences(of: "/", with: "·")
         
     }
 }

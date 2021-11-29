@@ -8,12 +8,18 @@
 import UIKit
 import Kingfisher
 
+protocol PosterAndActionsCollectionViewCellDelegate: AnyObject {
+    func loveButtonTapped(_ cell: PosterAndActionsCollectionViewCell, isLoved: Bool, index: Int)
+}
+
 class PosterAndActionsCollectionViewCell: UICollectionViewCell {
     //MARK: - properties
     static let identifier = "PosterAndActionsCollectionViewCell"
     
+    weak var delegate: PosterAndActionsCollectionViewCellDelegate?
+    
     private var isLoved = false
-
+    private var index = 0
     private let profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.clipsToBounds = true
@@ -152,35 +158,39 @@ class PosterAndActionsCollectionViewCell: UICollectionViewCell {
         commentAmount.text = nil
         shareAmount.text = nil
         
-        loveButton.imageView?.image = UIImage(systemName: "heart")
+        loveButton.imageView?.image = nil
         loveButton.tintColor = .label
     }
     
     //MARK: - actions
     
     @objc private func loveButtonTapped(){
-        
-        if isLoved {
-            self.isLoved = false
-            loveButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        if self.isLoved {
+            let image = UIImage(systemName: "suit.heart")
+            loveButton.setImage(image, for: .normal)
             loveButton.tintColor = .label
-            self.love -= 1
-        } else {
-            self.isLoved = true
-            loveButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        }
+        else {
+            let image = UIImage(systemName: "suit.heart.fill")
+            loveButton.setImage(image, for: .normal)
             loveButton.tintColor = .systemRed
-            self.love += 1
         }
         
+        delegate?.loveButtonTapped(self,
+                                   isLoved: !isLoved,
+                                   index: index)
+        self.isLoved = !isLoved
     }
     
     //MARK: - helpers
     
     func configure(with viewModel: ActionsCollectionViewCellViewModel, index: Int){
         
-        self.love = CGFloat(viewModel.postLovers)
+        self.love = CGFloat(viewModel.postLovers.count)
         self.comments = CGFloat(viewModel.comments)
         self.shares = CGFloat(viewModel.shares)
+        
+        self.index = index
         
         let url = URL(string: viewModel.profileImageUrl)
         let processor = DownsamplingImageProcessor(size: profileImageView.bounds.size)
@@ -188,7 +198,7 @@ class PosterAndActionsCollectionViewCell: UICollectionViewCell {
         profileImageView.kf.indicatorType = .activity
         profileImageView.kf.setImage(
             with: url,
-            placeholder: UIImage(named: viewModel.profileImageUrl),
+            placeholder: UIImage(systemName: viewModel.profileImageUrl),
             options: [
                 .processor(processor),
                 .scaleFactor(UIScreen.main.scale),
@@ -219,19 +229,19 @@ class PosterAndActionsCollectionViewCell: UICollectionViewCell {
         }
         
         var loveCount: String {
-            return viewModel.postLovers >= 1000 ? "\(love)" : "\(Int(love))"
+            return viewModel.postLovers.count >= 1000 ? "\(love)" : "\(Int(love))"
         }
         
         var commentCount: String {
-            return viewModel.postLovers >= 1000 ? "\(comments)" : "\(Int(comments))"
+            return viewModel.postLovers.count >= 1000 ? "\(comments)" : "\(Int(comments))"
         }
         
         var shareCount: String {
-            return viewModel.postLovers >= 1000 ? "\(shares)" : "\(Int(shares))"
+            return viewModel.postLovers.count >= 1000 ? "\(shares)" : "\(Int(shares))"
         }
         
         usernameLabel.text = "@" + viewModel.username
-        loveAmount.text = loveCount
+        loveAmount.text = "\(viewModel.postLovers.count)"
         commentAmount.text = commentCount
         shareAmount.text = shareCount
         

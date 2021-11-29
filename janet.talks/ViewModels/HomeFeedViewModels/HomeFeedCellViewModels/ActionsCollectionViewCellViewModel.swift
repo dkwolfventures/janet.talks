@@ -12,7 +12,7 @@ struct ActionsCollectionViewCellViewModel {
     let isLoved: Bool
     let username: String
     let qsAsked: Int
-    let postLovers: Int
+    let postLovers: [String]
     let comments: Int
     let shares: Int
 }

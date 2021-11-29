@@ -22,7 +22,10 @@ class HomeViewController: UIViewController {
     
     //all posts
     private var allQs: [PublicQuestion] = []
-    private var allQProfileUrls: [String] = []
+    private var allQProfileUrls: [String:(String, Int)] = [:]
+    
+    ///where to paginate
+    private var idxToWatchFor: IndexPath? = [4, 0]
     
     /// Notification observer
     private var observer: NSObjectProtocol?
@@ -43,10 +46,6 @@ class HomeViewController: UIViewController {
         
         configureCollectionView()
         
-        let refresher = UIRefreshControl()
-        refresher.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
-        collectionView?.refreshControl = refresher
-        
         fetchGlobalFeed()
         (searchVC.searchResultsController as? SearchResultsViewController)?.delegate = self
         searchVC.searchBar.placeholder = "Search Qs..."
@@ -56,9 +55,10 @@ class HomeViewController: UIViewController {
         navigationItem.hidesSearchBarWhenScrolling = false
         
         observer = NotificationCenter.default.addObserver(forName: .didAskQNotification, object: PublicQuestionToAdd.self, queue: .main){ [weak self] _ in
-            self?.viewModels.removeAll()
-            self?.fetchGlobalFeed()
+            self?.handleRefresh()
         }
+        
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -71,9 +71,6 @@ class HomeViewController: UIViewController {
     @objc func handleRefresh(){
         
         collectionView?.refreshControl?.beginRefreshing()
-        self.viewModels.removeAll()
-        self.allQs.removeAll()
-        self.allQProfileUrls.removeAll()
         
         let qGroup = DispatchGroup()
         qGroup.enter()
@@ -82,7 +79,6 @@ class HomeViewController: UIViewController {
             defer{
                 qGroup.leave()
             }
-            
             switch result {
             case .success(let qs):
                 
@@ -92,15 +88,17 @@ class HomeViewController: UIViewController {
                         defer {
                             qGroup.leave()
                         }
-                        if let url = url {
-                            self?.allQProfileUrls.append(url)
+                        if let photoUrl = url.1.0 {
+                            
+                            self?.allQProfileUrls[url.0] = (photoUrl, url.1.1)
+                            
                         }
                     }
                 }
                 
                 self?.allQs = qs.0
                 self?.lastDoc = qs.1
-                
+                self?.idxToWatchFor = [4,0]
             case .failure(let error):
                 
                 self?.showAlert(error)
@@ -110,7 +108,7 @@ class HomeViewController: UIViewController {
         
         qGroup.notify(queue: .main){ [weak self] in
             self?.collectionView?.refreshControl?.endRefreshing()
-            self?.collectionView?.reloadData()
+                self?.collectionView?.reloadData()
         }
         
     }
@@ -155,8 +153,10 @@ class HomeViewController: UIViewController {
                         defer {
                             qGroup.leave()
                         }
-                        if let url = url {
-                            self?.allQProfileUrls.append(url)
+                        if let photoUrl = url.1.0 {
+                            
+                            self?.allQProfileUrls[url.0] = (photoUrl, url.1.1)
+                            
                         }
                     }
                 }
@@ -184,67 +184,64 @@ class HomeViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Okay!", style: .cancel, handler: nil))
         present(alert, animated: true)
     }
-//
-//    private func createViewModels(question: PublicQuestion, username: String, idx: Int, completion: @escaping(Bool) -> Void){
-//
-//        let qGroup = DispatchGroup()
-//        qGroup.enter()
-//
-//        guard let currentUsername = UserDefaults.standard.string(forKey: "username") else {
-//            return
-//        }
-//
-//        StorageManager.shared.profilePictureURL(for: username) { [weak self, viewModels] profileImageUrl in
-//
-//            guard let profileImageUrl = URL(string: "gs://janet-mvp.appspot.com/users/66BE313D-ABC8-48B5-B7C1-09F47B7CE0C6/profile_pictures") else {
-//                return
-//            }
-//
-//            let isLoved = question.lovers.contains(currentUsername)
-//
-//            let postData: [PublicQuestionHomeFeedCellType] = [
-//
-//                .Title(viewModel: TitleCollectionViewCellViewModel(
-//                    featuredImageUrl: question.featuredImageUrl,
-//                    subject: question.title)),
-//
-//                    .Meta(viewModel: MetaCollectionViewCellViewModel(
-//                        datePosted: question.askedDate,
-//                        views: question.lovers.count,
-//                        answers: 500)),
-//
-//                    .Post(viewModel: PostCollectionViewCellViewModel(
-//                        snipet: question.question)),
-//
-//                    .Actions(viewModel: ActionsCollectionViewCellViewModel(
-//                        profileImageUrl: profileImageUrl,
-//                        isLoved: isLoved,
-//                        username: username,
-//                        qsAsked: 200,
-//                        postLovers: 300,
-//                        comments: 231,
-//                        shares: 100)),
-//
-//                    .Heart
-//            ]
-//
-//            qGroup.leave()
-//
-//            qGroup.notify(queue: .main){
-//
-//                if idx <= (viewModels.count - 1) {
-//                    self?.viewModels.insert(postData, at: idx)
-//                    completion(true)
-//                } else {
-//                    self?.viewModels.append(postData)
-//                    completion(true)
-//                }
-//
-//            }
-//
-//        }
-//    }
-//
+    
+    private func foundIndexNowPaginate(){
+        
+        if let idxToWatchFor = idxToWatchFor {
+            
+            let idxIs = idxToWatchFor[0]
+            
+            
+            let qGroup = DispatchGroup()
+            qGroup.enter()
+            
+            guard let lastDoc = lastDoc else {
+                return
+            }
+            
+            DatabaseManager.shared.addToGlobalFeed(lastDoc: lastDoc) { [weak self] result in
+                
+                self?.lastDoc = nil
+                
+                defer{
+                    qGroup.leave()
+                }
+                
+                switch result {
+                case .success(let qs):
+                    
+                    for q in qs.0 {
+                        qGroup.enter()
+                        StorageManager.shared.downloadProfileImageUrlForUsername(username: q.askerUsername) { [weak self] url in
+                            defer {
+                                qGroup.leave()
+                            }
+                            if let photoUrl = url.1.0 {
+                                
+                                self?.allQProfileUrls[url.0] = (photoUrl, url.1.1)
+                                
+                            }
+                        }
+                    }
+                    
+                    if !self!.allQs.contains(qs.0[0]){
+                        self?.allQs += qs.0
+                    }
+
+                    self?.idxToWatchFor = [idxIs + 5, 0]
+                    self?.lastDoc = qs.1
+                    
+                case .failure(let error):
+                    self?.showAlert(error)
+                }
+            }
+            
+            qGroup.notify(queue: .main){ [weak self] in
+                self?.collectionView?.reloadData()
+            }
+        }
+    }
+
 }
 
 //MARK: - uiCollectionViewDelegate & dataSource
@@ -255,7 +252,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        if section != (allQs.count - 1){
+            return 5
+        } else {
+            return 4
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -294,13 +295,14 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return cell
             
         case 3:
-            let viewModel = ActionsCollectionViewCellViewModel(profileImageUrl: allQProfileUrls[section], isLoved: false, username: q.askerUsername, qsAsked: 200, postLovers: 0, comments: 0, shares: 0)
+            let viewModel = ActionsCollectionViewCellViewModel(profileImageUrl: allQProfileUrls[q.askerUsername]!.0, isLoved: q.lovers.contains(PersistenceManager.shared.username), username: q.askerUsername, qsAsked: allQProfileUrls[q.askerUsername]!.1, postLovers: q.lovers, comments: 0, shares: 0)
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: PosterAndActionsCollectionViewCell.identifier,
                 for: indexPath) as? PosterAndActionsCollectionViewCell else {
                     fatalError()
                 }
             cell.configure(with: viewModel, index: indexPath.section)
+            cell.delegate = self
             return cell
             
         case 4:
@@ -315,6 +317,14 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
         
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        if indexPath[0] == allQs.count - 1 && idxToWatchFor != nil {
+            foundIndexNowPaginate()
+        }
+    }
+    
 }
 
 //MARK: - setUpCollectionView
@@ -370,7 +380,7 @@ extension HomeViewController {
         
         view.showLoader(loadingWhat: "Loading Feed...")
         
-        let sectionHeight: CGFloat = 300
+        let sectionHeight: CGFloat = 260
         let spacing = view.spacing
         
         let collectionView = UICollectionView(
@@ -408,11 +418,11 @@ extension HomeViewController {
                 let heartItem = NSCollectionLayoutItem(
                     layoutSize: NSCollectionLayoutSize(
                         widthDimension: .fractionalWidth(1),
-                        heightDimension: .absolute(25)
+                        heightDimension: .absolute(20)
                     )
                 )
                 
-                heartItem.contentInsets = NSDirectionalEdgeInsets(top: 25, leading: 0, bottom: 25, trailing: 0)
+                heartItem.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 0, bottom: 0, trailing: 0)
                 
                 let group = NSCollectionLayoutGroup.vertical(
                     layoutSize: NSCollectionLayoutSize(
@@ -442,6 +452,10 @@ extension HomeViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         
+        let refresher = UIRefreshControl()
+        collectionView.refreshControl = refresher
+        refresher.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        
         collectionView.register(
             TitleCollectionViewCell.self,
             forCellWithReuseIdentifier: TitleCollectionViewCell.identifier
@@ -467,7 +481,17 @@ extension HomeViewController {
     
 }
 
-//MARK: - SearchResultsViewControllerDelegate
+//MARK: - PosterAndActionsCollectionViewCellDelegate
+
+extension HomeViewController: PosterAndActionsCollectionViewCellDelegate {
+    func loveButtonTapped(_ cell: PosterAndActionsCollectionViewCell, isLoved: Bool, index: Int) {
+        HapticsManager.shared.vibrateForSelection()
+        let post = allQs[index]
+        
+    }
+}
+
+//MARK: - SearchResultsViewControllerDelegatw
 
 extension HomeViewController: SearchResultsViewControllerDelegate {
     
