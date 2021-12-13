@@ -8,6 +8,7 @@
 import Foundation
 
 struct ActionsCollectionViewCellViewModel {
+    let qID: String
     let profileImageUrl: String
     let isLoved: Bool
     let username: String
@@ -15,4 +16,14 @@ struct ActionsCollectionViewCellViewModel {
     let postLovers: [String]
     let comments: Int
     let shares: Int
+    
+    var lovers: Int {
+        return postLovers.count
+    }
+    
+    var saveQid: Bool {
+        let lovedIDs = PersistenceManager.shared.lovedQustions
+        
+        return lovedIDs.contains(qID)
+    }
 }

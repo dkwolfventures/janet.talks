@@ -42,6 +42,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureNav()
         
         configureCollectionView()
@@ -107,8 +108,10 @@ class HomeViewController: UIViewController {
         }
         
         qGroup.notify(queue: .main){ [weak self] in
-            self?.collectionView?.refreshControl?.endRefreshing()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                self?.collectionView?.refreshControl?.endRefreshing()
                 self?.collectionView?.reloadData()
+            }
         }
         
     }
@@ -295,7 +298,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return cell
             
         case 3:
-            let viewModel = ActionsCollectionViewCellViewModel(profileImageUrl: allQProfileUrls[q.askerUsername]!.0, isLoved: q.lovers.contains(PersistenceManager.shared.username), username: q.askerUsername, qsAsked: allQProfileUrls[q.askerUsername]!.1, postLovers: q.lovers, comments: 0, shares: 0)
+            let viewModel = ActionsCollectionViewCellViewModel(qID: q.questionID, profileImageUrl: allQProfileUrls[q.askerUsername]!.0, isLoved: q.lovers.contains(PersistenceManager.shared.username), username: q.askerUsername, qsAsked: allQProfileUrls[q.askerUsername]!.1, postLovers: q.lovers, comments: 0, shares: 0)
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: PosterAndActionsCollectionViewCell.identifier,
                 for: indexPath) as? PosterAndActionsCollectionViewCell else {
@@ -487,7 +490,15 @@ extension HomeViewController: PosterAndActionsCollectionViewCellDelegate {
     func loveButtonTapped(_ cell: PosterAndActionsCollectionViewCell, isLoved: Bool, index: Int) {
         HapticsManager.shared.vibrateForSelection()
         let post = allQs[index]
+        let username = PersistenceManager.shared.username
         
+        DatabaseManager.shared.updateLikeState(state: isLoved ? .love : .unlove, qID: post.questionID, username: username) { success in
+            guard success else {
+                return
+            }
+            
+            
+        }
     }
 }
 

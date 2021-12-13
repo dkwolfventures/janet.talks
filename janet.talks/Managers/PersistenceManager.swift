@@ -38,6 +38,7 @@ final class PersistenceManager {
     private struct Constants {
         static let onboardedKey = "hasOnboarded"
         static let tagsKey = "tags"
+        static let lovedQsKey = "lovedQIDs"
     }
 
     //MARK: - public
@@ -52,6 +53,10 @@ final class PersistenceManager {
     
     public lazy var username = userDefaults.string(forKey: "username")!
     
+    public var lovedQustions: [String] {
+        return userDefaults.stringArray(forKey: Constants.lovedQsKey) ?? []
+    }
+    
     public var tags: [String] {
         if !hasOnboarded {
             userDefaults.set(true, forKey: Constants.onboardedKey)
@@ -59,6 +64,34 @@ final class PersistenceManager {
         }
         
         return userDefaults.stringArray(forKey: Constants.tagsKey) ?? []
+    }
+    
+    public func addQToLovedQs(qID: String) {
+        var currentLovedQIDs = lovedQustions
+        currentLovedQIDs.append(qID)
+        print("DEBUG: loved qids \(currentLovedQIDs). LOVED ID \(qID)")
+        userDefaults.set(currentLovedQIDs, forKey: Constants.lovedQsKey)
+        userDefaults.set(true, forKey: qID)
+    }
+    
+    public func removeFromLovedQs(qID: String) {
+        var currentLovedQIDs = lovedQustions
+        currentLovedQIDs.removeAll(where: {$0 == qID})
+        print("DEBUG: loved qids \(currentLovedQIDs). REMOVED ID \(qID)")
+        userDefaults.set(currentLovedQIDs, forKey: Constants.lovedQsKey)
+        userDefaults.removeObject(forKey: qID)
+    }
+    
+    public func hasLovedQ(qID: String) -> Bool{
+        
+        if lovedQustions.contains(qID){
+            let isLoved = userDefaults.bool(forKey: qID)
+            
+            return isLoved ? true : false
+        } else {
+            return false
+        }
+        
     }
     
     public func isFollowingTag(tag: String) -> Bool {

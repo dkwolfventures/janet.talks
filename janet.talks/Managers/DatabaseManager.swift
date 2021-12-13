@@ -245,9 +245,58 @@ final class DatabaseManager {
         case unlove
     }
     
-    public func updateLikeState(state: LoveState, postID: String, completion: @escaping(Bool) -> Void){
+    public func updateLikeState(state: LoveState, qID: String, username: String, completion: @escaping(Bool) -> Void){
         
-        let reference = db.collection("globalFeed").document("publicQuestions").collection(PersistenceManager.shared.languageChosen).document(postID)
+        let reference = db.collection("globalFeed").document("publicQuestions").collection(PersistenceManager.shared.languageChosen).document(qID)
+        
+        getQ(with: qID) { q in
+            guard var q = q else {
+                completion(false)
+                return
+            }
+            
+            switch state {
+            case .love:
+                if !q.lovers.contains(username) {
+                    PersistenceManager.shared.addQToLovedQs(qID: qID)
+                    q.lovers.append(username)
+                }
+            case .unlove:
+                PersistenceManager.shared.removeFromLovedQs(qID: qID)
+                q.lovers.removeAll(where: {$0 == username})
+            }
+            
+            var newQ: [String : Any]? = ["questionID" : q.questionID,
+                                                   "title" : q.title,
+                                                   "featuredImageUrl" : q.featuredImageUrl,
+                                                   "askedDate" : q.askedDate,
+                                                   "question" : q.question,
+                                                   "numOfPhotos" : q.numOfPhotos,
+                                                   "lovers" : q.lovers,
+                                                   "askerUsername" : q.askerUsername,
+                                                   "timestamp" : q.timestamp]
+            
+            if let tags = q.tags {
+                newQ?["tags"] = tags
+            }
+            
+            if let background = q.background {
+                newQ?["background"] = background
+            }
+            
+            if let photoUrls = q.questionPhotoURLs {
+                newQ?["questionPhotoURLs"] = photoUrls
+            }
+            
+            guard let data = newQ else {
+                completion(false)
+                return
+            }
+            reference.setData(data) { error in
+                completion(error == nil)
+            }
+
+        }
         
     }
     
@@ -280,7 +329,18 @@ final class DatabaseManager {
     
     //MARK: - private helpers
     
-    private func getQ(){
+    private func getQ(with id: String, completion: @escaping(PublicQuestion?) -> Void){
+        
+        let ref = db.collection("globalFeed").document("publicQuestions").collection(PersistenceManager.shared.languageChosen).document(id)
+        
+        ref.getDocument { snapshot, error in
+            guard let data = snapshot?.data(), error == nil else {
+                completion(nil)
+                return
+            }
+            
+            completion(PublicQuestion(dictionary: data))
+        }
         
     }
     

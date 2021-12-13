@@ -13,12 +13,12 @@ struct PublicQuestion: Hashable {
     let questionID: String
     let title: String
     let featuredImageUrl: String
-    let tags: [String]?
+    var tags: [String]?
     let askedDate: String
     let question: String
-    let background: String?
+    var background: String?
     let numOfPhotos: Int
-    let questionPhotoURLs: [String]?
+    var questionPhotoURLs: [String]?
     var lovers: [String]
     let askerUsername: String
     let timestamp: Timestamp
