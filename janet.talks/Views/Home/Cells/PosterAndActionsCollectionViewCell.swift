@@ -31,8 +31,15 @@ class PosterAndActionsCollectionViewCell: UICollectionViewCell {
     }()
     
     private let usernameLabel: UILabel = {
-        let label = UILabel()
+        let label = PaddingLabel()
         label.font = .systemFont(ofSize: 20)
+        label.textAlignment = .center
+        label.backgroundColor = .systemBackground
+        label.layer.cornerCurve = .circular
+        label.layer.masksToBounds = true
+        label.paddingLeft = 5
+        label.paddingRight = 5
+        label.paddingBottom = 2.5
         return label
     }()
     
@@ -65,19 +72,27 @@ class PosterAndActionsCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let spacing = contentView.width/20
         let imageSize: CGFloat = contentView.height - 20
-        profileImageView.frame = CGRect(x: spacing, y: 0, width: imageSize, height: imageSize)
+        profileImageView.centerX(inView: contentView, topAnchor: topAnchor, paddingTop: 0)
+        profileImageView.setDimensions(height: imageSize, width: imageSize)
         profileImageView.layer.cornerRadius = imageSize/2
         
-        usernameLabel.centerY(inView: profileImageView, leftAnchor: profileImageView.rightAnchor, paddingLeft: spacing/2)
+        usernameLabel.sizeToFit()
+        
+        var usernameWidth: CGFloat {
+            return usernameLabel.width >= contentView.width/4 ? contentView.width/4 : usernameLabel.width
+        }
+        usernameLabel.frame = CGRect(x: (contentView.width/3 + spacing)/2 - usernameLabel.width/2, y: profileImageView.center.y - usernameLabel.height/2, width: usernameWidth, height: usernameLabel.height)
+        usernameLabel.layer.cornerRadius = usernameLabel.height/2
         
         questionAskedLabel.anchor(top: profileImageView.bottomAnchor, left: profileImageView.leftAnchor, paddingTop: 4)
+        
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        profileImageView.layer.borderColor = UIColor.systemBackground.cgColor
         profileImageView.image = nil
         usernameLabel.text = nil
         qAskedLabel.text = nil
@@ -118,6 +133,8 @@ class PosterAndActionsCollectionViewCell: UICollectionViewCell {
                 print("Job failed: \(error.localizedDescription)")
             }
         }
+        
+        
         
         usernameLabel.text = "@" + viewModel.username
         

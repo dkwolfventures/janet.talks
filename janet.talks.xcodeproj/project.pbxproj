@@ -101,6 +101,7 @@
 		176868EE270CCECE00532476 /* MyQuestionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868ED270CCECE00532476 /* MyQuestionsTableViewCell.swift */; };
 		176868F0270D0C7E00532476 /* PrivateChatQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868EF270D0C7E00532476 /* PrivateChatQuestion.swift */; };
 		176868F2270D0C8C00532476 /* PublicQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176868F1270D0C8C00532476 /* PublicQuestion.swift */; };
+		178BBBD42773980A009620C6 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178BBBD32773980A009620C6 /* PaddingLabel.swift */; };
 		DC86C717CD372298DA55EBFD /* libPods-janet.talks-janet.talksTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5B207B7C46F1A9038349752 /* libPods-janet.talks-janet.talksTests.a */; };
 		DE2C79F5CD7538DBF90FD13C /* libPods-janet.talks.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75B937D5313715664D1C79BE /* libPods-janet.talks.a */; };
 /* End PBXBuildFile section */
@@ -214,6 +215,7 @@
 		176868ED270CCECE00532476 /* MyQuestionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyQuestionsTableViewCell.swift; sourceTree = "<group>"; };
 		176868EF270D0C7E00532476 /* PrivateChatQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateChatQuestion.swift; sourceTree = "<group>"; };
 		176868F1270D0C8C00532476 /* PublicQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicQuestion.swift; sourceTree = "<group>"; };
+		178BBBD32773980A009620C6 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		6CC03B735B340B7E8035CECF /* Pods-janet.talks-janet.talksTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-janet.talks-janet.talksTests.debug.xcconfig"; path = "Target Support Files/Pods-janet.talks-janet.talksTests/Pods-janet.talks-janet.talksTests.debug.xcconfig"; sourceTree = "<group>"; };
 		75B937D5313715664D1C79BE /* libPods-janet.talks.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-janet.talks.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5B207B7C46F1A9038349752 /* libPods-janet.talks-janet.talksTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-janet.talks-janet.talksTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -390,6 +392,7 @@
 			isa = PBXGroup;
 			children = (
 				17604066270A591A00826315 /* Extensions.swift */,
+				178BBBD32773980A009620C6 /* PaddingLabel.swift */,
 				17604051270A494300826315 /* AppDelegate.swift */,
 				17604053270A494300826315 /* SceneDelegate.swift */,
 				1760405A270A494700826315 /* Assets.xcassets */,
@@ -860,6 +863,7 @@
 				175BF09027206F0E0054C5CB /* QuestionBodyCollectionViewCell.swift in Sources */,
 				1750C397272EE0B200DD8E0A /* PreviewQuestionQuestionBodyViewModel.swift in Sources */,
 				1750C399272EE0F300DD8E0A /* PreviewQuestionBackgroundViewModel.swift in Sources */,
+				178BBBD42773980A009620C6 /* PaddingLabel.swift in Sources */,
 				1751B82B272031D3002E060C /* GlobalFeedController.swift in Sources */,
 				17556234272716EC0043C52D /* AddAQuestionCellType.swift in Sources */,
 				1750C38E272EDDC500DD8E0A /* PreviewQuestionTitleCollectionViewCell.swift in Sources */,
@@ -1111,7 +1115,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8SZJ9T656N;
+				DEVELOPMENT_TEAM = 78TDS66HUR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = janet.talks/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = relationship.talks;
@@ -1120,6 +1124,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1141,7 +1146,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8SZJ9T656N;
+				DEVELOPMENT_TEAM = 78TDS66HUR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = janet.talks/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = relationship.talks;
@@ -1150,6 +1155,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
