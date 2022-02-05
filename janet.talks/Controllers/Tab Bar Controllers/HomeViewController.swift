@@ -27,9 +27,6 @@ class HomeViewController: UIViewController {
     ///where to paginate
     private var idxToWatchFor: IndexPath? = [4, 0]
     
-    /// Notification observer
-    private var observer: NSObjectProtocol?
-    
     private let askQuestionButton: UIImageView = {
         let iv = UIImageView()
         iv.image = UIImage(systemName: "plus.circle")
@@ -55,16 +52,13 @@ class HomeViewController: UIViewController {
         navigationItem.searchController = searchVC
         navigationItem.hidesSearchBarWhenScrolling = false
         
-        observer = NotificationCenter.default.addObserver(forName: .didAskQNotification, object: PublicQuestionToAdd.self, queue: .main){ [weak self] _ in
-            self?.handleRefresh()
-        }
-        
+        configureObserver()
         
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        collectionView?.frame = view.frame
+        collectionView?.frame = view.bounds
     }
     
     //MARK: - actions
@@ -245,6 +239,17 @@ class HomeViewController: UIViewController {
         }
     }
 
+}
+
+//MARK: - private helpers
+private extension HomeViewController{
+    func configureObserver(){
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.didAskQNotification,
+                                               object: nil,
+                                               queue: .main) { [weak self] _ in
+            self?.handleRefresh()
+        }
+    }
 }
 
 //MARK: - uiCollectionViewDelegate & dataSource
@@ -450,15 +455,15 @@ extension HomeViewController {
             })
         )
         
+        let refresher = UIRefreshControl()
+        collectionView.refreshControl = refresher
+        refresher.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+
         view.addSubview(collectionView)
         collectionView.backgroundColor = .secondarySystemBackground
         collectionView.delegate = self
         collectionView.dataSource = self
-        
-        let refresher = UIRefreshControl()
-        collectionView.refreshControl = refresher
-        refresher.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
-        
+
         collectionView.register(
             TitleCollectionViewCell.self,
             forCellWithReuseIdentifier: TitleCollectionViewCell.identifier
