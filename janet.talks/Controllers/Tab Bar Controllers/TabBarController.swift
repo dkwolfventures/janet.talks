@@ -77,10 +77,10 @@ class TabBarController: UITabBarController {
         nav4.navigationItem.rightBarButtonItem?.tintColor = .label
         nav4.navigationItem.leftBarButtonItem?.tintColor = .label
         
-        nav1.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "square.text.square.fill"), tag: 1)
-        nav2.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "questionmark.app.fill"), tag: 2)
-        nav3.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "bell.fill"), tag: 3)
-        nav4.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "person.crop.circle"), tag: 4)
+        nav1.tabBarItem = UITabBarItem(title: "Q Feed", image: UIImage(systemName: "square.text.square.fill"), tag: 1)
+        nav2.tabBarItem = UITabBarItem(title: "My Qs", image: UIImage(systemName: "questionmark.app.fill"), tag: 2)
+        nav3.tabBarItem = UITabBarItem(title: "Alerts", image: UIImage(systemName: "bell.fill"), tag: 3)
+        nav4.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.crop.circle"), tag: 4)
         
         UITabBar.appearance().tintColor = .label
         

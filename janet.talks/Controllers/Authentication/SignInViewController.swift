@@ -59,12 +59,6 @@ class SignInViewController: UIViewController {
         stack.frame = CGRect(x: view.width/2 - (stackWidth / 2), y: logoView.bottom, width: stackWidth, height: stackSectionHeight)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        emailTextField.becomeFirstResponder()
-    }
-    
     //MARK: - actions
     
     @objc private func didTapSignIn(){

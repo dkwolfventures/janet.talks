@@ -28,7 +28,6 @@
 		1750C3A5272EE3D000DD8E0A /* PreviewQuesitonBackgroundCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750C3A4272EE3D000DD8E0A /* PreviewQuesitonBackgroundCollectionViewCell.swift */; };
 		1750C3A7272EE40200DD8E0A /* PreviewQuestionPhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750C3A6272EE40200DD8E0A /* PreviewQuestionPhotosCollectionViewCell.swift */; };
 		1750C3A9272EE43400DD8E0A /* PreviewQuestionPosterInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750C3A8272EE43400DD8E0A /* PreviewQuestionPosterInfoCollectionViewCell.swift */; };
-		1751B82B272031D3002E060C /* GlobalFeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1751B82A272031D3002E060C /* GlobalFeedController.swift */; };
 		175363E2272DA2020082509D /* Tags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175363E1272DA2020082509D /* Tags.swift */; };
 		1753AC2E271EFEB400E49DD0 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1753AC2D271EFEB400E49DD0 /* UserManager.swift */; };
 		1753AC31271F05C500E49DD0 /* UsernamePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1753AC30271F05C500E49DD0 /* UsernamePickerViewController.swift */; };
@@ -139,7 +138,6 @@
 		1750C3A4272EE3D000DD8E0A /* PreviewQuesitonBackgroundCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewQuesitonBackgroundCollectionViewCell.swift; sourceTree = "<group>"; };
 		1750C3A6272EE40200DD8E0A /* PreviewQuestionPhotosCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewQuestionPhotosCollectionViewCell.swift; sourceTree = "<group>"; };
 		1750C3A8272EE43400DD8E0A /* PreviewQuestionPosterInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewQuestionPosterInfoCollectionViewCell.swift; sourceTree = "<group>"; };
-		1751B82A272031D3002E060C /* GlobalFeedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFeedController.swift; sourceTree = "<group>"; };
 		175363E1272DA2020082509D /* Tags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tags.swift; sourceTree = "<group>"; };
 		1753AC2D271EFEB400E49DD0 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		1753AC30271F05C500E49DD0 /* UsernamePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernamePickerViewController.swift; sourceTree = "<group>"; };
@@ -287,14 +285,6 @@
 				1750C3A8272EE43400DD8E0A /* PreviewQuestionPosterInfoCollectionViewCell.swift */,
 			);
 			path = "Preview Question Cells";
-			sourceTree = "<group>";
-		};
-		1751B82927203194002E060C /* HomeViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				1751B82A272031D3002E060C /* GlobalFeedController.swift */,
-			);
-			path = HomeViewControllers;
 			sourceTree = "<group>";
 		};
 		1753AC2F271F05AA00E49DD0 /* UsernamePickerController */ = {
@@ -533,7 +523,6 @@
 			children = (
 				176868CA270C695700532476 /* TabBarController.swift */,
 				175EE33A271CA46900C0AD02 /* HomeViewController.swift */,
-				1751B82927203194002E060C /* HomeViewControllers */,
 				17604055270A494300826315 /* NotificationFeedTableViewController.swift */,
 				176868C0270B8D3300532476 /* ExploreFeedViewController.swift */,
 				176868C2270B8D7900532476 /* ProfileViewController.swift */,
@@ -864,7 +853,6 @@
 				1750C397272EE0B200DD8E0A /* PreviewQuestionQuestionBodyViewModel.swift in Sources */,
 				1750C399272EE0F300DD8E0A /* PreviewQuestionBackgroundViewModel.swift in Sources */,
 				178BBBD42773980A009620C6 /* PaddingLabel.swift in Sources */,
-				1751B82B272031D3002E060C /* GlobalFeedController.swift in Sources */,
 				17556234272716EC0043C52D /* AddAQuestionCellType.swift in Sources */,
 				1750C38E272EDDC500DD8E0A /* PreviewQuestionTitleCollectionViewCell.swift in Sources */,
 				17604054270A494300826315 /* SceneDelegate.swift in Sources */,

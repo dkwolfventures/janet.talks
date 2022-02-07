@@ -80,9 +80,13 @@ class PosterAndActionsCollectionViewCell: UICollectionViewCell {
         usernameLabel.sizeToFit()
         
         var usernameWidth: CGFloat {
-            return usernameLabel.width >= contentView.width/4 ? contentView.width/4 : usernameLabel.width
+            return usernameLabel.width >= contentView.width/3 ? contentView.width/3 : usernameLabel.width
         }
-        usernameLabel.frame = CGRect(x: (contentView.width/3 + spacing)/2 - usernameLabel.width/2, y: profileImageView.center.y - usernameLabel.height/2, width: usernameWidth, height: usernameLabel.height)
+        
+        var usernameXPosition: CGFloat {
+            return usernameWidth >= contentView.width/3 ? 0 : (contentView.width/3 + spacing)/2 - usernameLabel.width/2
+        }
+        usernameLabel.frame = CGRect(x: usernameXPosition, y: profileImageView.center.y - usernameLabel.height/2, width: usernameWidth, height: usernameLabel.height)
         usernameLabel.layer.cornerRadius = usernameLabel.height/2
         
         questionAskedLabel.anchor(top: profileImageView.bottomAnchor, left: profileImageView.leftAnchor, paddingTop: 4)
